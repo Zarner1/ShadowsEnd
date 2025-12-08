@@ -12,7 +12,7 @@ public class Character_Control : MonoBehaviour
     [Header("Ground Check Settings")]
     public Transform groundCheck; // Yerde olup olmadığını kontrol edecek olan objenin pozisyonu
     public LayerMask groundLayer; // Hangi katmanın "yer" olduğunu belirlemek için
-    public float groundCheckRadius = 0.2f; // Yer kontrol çemberinin yarıçapı
+    public float groundCheckRadius = 0.01f; // Yer kontrol çemberinin yarıçapı
 
     private float currentSpeed = 0.0f;
     private bool isGrounded; // Karakter yerde mi?
@@ -86,14 +86,17 @@ public class Character_Control : MonoBehaviour
     }
 
     private void HandleJump()
+{
+    // Eğer Space tuşuna basıldıysa VE karakter yerdeyse
+    if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !Input.GetMouseButton(1) && !Input.GetKey(KeyCode.S))
     {
-        // Eğer Space tuşuna basıldıysa VE karakter yerdeyse
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !Input.GetMouseButton(1) && !Input.GetKey(KeyCode.S))
-        {
-            // Rigidbody'ye dikey bir kuvvet uygula
-            _rigidbody2D.linearVelocity = new Vector2(_rigidbody2D.linearVelocity.x, jumpForce);
-        }
+        // Rigidbody'ye dikey bir kuvvet uygula
+        _rigidbody2D.linearVelocity = new Vector2(_rigidbody2D.linearVelocity.x, jumpForce);
+        
+        // KRİTİK EKLENTİ: Zıplama yapıldığı an karakteri yerde değilmiş gibi işaretle
+        isGrounded = false; 
     }
+}
 
     private void HandleCrouch()
     {
