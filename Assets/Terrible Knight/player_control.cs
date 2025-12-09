@@ -1,23 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Character_Control : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed = 5.0f;
-    public float jumpForce = 5.0f; // Zıplama gücü
+    public float jumpForce = 5.0f; 
+    public float downForceMultiplier = 2.5f; // EKLENDİ: Ek aşağı kuvvet çarpanı
+
+    [Header("Attack Settings")]
     public int clickCount = 0;
+    public float resetTime = 0.2f;
 
     [Header("Ground Check Settings")]
-    public Transform groundCheck; // Yerde olup olmadığını kontrol edecek olan objenin pozisyonu
-    public LayerMask groundLayer; // Hangi katmanın "yer" olduğunu belirlemek için
-    public float groundCheckRadius = 0.01f; // Yer kontrol çemberinin yarıçapı
+    public Transform groundCheck; 
+    public LayerMask groundLayer; 
+    public float groundCheckRadius = 0.05f; // Yarıçapı düşman algılamamak için küçültüldü
 
+    // Durum Değişkenleri
     private float currentSpeed = 0.0f;
-    private bool isGrounded; // Karakter yerde mi?
-    private bool isCrouching; // Karakter yuvarlanıyor mu?
-    private float resetTime = 0.2f;
+    private bool isGrounded;
+    private bool isCrouching;
     private float lastClickTime;
     private bool swordSlash;
 
@@ -28,77 +30,99 @@ public class Character_Control : MonoBehaviour
 
     void Start()
     {
+        // Null kontrolü ile başlatma (hata olasılığını azaltır)
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         lastClickTime = Time.time;
+
+        // Bileşenlerin atanıp atanmadığını kontrol et
+        if (groundCheck == null)
+            Debug.LogError("GroundCheck objesi atanmamış! Lütfen Inspector'dan atayın.");
     }
 
     void Update()
     {
-        // YER KONTROLÜ: Her frame'de yerde olup olmadığımızı kontrol et
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        // Sadece giriş (input) ve animasyon güncellemeleri burada kalır
 
-        // --- YATAY HAREKET ---
-        HandleMovement();
+        // --- YATAY HAREKET İÇİN HIZI BELİRLE ---
+        HandleMovementInput(); 
 
         // --- ZIPLAMA ---
-        HandleJump();
+        HandleJumpInput();
 
-        // ---YUVARLANMA---
-        HandleCrouch();
+        // --- YUVARLANMA ---
+        HandleCrouchInput();
 
-        // ---SALDIRI---
-        HandleAttack();
+        // --- SALDIRI VE ÖZEL SALDIRI ---
+        HandleAttackInput();
 
         // --- ANİMASYON ---
         UpdateAnimations();
 
-        // ---ÖZEL SALDIRI---
-        HandleSpecialAttack();
-
+        // Tıklama sayacı sıfırlama
         if (Time.time - lastClickTime >= resetTime)
         {
             clickCount = 0;
         }
+    }
+    
+    // FixedUpdate, fizik işlemleri (Rigidbody) için kullanılır.
+    void FixedUpdate()
+    {
+        // YER KONTROLÜ: isGrounded değerini fizik döngüsünde kontrol et
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
+        // --- FİZİKSEL HAREKET ---
+        ApplyMovementPhysics();
+
+        // --- DOWNFORCE (Ek Aşağı Kuvvet) ---
+        ApplyDownforce();
     }
 
-    private void HandleMovement()
-    {
-        if (Input.GetKey(KeyCode.D) && !Input.GetMouseButton(1) && !Input.GetKey(KeyCode.S) && !Input.GetMouseButton(0)) // Sağa git
-        {
-            currentSpeed = moveSpeed;
-            _spriteRenderer.flipX = false;
-        }
-        else if (Input.GetKey(KeyCode.A) && !Input.GetMouseButton(1) && !Input.GetKey(KeyCode.S) && !Input.GetMouseButton(0)) // Sola git
-        {
-            currentSpeed = -moveSpeed;
-            _spriteRenderer.flipX = true;
-        }
-        else // Hiçbir tuşa basılmıyorsa
-        {
-            currentSpeed = 0.0f;
-        }
 
-        // Fiziği güncelle (yatay hareket)
+    // Yatay hareket için hız belirleme (Input)
+    private void HandleMovementInput()
+    {
+        float moveInput = Input.GetAxisRaw("Horizontal"); // A ve D tuşlarından gelen değeri al
+
+        // Eğer saldırı veya yuvarlanma yapılmıyorsa hareket et
+        if (!Input.GetMouseButton(1) && !Input.GetKey(KeyCode.S) && !Input.GetMouseButton(0))
+        {
+            currentSpeed = moveInput * moveSpeed;
+
+            if (moveInput > 0)
+                _spriteRenderer.flipX = false;
+            else if (moveInput < 0)
+                _spriteRenderer.flipX = true;
+        }
+        else
+        {
+             currentSpeed = 0.0f;
+        }
+    }
+    
+    // Yatay hareket kuvvetini Rigidbody'ye uygula (Physics)
+    private void ApplyMovementPhysics()
+    {
         _rigidbody2D.linearVelocity = new Vector2(currentSpeed, _rigidbody2D.linearVelocity.y);
     }
 
-    private void HandleJump()
-{
-    // Eğer Space tuşuna basıldıysa VE karakter yerdeyse
-    if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !Input.GetMouseButton(1) && !Input.GetKey(KeyCode.S))
+    // Zıplama Girişi (Input)
+    private void HandleJumpInput()
     {
-        // Rigidbody'ye dikey bir kuvvet uygula
-        _rigidbody2D.linearVelocity = new Vector2(_rigidbody2D.linearVelocity.x, jumpForce);
-        
-        // KRİTİK EKLENTİ: Zıplama yapıldığı an karakteri yerde değilmiş gibi işaretle
-        isGrounded = false; 
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !Input.GetMouseButton(1) && !Input.GetKey(KeyCode.S))
+        {
+            // Rigidbody'ye dikey bir kuvvet uygula
+            _rigidbody2D.linearVelocity = new Vector2(_rigidbody2D.linearVelocity.x, jumpForce);
+            
+            // Çift zıplamayı önlemek için anında yerde değilmiş gibi işaretle
+            isGrounded = false; 
+        }
     }
-}
 
-    private void HandleCrouch()
+    // Yuvarlanma Girişi (Input)
+    private void HandleCrouchInput()
     {
         if (Input.GetKeyDown(KeyCode.S) && isGrounded)
         {
@@ -110,37 +134,40 @@ public class Character_Control : MonoBehaviour
         }
     }
 
-    private void HandleAttack()
+    // Saldırı Girişleri (Input)
+    private void HandleAttackInput()
     {
+        // Normal Saldırı
         if (Input.GetMouseButtonDown(0))
         {
             clickCount++;
             lastClickTime = Time.time;
         }
-    }
-
-    private void HandleSpecialAttack()
-    {
-        if (Input.GetMouseButtonDown(1))
-        {
-            swordSlash = true;
-        }
         
-        if (Input.GetMouseButtonUp(1))
+        // Özel Saldırı
+        swordSlash = Input.GetMouseButton(1);
+    }
+    
+    // Downforce (Ek Aşağı Kuvvet) Uygulama
+  private void ApplyDownforce()
+{
+    // Yerde değilsek (havadaysak)
+    if (!isGrounded)
+    {
+        // YENİ KONTROL: Karakterin dikey hızı 0.5f'ten küçükse (yani zirveye çok yakınsa veya iniyorsa)
+        if (_rigidbody2D.linearVelocity.y < 0.5f) // Örneğin 0.5f kullanın
         {
-            swordSlash = false;
+            // Rigidbody'ye aşağı yönde ek kuvvet uygula.
+            _rigidbody2D.AddForce(Vector2.down * downForceMultiplier, ForceMode2D.Force);
         }
     }
+}
 
+    // Animasyonları güncelleme
     private void UpdateAnimations()
     {
-        // Koşma animasyonu
         _animator.SetFloat("speed", Mathf.Abs(currentSpeed));
-
-        // 'if' kontrolünü buradan kaldırıyoruz.
-        // Eğer Animator'de "isJumping" parametresi varsa bu satır çalışır,
-        // yoksa Unity bir uyarı verir ve bu satırı görmezden gelir.
-        _animator.SetBool("isJumping", !isGrounded);
+        _animator.SetBool("isJumping", !isGrounded); // Zıplama (veya havada olma)
         _animator.SetBool("isCrouching", isCrouching);
         _animator.SetInteger("clickCount", clickCount);
         _animator.SetBool("isGrounded", isGrounded);

@@ -8765,12 +8765,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Character_Control
   moveSpeed: 10
   jumpForce: 5
+  downForceMultiplier: 35
   clickCount: 0
+  resetTime: 0.2
   groundCheck: {fileID: 610466597}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  groundCheckRadius: 0.4
+  groundCheckRadius: 0.3
 --- !u!50 &1798837468
 Rigidbody2D:
   serializedVersion: 5
@@ -10566,11 +10568,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -27.91
+      value: -27.88
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.04
+      value: 2.82
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
       propertyPath: m_LocalPosition.z
