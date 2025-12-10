@@ -14,11 +14,11 @@ public class Character_Control : MonoBehaviour
     public LayerMask groundLayer;
     public float groundCheckRadius = 0.2f;
 
-    [Header("Combat Settings (YENİ)")]
-    public Transform attackPoint; // Kılıcın vuruş noktası
-    public float attackRange = 0.8f; // Kılıcın menzili
-    public LayerMask enemyLayers; // Hangi katman düşman?
-    public int slashDamage = 20; // Vurulacak hasar miktarı
+    [Header("Combat Settings")]
+    public Transform attackPoint; 
+    public float attackRange = 0.8f; 
+    public LayerMask enemyLayers; 
+    public int slashDamage = 20; 
 
     private float currentSpeed = 0.0f;
     private bool isGrounded;
@@ -52,9 +52,9 @@ public class Character_Control : MonoBehaviour
         HandleMovement();
         HandleJump();
         HandleCrouch();
-        HandleAttack(); // Sol tık
+        HandleAttack(); // Sol tık combo
         UpdateAnimations();
-        HandleSpecialAttack(); // Sağ tık (Special)
+        HandleSpecialAttack(); // Sağ tık (Vuruş)
 
         if (Time.time - lastClickTime >= resetTime)
         {
@@ -65,43 +65,28 @@ public class Character_Control : MonoBehaviour
     public void TriggerDeath()
     {
         if (isDead) return; 
-
         isDead = true; 
-        
         _rigidbody2D.velocity = Vector2.zero; 
         currentSpeed = 0;
-        
         _animator.SetBool("isDead", true);
     }
 
-private void HandleMovement()
+    private void HandleMovement()
     {
-        // SAĞA GİTME
         if (Input.GetKey(KeyCode.D) && !Input.GetMouseButton(1) && !Input.GetKey(KeyCode.S) && !Input.GetMouseButton(0))
         {
             currentSpeed = moveSpeed;
-            
-            // _spriteRenderer.flipX = false; // BU SATIRI İPTAL EDİYORUZ
-            
-            // Karakterin yönünü fiziksel olarak sağa (0 derece) çevir
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
-        // SOLA GİTME
         else if (Input.GetKey(KeyCode.A) && !Input.GetMouseButton(1) && !Input.GetKey(KeyCode.S) && !Input.GetMouseButton(0))
         {
             currentSpeed = -moveSpeed;
-            
-            // _spriteRenderer.flipX = true; // BU SATIRI İPTAL EDİYORUZ
-
-            // Karakterin yönünü fiziksel olarak sola (180 derece) çevir
             transform.rotation = Quaternion.Euler(0, 180, 0);
         }
-        // DURMA
         else
         {
             currentSpeed = 0.0f;
         }
-
         _rigidbody2D.velocity = new Vector2(currentSpeed, _rigidbody2D.velocity.y);
     }
 
@@ -115,14 +100,8 @@ private void HandleMovement()
 
     private void HandleCrouch()
     {
-        if (Input.GetKeyDown(KeyCode.S) && isGrounded)
-        {
-            isCrouching = true;
-        }
-        if (Input.GetKeyUp(KeyCode.S))
-        {
-            isCrouching = false;
-        }
+        if (Input.GetKeyDown(KeyCode.S) && isGrounded) isCrouching = true;
+        if (Input.GetKeyUp(KeyCode.S)) isCrouching = false;
     }
 
     private void HandleAttack()
@@ -139,34 +118,39 @@ private void HandleMovement()
         if (Input.GetMouseButtonDown(1))
         {
             swordSlash = true;
-            // Saldırı animasyonu başladığında hasarı hesapla
             SlashAttack(); 
         }
-        
         if (Input.GetMouseButtonUp(1))
         {
             swordSlash = false;
         }
     }
 
-    // YENİ: Hasar Verme Fonksiyonu
+    // --- KRİTİK DEĞİŞİKLİK BURADA ---
     void SlashAttack()
     {
         if (attackPoint == null) return;
 
-        // 1. attackPoint etrafındaki düşmanları tespit et
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
 
-        // 2. Bulunan her düşmana hasar bilgisini gönder
         foreach(Collider2D enemy in hitEnemies)
         {
-            // Düşman scriptini bul
-            enemy_knight_movement enemyScript = enemy.GetComponent<enemy_knight_movement>();
-            
-            if(enemyScript != null)
+            // Önce: "Bu nesnenin akıllı bir yapay zekası (blok yapabilen) var mı?" diye bakıyoruz.
+            enemy_knight_movement ai = enemy.GetComponent<enemy_knight_movement>();
+
+            if (ai != null)
             {
-                // Düşmanın kendi hasar alma fonksiyonunu çağır (Defans kontrolü orada yapılacak)
-                enemyScript.ReceiveDamage(slashDamage);
+                // Varsa onun ReceiveDamage fonksiyonunu çağırıyoruz (Blok kontrolü orada yapılıyor)
+                ai.ReceiveDamage(slashDamage);
+            }
+            else
+            {
+                // Yoksa (düz bir düşmansa), direkt canına vuruyoruz.
+                health_system health = enemy.GetComponent<health_system>();
+                if (health != null)
+                {
+                    health.TakeDamage(slashDamage);
+                }
             }
         }
     }
@@ -183,11 +167,11 @@ private void HandleMovement()
 
     void OnDrawGizmosSelected()
     {
-        if (groundCheck == null) return;
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-
-        // YENİ: Editörde saldırı menzilini görmek için kırmızı çember
+        if (groundCheck != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        }
         if (attackPoint != null)
         {
             Gizmos.color = Color.red;
