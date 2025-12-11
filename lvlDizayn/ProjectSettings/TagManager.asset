@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - ground
   layers:
   - Default
   - TransparentFX
@@ -11,8 +12,8 @@ TagManager:
   - layer_ground
   - Water
   - UI
-  - 
-  - 
+  - enemy_layer
+  - player_layer
   - 
   - 
   - 
