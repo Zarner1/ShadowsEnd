@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 3
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - layer_ground
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: hava
+    uniqueID: 3925463545
+    locked: 0
+  - name: binalar
+    uniqueID: 4130931565
+    locked: 0
+  - name: bina_1
+    uniqueID: 3914433357
+    locked: 0
+  - name: bina_2
+    uniqueID: 2008881401
+    locked: 0
+  - name: bina_3
+    uniqueID: 2597754143
+    locked: 0
+  - name: karakter
+    uniqueID: 3732468571
+    locked: 0
+  m_RenderingLayers:
+  - Default

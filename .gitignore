@@ -1,6 +1,32 @@
+<<<<<<< HEAD
 Library/
 Temp/
 Obj/
 Logs/
 UserSettings/
 MemoryCaptures/
+=======
+# Unity specific
+[Ll]ibrary/
+[Ll]ogs/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ocal[Cc]ache/
+[Uu]ser[Ss]ettings/
+
+# Rider and other IDEs
+.idea/
+.vscode/
+*.sln
+*.csproj
+*.user
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+~*
+>>>>>>> 0290bcdd88301e16c9345eef43cec68386c1eb96
