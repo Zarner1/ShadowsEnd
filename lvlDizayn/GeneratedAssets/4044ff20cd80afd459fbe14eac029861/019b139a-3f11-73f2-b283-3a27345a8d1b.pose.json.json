@@ -1,0 +1,11 @@
+{
+    "asset": "4044ff20cd80afd459fbe14eac029861",
+    "fileName": "019b139a-3f11-73f2-b283-3a27345a8d1b.pose.json",
+    "prompt": "wizard olum animasyonu icin ",
+    "negativePrompt": "",
+    "model": "9e46c009-67d8-4254-a3a0-32e3168247ee",
+    "modelName": "Text to Motion",
+    "customSeed": 646679276,
+    "w3CTraceId": "fb10a78d619d1359d8c217e2ea7a6abd",
+    "isTrimmed": false
+}

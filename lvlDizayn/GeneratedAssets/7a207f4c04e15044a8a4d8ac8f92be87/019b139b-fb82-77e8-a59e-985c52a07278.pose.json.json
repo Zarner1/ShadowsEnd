@@ -1,0 +1,11 @@
+{
+    "asset": "7a207f4c04e15044a8a4d8ac8f92be87",
+    "fileName": "019b139b-fb82-77e8-a59e-985c52a07278.pose.json",
+    "prompt": "Bir büyücü karakteri için ölüm animasyonu",
+    "negativePrompt": "",
+    "model": "9e46c009-67d8-4254-a3a0-32e3168247ee",
+    "modelName": "Text to Motion",
+    "customSeed": 1964749314,
+    "w3CTraceId": "1a118d987856d0206828748b8a5cc841",
+    "isTrimmed": false
+}

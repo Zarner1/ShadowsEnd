@@ -2657,7 +2657,7 @@ Camera:
   far clip plane: 500
   field of view: 15
   orthographic: 1
-  orthographic size: 1
+  orthographic size: 1.1
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2682,7 +2682,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.85, y: 5.22, z: -60.32}
+  m_LocalPosition: {x: 14.74, y: 5.15, z: -60.32}
   m_LocalScale: {x: 1.2927495, y: 1.2927495, z: 1.2927495}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2703,10 +2703,10 @@ MonoBehaviour:
   target: {fileID: 640599937}
   smoothSpeed: 0.05
   followY: 1
-  minXPosition: -12.63
-  maxXPosition: 15.01
-  minYPosition: 5.03
-  maxYPosition: 6.75
+  minXPosition: -12.46
+  maxXPosition: 14.74
+  minYPosition: 5.15
+  maxYPosition: 6.66
 --- !u!1 &521068325
 GameObject:
   m_ObjectHideFlags: 0
@@ -3069,7 +3069,7 @@ BoxCollider2D:
   m_Offset: {x: 0.013292789, y: -0.2844019}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5559874, y: 0.48102647}
     oldSize: {x: 1.28, y: 0.96}
     newSize: {x: 0.28, y: 0.39}
     adaptiveTilingThreshold: 0.5
@@ -3097,7 +3097,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Character_Control
   moveSpeed: 2
   jumpForce: 4
+  downForceMultiplier: 2.5
+  attackRange: 0.5
+  lightAttackDamage: 10
+  heavyAttackDamage: 25
+  attackPoint: {fileID: 0}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
   clickCount: 0
+  resetTime: 0.2
   groundCheck: {fileID: 1156872455}
   groundLayer:
     serializedVersion: 2
@@ -5727,11 +5736,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.749
+      value: -13.18
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.45
+      value: 4.74
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
       propertyPath: m_LocalPosition.z

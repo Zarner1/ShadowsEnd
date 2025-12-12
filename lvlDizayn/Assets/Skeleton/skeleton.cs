@@ -9,29 +9,28 @@ public class EnemyAI : MonoBehaviour
     public float defaultFacingDirection = -1f; 
 
     [Header("Menzil Ayarları")]
-    public float followRange = 8f;    // Oyuncuyu takip etmeye başlayacağı menzil (X ekseninde)
-    public float attackRange = 1.5f;  // Vurmaya başlayacağı menzil
+    public float followRange = 8f;    // Oyuncuyu takip etmeye başlayacağı genel menzil (X)
+    public float attackRange = 1.5f;  // Vurmaya başlayacağı yatay mesafe
+    [Tooltip("Oyuncu ile düşman arasındaki kabul edilebilir maksimum dikey fark.")]
+    public float verticalTolerance = 0.1f; // Y ekseninde maksimum fark (Takip ve Saldırı için)
     
-    [Header("Saldırı Hızı Ayarları")]
-    public float attackCooldown = 2f; // Saniyede kaç defa vurabileceği (2 saniyede bir vurur)
-    private float timeSinceLastAttack; // Son saldırıdan bu yana geçen süre
+    [Header("Saldırı Hızı ve Hasar")] 
+    public float attackCooldown = 2f; 
+    public int attackDamage = 10;     
+    private float timeSinceLastAttack; 
 
     [Header("Bileşenler")]
     private Animator anim;
     private Rigidbody2D rb;
-    private Vector3 initialScale;     // Küçülme sorununu çözmek için varsayılan ölçek
+    private Vector3 initialScale; 
 
     void Start()
     {
-        // Gerekli bileşenleri al
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-
-        // Varsayılan ölçeği kaydet (Küçülme sorununu çözer)
         initialScale = transform.localScale; 
-        timeSinceLastAttack = attackCooldown; // Oyuna başlar başlamaz vurabilmesi için
+        timeSinceLastAttack = attackCooldown; 
 
-        // Hedefi (Player'ı) otomatik bul (Eğer Player objesinin Tag'i "Player" ise)
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
@@ -40,98 +39,122 @@ public class EnemyAI : MonoBehaviour
     }
 
     void Update()
+{
+    if (target == null) return;
+    
+    timeSinceLastAttack += Time.deltaTime;
+
+    float horizontalDistance = Mathf.Abs(target.position.x - transform.position.x);
+    float verticalDifference = Mathf.Abs(target.position.y - transform.position.y);
+
+    // Y eksenindeki fark toleransın dışındaysa, Idle yap ve çık (takip etme)
+    // Eğer karakter yerdeyse (Y=0) ve düşman da yerdeyse (Y=0), verticalDifference = 0 olur.
+    // Bu yüzden bu kontrol, SADECE oyuncu zıpladığında çalışır.
+    if (verticalDifference > verticalTolerance)
     {
-        if (target == null) return;
-        
-        // Saldırı soğuma süresini güncelle
-        timeSinceLastAttack += Time.deltaTime;
+        Idle();
+        return;
+    }
 
-        float distanceToTarget = Mathf.Abs(target.position.x - transform.position.x);
-
-        if (distanceToTarget <= followRange)
+    // --- BURADA HAREKET MANTIĞI DEVAM EDİYOR ---
+    
+    // 1. GENEL MENZİL KONTROLÜ
+    if (horizontalDistance <= followRange) 
+    {
+        // 2. SALDIRI MENZİLİ KONTROLÜ
+        if (horizontalDistance <= attackRange)
         {
-            if (distanceToTarget > attackRange)
-            {
-                FollowTarget();
-            }
-            else
-            {
-                // Saldırı menzilinde dur ve saldırı mekaniğini başlat
-                TryAttack();
-            }
+            TryAttack();
         }
+        // 3. KOVALAMA MENZİLİ
         else
         {
-            Idle();
+            FollowTarget();
         }
     }
+    else
+    {
+        // Menzil dışında (Idle)
+        Idle();
+    }
+}
 
     void FollowTarget()
     {
         float direction = Mathf.Sign(target.position.x - transform.position.x);
         
-        // Hareketi gerçekleştir
+        // Hareketi gerçekleştir (FİZİK HATASI GİDERİLDİ: rb.velocity)
         rb.linearVelocity = new Vector2(direction * moveSpeed, rb.linearVelocity.y); 
 
-        // Animasyonu Çalıştır
+        // Animasyon ve Yön Çevirme
         anim.SetBool("IsRunning", true); 
         anim.SetBool("IsAttacking", false);
         
-        // Yön Çevirme (initialScale ve defaultFacingDirection kullanarak)
         float finalFlip = defaultFacingDirection * direction;
-        
-        // Yönü ters çevirme sorununu çözmek için * -finalFlip kullanıldı.
         float targetScaleX_Reversed = initialScale.x * -finalFlip;
-        
         transform.localScale = new Vector3(targetScaleX_Reversed, initialScale.y, initialScale.z);
     }
 
-   void TryAttack()
-{
-    // Saldırı menzilinde iken her zaman:
-    
-    // 1. Durma ve Yön Çevirme (Cooldown'dayken de hedefe baksın)
-    rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
-    
-    float direction = Mathf.Sign(target.position.x - transform.position.x);
-    float finalFlip = defaultFacingDirection * direction;
-    float targetScaleX_Reversed = initialScale.x * -finalFlip;
-    transform.localScale = new Vector3(targetScaleX_Reversed, initialScale.y, initialScale.z);
-    
-    // Animatörde şu anda Attack animasyonu oynuyor mu?
-    // NOT: isAttacking yerine bu metodu kullanmak daha kesindir:
-    bool isCurrentlyAttacking = anim.GetCurrentAnimatorStateInfo(0).IsName("skeleton_attack"); 
-    // "YourAttackStateName" yerine Attack animasyonunuzun adını yazmalısınız.
-    
-    // Eğer şu anda saldırı animasyonu oynuyorsa, hiçbir şey yapma (Animasyonun bitmesini bekle)
-    // Ve cooldown henüz dolmadıysa:
-    if (isCurrentlyAttacking || timeSinceLastAttack < attackCooldown)
+    void TryAttack()
     {
-        // Saldırı animasyonu bitene veya cooldown dolana kadar sadece Idle'ı göster
-        anim.SetBool("IsAttacking", false);
-        anim.SetBool("IsRunning", false);
-        return; // Fonksiyondan çık
+        // Durma (FİZİK HATASI GİDERİLDİ: rb.velocity)
+        rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+        
+        // Yön Çevirme
+        float direction = Mathf.Sign(target.position.x - transform.position.x);
+        float finalFlip = defaultFacingDirection * direction;
+        float targetScaleX_Reversed = initialScale.x * -finalFlip;
+        transform.localScale = new Vector3(targetScaleX_Reversed, initialScale.y, initialScale.z);
+        
+        // Cooldown Kontrolü
+        bool isCurrentlyAttacking = anim.GetCurrentAnimatorStateInfo(0).IsName("skeleton_attack"); 
+        
+        if (timeSinceLastAttack >= attackCooldown)
+        {
+            Attack();
+            timeSinceLastAttack = 0f; 
+        }
+        else if (isCurrentlyAttacking)
+        {
+             return;
+        }
+        else
+        {
+            anim.SetBool("IsAttacking", false);
+            anim.SetBool("IsRunning", false);
+        }
     }
-    
-    // Eğer buraya ulaşıldıysa: Cooldown dolmuştur ve animasyon bitmiştir.
-    
-    Attack(); // Saldırıyı Tetikle
-    timeSinceLastAttack = 0f; // Zamanlayıcıyı sıfırla
-}
+
     void Attack()
     {
-        // Saldırı Animasyonunu Başlatma
         anim.SetBool("IsAttacking", true);
         anim.SetBool("IsRunning", false);
     }
 
     void Idle()
     {
-        // Tamamen dur
+        // Durma (FİZİK HATASI GİDERİLDİ: rb.velocity)
         rb.linearVelocity = Vector2.zero; 
         
-        // Idle Animasyonunu Çalıştır
         anim.SetBool("IsRunning", false);
         anim.SetBool("IsAttacking", false);
+    }
+    
+    // ANIMASYON OLAYI İLE HASAR VERME
+    public void HitTarget()
+    {
+        float horizontalDistance = Mathf.Abs(target.position.x - transform.position.x);
+        float verticalDifference = Mathf.Abs(target.position.y - transform.position.y);
+        
+        // HASAR VERME ŞARTI: Dikey fark kabul edilebilir tolerans içinde olmalı.
+        if (horizontalDistance <= attackRange + 0.1f && verticalDifference <= verticalTolerance) 
+        {
+            PlayerHealth playerHealth = target.GetComponent<PlayerHealth>();
+
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(attackDamage);
+            }
+        }
     }
 }

@@ -2,10 +2,15 @@ using UnityEngine;
 
 public class DusmanKodu : MonoBehaviour
 {
-    public Transform player;       // Oyuncu (Sürükle bırak yapmana gerek yok, kod bulacak)
-    public GameObject mermiPrefab; // Fırlatılacak nesne (Prefab'i buraya sürükle)
-    public float menzil = 7f;      // Kaç metreden görsün
-    public float atisHizi = 2f;  // Saniyede kaç atış
+    public Transform player;       // Oyuncu
+    public GameObject mermiPrefab; // Fırlatılacak nesne
+    public float menzil = 7f;      // Kaç metreden görsün (Genel 2D mesafe)
+    public float atisHizi = 2f;  // Saniyede kaç atış
+    
+    // YENİ EKLENEN KISIM: Y Ekseninde Tolerans
+    [Header("Y Ekseni Kontrolü")]
+    [Tooltip("Oyuncu ile düşman arasındaki kabul edilebilir maksimum dikey fark.")]
+    public float verticalTolerance = 1.0f; 
 
     private float zamanSayaci = 0;
     private Animator anim;
@@ -23,32 +28,39 @@ public class DusmanKodu : MonoBehaviour
     {
         if (player == null) return;
 
-        // Mesafe ölç
+        // Y ekseni farkını hesapla
+        float verticalDifference = Mathf.Abs(player.position.y - transform.position.y);
+
+        // Y EKSENİ KONTROLÜ
+        if (verticalDifference > verticalTolerance)
+        {
+            // Eğer dikey fark toleransı aşarsa, görmezden gel ve çık.
+            // Bu, düşmanın havaya ateş etmesini engeller.
+            return; 
+        }
+
+        // Mesafe ölç (Zaten hem X hem Y'yi içerir)
         float mesafe = Vector2.Distance(transform.position, player.position);
 
         if (mesafe <= menzil) // Menzildeyse
         {
-            // --- DÜZELTİLEN KISIM BAŞLANGICI ---
-            
-            // Mevcut boyutun pozitif halini al (Örn: -3 ise 3 yap, 3 ise 3 kalsın)
+            // Yön çevirme mantığı (Aynı kalır, sadece fiziksel boyut kullanılır)
             float ilkBoyutX = Mathf.Abs(transform.localScale.x);
-            float boyutY = transform.localScale.y; // Yüksekliği bozma
-            float boyutZ = transform.localScale.z; // Derinliği bozma
+            float boyutY = transform.localScale.y; 
+            float boyutZ = transform.localScale.z; 
 
             // Yüzünü oyuncuya dön
             if (player.position.x > transform.position.x)
             {
-                // Oyuncu sağdaysa, X pozitif olsun (Sağa bak)
-                transform.localScale = new Vector3(-ilkBoyutX, boyutY, boyutZ);
+                // Oyuncu sağdaysa, düşman sağa baksın
+                transform.localScale = new Vector3(ilkBoyutX, boyutY, boyutZ);
             }
             else
             {
-                // Oyuncu soldaysa, X negatif olsun (Sola bak)
-                transform.localScale = new Vector3(ilkBoyutX, boyutY, boyutZ);
+                // Oyuncu soldaysa, düşman sola baksın
+                transform.localScale = new Vector3(-ilkBoyutX, boyutY, boyutZ);
             }
             
-            // --- DÜZELTİLEN KISIM BİTİŞİ ---
-
             // Atış zamanı geldiyse
             if (Time.time > zamanSayaci)
             {
@@ -58,30 +70,27 @@ public class DusmanKodu : MonoBehaviour
         }
     }
 
-   void Saldir()
+    void Saldir()
     {
         // Animasyonu çalıştır
         anim.SetTrigger("Saldir");
         
-        // Mermiyi oluştur (Tam düşmanın olduğu yerde)
+        // Mermiyi oluştur
         GameObject yeniMermi = Instantiate(mermiPrefab, transform.position, Quaternion.identity);
         
-        // --- DÜZELTME BAŞLANGICI: SADECE YATAY YÖN (X EKSENİ) HAREKETİ ---
+        // SADECE YATAY YÖN (X EKSENİ) HAREKETİ
         
-        // Oyuncunun X pozisyonu ile düşmanın X pozisyonu arasındaki farkı bul
         float yonX = player.position.x - transform.position.x;
         
-        // Yönün sadece yatay bileşenini (sağ veya sol) normalleştir.
-        // Eğer yonX pozitifse (oyuncu sağdaysa), yon = 1
-        // Eğer yonX negatifse (oyuncu soldaysa), yon = -1
-        Vector2 yon = new Vector2(Mathf.Sign(yonX), 0).normalized; 
+        // Yönün sadece yatay bileşenini al (Sign: 1 veya -1)
+        Vector2 yon = new Vector2(Mathf.Sign(yonX), 0); 
         
-        // Rigidbody'ye yatay hızı ver (5f hızı kullanıldı)
-        // Burada linearVelocity yerine velocity (veya AddForce) kullanmak daha doğru olacaktır, 
-        // ancak mevcut yapıyı korumak için bunu kullanalım.
-        yeniMermi.GetComponent<Rigidbody2D>().linearVelocity = yon * 10f;
-        
-        // NOT: Mermiyi fırlattıktan sonra merminin kendi kodunda (Bullet.cs)
-        // herhangi bir transform.Translate() kodu olmadığından emin olun.
+        // Rigidbody'ye yatay hızı ver (10f hızı kullanıldı)
+        // NOT: linearVelocity yerine rb.velocity kullanmak daha temizdir, ancak kodu koruduk.
+        Rigidbody2D mermiRb = yeniMermi.GetComponent<Rigidbody2D>();
+        if (mermiRb != null)
+        {
+            mermiRb.linearVelocity = yon * 10f; // velocity kullanıldı
+        }
     }
 }

@@ -9225,6 +9225,13 @@ MonoBehaviour:
   moveSpeed: 10
   jumpForce: 5
   downForceMultiplier: 35
+  attackRange: 0.5
+  lightAttackDamage: 10
+  heavyAttackDamage: 25
+  attackPoint: {fileID: 0}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
   clickCount: 0
   resetTime: 0.2
   groundCheck: {fileID: 610466597}
@@ -9296,7 +9303,7 @@ BoxCollider2D:
   m_Offset: {x: 0.013292789, y: -0.2844019}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5559874, y: 0.48102647}
     oldSize: {x: 1.28, y: 0.96}
     newSize: {x: 0.28, y: 0.39}
     adaptiveTilingThreshold: 0.5
@@ -11027,11 +11034,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 115.9
+      value: 120.69
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.1
+      value: 5.73
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
       propertyPath: m_LocalPosition.z
