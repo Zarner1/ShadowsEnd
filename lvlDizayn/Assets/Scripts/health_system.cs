@@ -1,83 +1,136 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class health_system : MonoBehaviour
 {
-    [Header("Can Ayarları")]
-    public float maxHealth = 100f;
-    [SerializeField] private float currentHealth;
-
     [Header("UI Bağlantıları")]
-    public Image healthBarImage;
-    public GameObject healthCanvas;
+    public TMP_Text healthText;     
+    public Image healthBarImage;     
+    public Gradient healthGradient;  
 
-    // Her iki script türü için değişken tanımlıyoruz
-    private enemy_knight_movement knightScript;
-    private Enemy_archer_movement archerScript;
+    [Header("Can Değerleri")]
+    public float maxHealth = 100f;
+    public float currentHealth;
 
-    private bool isDead = false;
+    // Karakter kontrol scriptine referans (Sadece oyuncu için)
+    private Character_Control charControl;
 
     void Start()
     {
         currentHealth = maxHealth;
-
-        // Üzerimdeki script hangisi? Onu bulup değişkene ata.
-        knightScript = GetComponent<enemy_knight_movement>();
-        archerScript = GetComponent<Enemy_archer_movement>();
-
+        charControl = GetComponent<Character_Control>(); 
         UpdateHealthUI();
     }
 
-    public void TakeDamage(float amount)
+    // Hasar Alma Fonksiyonu
+    public void TakeDamage(float amount, Transform attacker = null)
     {
-        if (isDead) return;
+        // 1. OYUNCU İÇİN BLOK KONTROLÜ
+        // Eğer hasar alan şey oyuncuysa ve blok yapıyorsa:
+        if (charControl != null && charControl.isBlocking && attacker != null)
+        {
+            // Düşman önde mi diye bak
+            Vector2 directionToAttacker = (attacker.position - transform.position).normalized;
+            float dotProduct = Vector2.Dot(transform.right, directionToAttacker);
 
+            if (dotProduct > 0)
+            {
+                Debug.Log("🛡️ Hasar Bloklandı!");
+                return; // Hasarı iptal et
+            }
+        }
+
+        // Hasarı Uygula
         currentHealth -= amount;
+
         if (currentHealth < 0) currentHealth = 0;
 
-        Debug.Log(gameObject.name + " hasar aldı. Kalan Can: " + currentHealth);
-
         UpdateHealthUI();
 
-        if (currentHealth <= 0)
+        // CAN 0 OLDUYSA ÖLDÜR
+        if (currentHealth == 0)
         {
-            Die();
+            Die(); 
         }
     }
 
-    private void UpdateHealthUI()
+    public void Heal(float amount)
     {
+        currentHealth += amount;
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
+        UpdateHealthUI();
+    }
+
+    void UpdateHealthUI()
+    {
+        // Sadece UI elemanları atanmışsa çalışsın (Düşmanlarda UI olmayabilir)
+        if (healthText != null)
+        {
+            healthText.text = $"{currentHealth.ToString("F0")}/{maxHealth}";
+        }
+
         if (healthBarImage != null)
         {
-            float fillValue = currentHealth / maxHealth;
-            healthBarImage.fillAmount = fillValue;
+            float healthPercentage = currentHealth / maxHealth;
+            healthBarImage.fillAmount = healthPercentage;
+            healthBarImage.color = healthGradient.Evaluate(healthPercentage);
         }
     }
 
-    private void Die()
+    // --- ÖLÜM YÖNETİMİ (BURASI GÜNCELLENDİ) ---
+    void Die()
     {
-        isDead = true;
-        Debug.Log(gameObject.name + " öldü.");
-
-        // Can barını gizle
-        if (healthCanvas != null)
+        // 1. Ölen şey OYUNCU mu?
+        if (charControl != null)
         {
-            healthCanvas.SetActive(false);
+            Debug.Log("Oyuncu Öldü!");
+            charControl.TriggerDeath();
+            return;
         }
 
-        // Hangi script varsa onun ölüm fonksiyonunu çalıştır
-        if (knightScript != null)
+        // 2. Ölen şey BOSS (KRAL) mı? (YENİ EKLENDİ)
+        enemy_king_movement king = GetComponent<enemy_king_movement>();
+        if (king != null)
         {
-            knightScript.TriggerDeath();
-        }
-        else if (archerScript != null)
-        {
-            archerScript.TriggerDeath();
+            Debug.Log("Kral Öldü!");
+            king.TriggerDeath();
+            return;
         }
 
-        // 5 Saniye sonra objeyi tamamen yok et (Ceset 5 saniye yerde kalır)
-        Destroy(gameObject, 5f);
+        // 3. Ölen şey DEV İSKELET mi?
+        enemy_giant_skeleton_movement giantSkeleton = GetComponent<enemy_giant_skeleton_movement>();
+        if (giantSkeleton != null)
+        {
+            giantSkeleton.TriggerDeath();
+            return;
+        }
+
+        // 4. Ölen şey BÜYÜCÜ (WIZARD) mi?
+        enemy_wizard_movement wizard = GetComponent<enemy_wizard_movement>();
+        if (wizard != null)
+        {
+            wizard.TriggerDeath();
+            return;
+        }
+
+        // 5. Ölen şey ŞÖVALYE mi?
+        enemy_knight_movement knight = GetComponent<enemy_knight_movement>();
+        if (knight != null)
+        {
+             knight.TriggerDeath();
+             return;
+        }
+        
+        // 6. Ölen şey OKÇU mu?
+        Enemy_archer_movement archer = GetComponent<Enemy_archer_movement>();
+        if (archer != null)
+        {
+            archer.TriggerDeath();
+            return;
+        }
+
+        // 7. Hiçbiri değilse (Kutu, varil vb.) direkt yok et
+        Destroy(gameObject);
     }
 }

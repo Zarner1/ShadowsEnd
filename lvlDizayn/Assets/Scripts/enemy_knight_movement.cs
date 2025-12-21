@@ -7,15 +7,16 @@ public class enemy_knight_movement : MonoBehaviour
     [Header("Hedef Ayarları")]
     public GameObject Player;
     
-    [Header("Hareket Ayarları")]
+    [Header("Hareket ve Takip Ayarları")]
     [SerializeField] private float speed = 3.5f; 
-    [SerializeField] private float chaseDistance = 10f;
+    
+    // BURASI 10 BİRİM AYARIN:
+    [SerializeField] private float chaseDistance = 10f; // Bu mesafe içindeyse kovalamaya başlar
     [SerializeField] private float stopDistance = 1.5f;
 
     [Header("Saldırı Ayarları")]
     [SerializeField] private int damagePerHit = 10; 
     
-    // Animasyon zamanlamaları
     [SerializeField] private float timeToFirstHit = 0.4f;  
     [SerializeField] private float timeToSecondHit = 0.5f; 
     [SerializeField] private float timeToThirdHit = 0.5f;  
@@ -26,7 +27,6 @@ public class enemy_knight_movement : MonoBehaviour
     [SerializeField] private float maxWaitTime = 3.0f; 
     [Range(0, 100)] [SerializeField] private int defenseChance = 65; 
 
-    // Durum Değişkenleri
     private float distance;
     private bool attack;
     private bool defend;
@@ -55,7 +55,6 @@ public class enemy_knight_movement : MonoBehaviour
     void Update()
     {
         if (isDead) return;
-
         AIChase();
         UpdateAnimations();
     }
@@ -113,12 +112,14 @@ public class enemy_knight_movement : MonoBehaviour
 
         distance = Vector2.Distance(transform.position, Player.transform.position);
 
-        if (distance >= chaseDistance)
+        // --- 10 BİRİM KONTROLÜ BURADA YAPILIYOR ---
+        if (distance >= chaseDistance) // Eğer mesafe 10'dan büyükse
         {
             StopCombat(); 
-            _animator.SetFloat("speed", 0);
+            _animator.SetFloat("speed", 0); // Dur ve bekle
             return; 
         }
+        // ------------------------------------------
 
         if (!attack && !defend) 
         {
@@ -127,10 +128,7 @@ public class enemy_knight_movement : MonoBehaviour
 
         if (distance > stopDistance)
         {
-            if (defend) 
-            {
-                defend = false; 
-            }
+            if (defend) defend = false; 
 
             if (!attack) 
             {
@@ -187,18 +185,10 @@ public class enemy_knight_movement : MonoBehaviour
             attack = false;
 
             int roll = Random.Range(0, 100);
-
-            if (roll < defenseChance)
-            {
-                defend = true;
-            }
-            else
-            {
-                defend = false;
-            }
+            if (roll < defenseChance) defend = true;
+            else defend = false;
 
             float waitDuration = Random.Range(minWaitTime, maxWaitTime);
-            
             yield return new WaitForSeconds(waitDuration);
         }
     }
@@ -214,10 +204,8 @@ public class enemy_knight_movement : MonoBehaviour
         if (actualDistance <= stopDistance + 1.2f)
         {
             player_health_system playerHealth = Player.GetComponent<player_health_system>();
-
             if (playerHealth != null)
             {
-                // DEĞİŞİKLİK BURADA: Hasar verirken 'transform' (kendisi) gönderiliyor.
                 playerHealth.TakeDamage(damagePerHit, transform);
             }
         }
@@ -243,8 +231,10 @@ public class enemy_knight_movement : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
+        // Chase Distance'ı (10 birim) Editörde görmek için Kırmızı çember
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, chaseDistance);
+        
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, stopDistance);
     }

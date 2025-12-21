@@ -19,39 +19,62 @@ public class player_health_system : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-        charControl = GetComponent<Character_Control>(); // Scripti buluyoruz
+        charControl = GetComponent<Character_Control>(); 
         UpdateHealthUI();
     }
 
-    // GÜNCELLENMİŞ HASAR FONKSİYONU
-    // attacker: Hasarı vuran düşmanın Transform'u (Opsiyonel)
-    public void TakeDamage(float amount, Transform attacker = null)
+    // --- BURASI GÜNCELLENDİ ---
+    // Artık 3. parametre olarak 'knockbackForce' alıyor. 
+    // Varsayılan değeri 0 olduğu için eski düşmanlar (okçu, iskelet vb.) hata vermeden çalışmaya devam eder.
+    public void TakeDamage(float amount, Transform attacker = null, float knockbackForce = 0f)
     {
-        // 1. Blok Kontrolü Yap
+        bool isBlockingSuccess = false;
+
+        // 1. BLOK KONTROLÜ
+        // Eğer oyuncu blok yapıyorsa ve saldıran belli ise
         if (charControl != null && charControl.isBlocking && attacker != null)
         {
-            // Düşmanın yönü ile karakterin baktığı yönü kıyaslıyoruz.
-            // Düşman nerede? (DüşmanPozisyonu - BenimPozisyonum)
+            // Düşmanın yönü ile karakterin baktığı yönü kıyasla
             Vector2 directionToAttacker = (attacker.position - transform.position).normalized;
-
-            // Dot Product (Nokta Çarpımı) kullanarak yön hesabı:
-            // transform.right -> Karakterin şu an baktığı yön (Sağ veya Sol)
-            // Eğer sonuç > 0 ise düşman karakterin ÖNÜNDE demektir.
             float dotProduct = Vector2.Dot(transform.right, directionToAttacker);
 
+            // Eğer düşman karakterin önündeyse blok başarılıdır
             if (dotProduct > 0)
             {
-                // Düşman önde ve blok yapıyoruz -> HASARI ENGELLE
-                Debug.Log("🛡️ Hasar Bloklandı!");
-                
-                // İstersen burada bloklama sesi veya efekti çalabilirsin.
-                return; // Fonksiyondan çık, can düşmesin.
+                isBlockingSuccess = true;
             }
         }
 
-        // Bloklanmadıysa normal hasar işlemine devam et
-        currentHealth -= amount;
+        // --- SENARYO A: BLOK BAŞARILI ---
+        if (isBlockingSuccess)
+        {
+            Debug.Log("🛡️ Hasar Bloklandı (Yarım Hasar)!");
+            
+            // YARIM HASAR AL
+            currentHealth -= (amount / 2f);
 
+            // Eğer itme gücü varsa NORMAL ŞİDDETTE uygula
+            if (knockbackForce > 0)
+            {
+                Vector2 knockbackDir = (transform.position - attacker.position).normalized;
+                charControl.ApplyKnockback(knockbackDir, knockbackForce);
+            }
+        }
+        // --- SENARYO B: BLOK YOK ---
+        else
+        {
+            // TAM HASAR AL
+            currentHealth -= amount;
+
+            // Eğer itme gücü varsa 2 KAT ŞİDDETLE uygula (Ceza)
+            if (knockbackForce > 0 && attacker != null)
+            {
+                Vector2 knockbackDir = (transform.position - attacker.position).normalized;
+                charControl.ApplyKnockback(knockbackDir, knockbackForce * 2f);
+            }
+        }
+
+        // Canın eksiye düşmesini engelle
         if (currentHealth < 0) currentHealth = 0;
 
         UpdateHealthUI();
@@ -71,8 +94,6 @@ public class player_health_system : MonoBehaviour
 
     void UpdateHealthUI()
     {
-        float healthPercentage = currentHealth / maxHealth;
-
         if (healthText != null)
         {
             healthText.text = $"{currentHealth.ToString("F0")}/{maxHealth}";
@@ -80,6 +101,7 @@ public class player_health_system : MonoBehaviour
 
         if (healthBarImage != null)
         {
+            float healthPercentage = currentHealth / maxHealth;
             healthBarImage.fillAmount = healthPercentage;
             healthBarImage.color = healthGradient.Evaluate(healthPercentage);
         }
@@ -88,6 +110,9 @@ public class player_health_system : MonoBehaviour
     void Die()
     {
         Debug.Log("Oyuncu Öldü!");
-        GetComponent<Character_Control>().TriggerDeath();
+        if (charControl != null)
+        {
+            charControl.TriggerDeath();
+        }
     }
 }

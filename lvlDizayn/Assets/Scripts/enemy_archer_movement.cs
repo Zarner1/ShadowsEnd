@@ -5,36 +5,44 @@ using UnityEngine;
 public class Enemy_archer_movement : MonoBehaviour
 {
     [Header("Hedef Ayarları")]
-    public Transform player; 
+    public Transform player;
+
+    [Header("Fark Etme (Aggro) Ayarı")]
+    public float detectionRange = 10f; // Karakter 10 birim yakına gelmezse hareket etmez
 
     [Header("Hareket Ayarları")]
-    public float moveSpeed = 3f; 
-    public float stopDistance = 5f; 
-    public float meleeDistance = 1.5f; 
+    public float moveSpeed = 3f;
+    public float stopDistance = 5f;
+    public float meleeDistance = 1.5f;
 
-    [Header("Saldırı Ayarları")]
-    public GameObject arrowPrefab; 
-    public Transform firePoint;    
-    public float attackCooldown = 3.0f;  // İsteğin üzerine 3 saniye yapıldı
-    private float nextFireTime = 0f;
+    [Header("Saldırı Sonrası Rastgele Bekleme")]
+    public float minWaitTime = 0.3f; 
+    public float maxWaitTime = 0.7f; 
 
-    [Header("Animasyon Zamanlaması")]
-    public float arrowReleaseDelay = 0.8f; // Animasyon başladıktan kaç sn sonra ok çıksın? (Deneyerek bulabilirsin)
-    public float totalAnimDuration = 1.167f; // Senin belirttiğin animasyon süresi
+    [Header("Ranged (Ok) Ayarları")]
+    public GameObject arrowPrefab;
+    public Transform firePoint;
+    public float arrowReleaseDelay = 0.8f;
+    public float rangedAnimDuration = 1.167f;
+    public float launchForce = 15f;
+    public float arcModifier = 0.5f;
 
-    [Header("Ok Fizik Ayarları")]
-    public float launchForce = 15f;  
-    public float arcModifier = 0.5f; 
+    [Header("Melee (Çoklu Vuruş) Ayarları")]
+    public Transform meleeAttackPoint;
+    public float meleeAttackRange = 0.8f;
+    public float damagePerHit = 10f;
+    public float meleeAnimDuration = 2.0f;
+    public List<float> meleeHitTimings;
 
     [Header("Bileşenler")]
     private Animator anim;
     private SpriteRenderer spriteRenderer;
-    private Rigidbody2D rb;       
-    private Collider2D col;       
+    private Rigidbody2D rb;
+    private Collider2D col;
 
     // Durum Kontrolü
     private bool isDead = false;
-    private bool isAttacking = false; // Şu an saldırı animasyonu oynuyor mu?
+    private bool isAttacking = false; 
 
     void Start()
     {
@@ -55,74 +63,120 @@ public class Enemy_archer_movement : MonoBehaviour
         if (isDead) return;
         if (player == null) return;
 
-        // Eğer şu an saldırı yapıyorsa (animasyon oynuyorsa) hareket etmesin veya dönmesin
+        // Mesafeyi hesapla
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+
+        // --- YENİ EKLENEN KISIM: 10 Birim Kontrolü ---
+        // Eğer oyuncu fark etme menzilinden (10 birim) uzaktaysa HİÇBİR ŞEY YAPMA.
+        if (distanceToPlayer > detectionRange)
+        {
+            StopMoving();
+            anim.SetFloat("speed", 0f); // Idle animasyonuna geç
+            return; // Aşağıdaki kodları çalıştırma
+        }
+        // ---------------------------------------------
+
         if (isAttacking) 
         {
             StopMoving();
             return; 
         }
 
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-
         FlipTowardsPlayer();
 
-        // 1. DURUM: Karakter çok uzakta -> KOVALA
+        // 1. DURUM: KOVALA
         if (distanceToPlayer > stopDistance)
         {
             MoveTowardsPlayer();
-            
-            anim.SetFloat("speed", moveSpeed); 
+            anim.SetFloat("speed", moveSpeed);
             anim.SetBool("rangedAttack", false);
             anim.SetBool("meleeAttack", false);
         }
-        // 2. DURUM: Menzilde -> OK AT (Ranged)
+        // 2. DURUM: OK AT (Ranged)
         else if (distanceToPlayer <= stopDistance && distanceToPlayer > meleeDistance)
         {
             StopMoving();
             anim.SetFloat("speed", 0f);
-
-            // Zamanı geldiyse saldırıyı başlat
-            if (Time.time >= nextFireTime)
-            {
-                StartCoroutine(RangedAttackRoutine());
-                // Bir sonraki saldırı için şu an + 3 saniye ekle
-                nextFireTime = Time.time + attackCooldown;
-            }
+            StartCoroutine(RangedAttackRoutine());
         }
-        // 3. DURUM: Çok yakında -> KILIÇ ÇEK (Melee)
+        // 3. DURUM: KILIÇ ÇEK (Melee)
         else if (distanceToPlayer <= meleeDistance)
         {
             StopMoving();
             anim.SetFloat("speed", 0f);
-            
-            // Melee için de benzer bir zamanlama eklenebilir ama şimdilik bool ile bıraktım
-            anim.SetBool("meleeAttack", true);
-            anim.SetBool("rangedAttack", false);
+            StartCoroutine(MeleeAttackRoutine());
         }
     }
 
-    // --- YENİ: Saldırı Rutini (Coroutine) ---
+    IEnumerator MeleeAttackRoutine()
+    {
+        isAttacking = true; 
+        anim.SetBool("meleeAttack", true);
+        anim.SetBool("rangedAttack", false);
+
+        float timer = 0f; 
+        int hitIndex = 0; 
+
+        if (meleeHitTimings != null && meleeHitTimings.Count > 0)
+        {
+            meleeHitTimings.Sort();
+            while (hitIndex < meleeHitTimings.Count)
+            {
+                float nextHitTime = meleeHitTimings[hitIndex];
+                float waitTime = nextHitTime - timer;
+
+                if (waitTime > 0)
+                {
+                    yield return new WaitForSeconds(waitTime);
+                    timer += waitTime;
+                }
+                MeleeDamageCalculation();
+                hitIndex++;
+            }
+        }
+
+        float remainingTime = meleeAnimDuration - timer;
+        if (remainingTime > 0) yield return new WaitForSeconds(remainingTime);
+
+        anim.SetBool("meleeAttack", false);
+
+        float randomWait = Random.Range(minWaitTime, maxWaitTime);
+        yield return new WaitForSeconds(randomWait);
+
+        isAttacking = false; 
+    }
+
+    void MeleeDamageCalculation()
+    {
+        Vector2 attackPos = meleeAttackPoint != null ? meleeAttackPoint.position : transform.position;
+        Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(attackPos, meleeAttackRange);
+
+        foreach (Collider2D hitPlayer in hitPlayers)
+        {
+            if (hitPlayer.CompareTag("Player"))
+            {
+                 player_health_system playerHealth = hitPlayer.GetComponent<player_health_system>(); 
+                 if (playerHealth != null) playerHealth.TakeDamage(damagePerHit, transform);
+            }
+        }
+    }
+
     IEnumerator RangedAttackRoutine()
     {
-        isAttacking = true; // Saldırı başladı, hareketi kilitle
-
-        // 1. Animasyonu başlat
+        isAttacking = true; 
         anim.SetBool("rangedAttack", true);
         anim.SetBool("meleeAttack", false);
 
-        // 2. Okun yaydan fırlama anına kadar bekle (Örn: animasyonun 8. karesi)
         yield return new WaitForSeconds(arrowReleaseDelay);
-
-        // 3. Oku fiziksel olarak oluştur
         ShootArrow();
+        yield return new WaitForSeconds(rangedAnimDuration - arrowReleaseDelay);
 
-        // 4. Animasyonun geri kalanının bitmesini bekle
-        // (Toplam süre - geçen süre)
-        yield return new WaitForSeconds(totalAnimDuration - arrowReleaseDelay);
-
-        // 5. Animasyonu kapat ve hareketi serbest bırak
         anim.SetBool("rangedAttack", false);
-        isAttacking = false;
+
+        float randomWait = Random.Range(minWaitTime, maxWaitTime);
+        yield return new WaitForSeconds(randomWait);
+
+        isAttacking = false; 
     }
 
     void ShootArrow()
@@ -137,8 +191,6 @@ public class Enemy_archer_movement : MonoBehaviour
                 Vector2 direction = (player.position - firePoint.position).normalized;
                 float distance = Vector2.Distance(firePoint.position, player.position);
                 Vector2 arcDirection = new Vector2(direction.x, direction.y + (distance * 0.1f * arcModifier)).normalized;
-
-                // Unity 6+ linearVelocity, eski sürümler için velocity
                 arrowRb.linearVelocity = arcDirection * launchForce;
             }
         }
@@ -148,7 +200,6 @@ public class Enemy_archer_movement : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
-        // Ölürse tüm coroutine'leri durdur (Saldırı yarıda kalsın)
         StopAllCoroutines(); 
 
         if (rb != null)
@@ -180,11 +231,8 @@ public class Enemy_archer_movement : MonoBehaviour
     void FlipTowardsPlayer()
     {
         if (isDead || spriteRenderer == null) return;
-
-        if (player.position.x > transform.position.x)
-            spriteRenderer.flipX = false;
-        else if (player.position.x < transform.position.x)
-            spriteRenderer.flipX = true;
+        if (player.position.x > transform.position.x) spriteRenderer.flipX = false;
+        else if (player.position.x < transform.position.x) spriteRenderer.flipX = true;
     }
 
     void OnDrawGizmosSelected()
@@ -193,5 +241,9 @@ public class Enemy_archer_movement : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, stopDistance); 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, meleeDistance); 
+        
+        // Fark etme mesafesini göstermek için:
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
     }
 }
