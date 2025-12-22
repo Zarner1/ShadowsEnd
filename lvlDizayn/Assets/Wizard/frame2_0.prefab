@@ -170,5 +170,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::enemy_fireball
   speed: 10
-  damage: 20
+  damage: 5
   lifeTime: 5

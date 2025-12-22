@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class player_health_system : MonoBehaviour
 {
@@ -9,64 +10,83 @@ public class player_health_system : MonoBehaviour
     public Image healthBarImage;     
     public Gradient healthGradient;  
 
+    [Header("Efektler")]
+    public GameObject damagePopupPrefab;
+
+    [Header("Game Over Ayarları")] // --- YENİ EKLENDİ ---
+    public GameOverManager gameOverManager; // Unity'den Canvas üzerindeki scripti buraya sürükle
+
     [Header("Can Değerleri")]
-    public float maxHealth = 100f;
+    public float maxHealth = 100f; 
     public float currentHealth;
 
-    // Karakter kontrol scriptine referans
     private Character_Control charControl;
 
     void Start()
     {
+        // GameManager'dan cezalı canı çek
+        if (GameManager.Instance != null)
+        {
+            maxHealth = GameManager.Instance.GetKayitliMaxCan();
+        }
         currentHealth = maxHealth;
+        
         charControl = GetComponent<Character_Control>(); 
+        
+        UIBaglantilariniGuncelle();
         UpdateHealthUI();
     }
 
-    // --- BURASI GÜNCELLENDİ ---
-    // Artık 3. parametre olarak 'knockbackForce' alıyor. 
-    // Varsayılan değeri 0 olduğu için eski düşmanlar (okçu, iskelet vb.) hata vermeden çalışmaya devam eder.
+    void OnEnable() { SceneManager.sceneLoaded += OnSceneLoaded; }
+    void OnDisable() { SceneManager.sceneLoaded -= OnSceneLoaded; }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        UIBaglantilariniGuncelle();
+        UpdateHealthUI();
+    }
+
+    void UIBaglantilariniGuncelle()
+    {
+        GameObject barObj = GameObject.Find("HealthBar_Fill"); 
+        if (barObj != null) healthBarImage = barObj.GetComponent<Image>();
+
+        GameObject textObj = GameObject.Find("HealthText"); 
+        if (textObj != null) healthText = textObj.GetComponent<TMP_Text>();
+
+        // Game Over Manager'ı sahnede otomatik bul (Canvas üzerinde olmalı)
+        if (gameOverManager == null)
+        {
+            gameOverManager = FindFirstObjectByType<GameOverManager>();
+        }
+    }
+
     public void TakeDamage(float amount, Transform attacker = null, float knockbackForce = 0f)
     {
         bool isBlockingSuccess = false;
+        float damageToTake = amount;
 
-        // 1. BLOK KONTROLÜ
-        // Eğer oyuncu blok yapıyorsa ve saldıran belli ise
+        // Blok kontrolü
         if (charControl != null && charControl.isBlocking && attacker != null)
         {
-            // Düşmanın yönü ile karakterin baktığı yönü kıyasla
             Vector2 directionToAttacker = (attacker.position - transform.position).normalized;
             float dotProduct = Vector2.Dot(transform.right, directionToAttacker);
-
-            // Eğer düşman karakterin önündeyse blok başarılıdır
-            if (dotProduct > 0)
-            {
-                isBlockingSuccess = true;
-            }
+            if (dotProduct > 0) isBlockingSuccess = true;
         }
 
-        // --- SENARYO A: BLOK BAŞARILI ---
         if (isBlockingSuccess)
         {
-            Debug.Log("🛡️ Hasar Bloklandı (Yarım Hasar)!");
-            
-            // YARIM HASAR AL
-            currentHealth -= (amount / 2f);
-
-            // Eğer itme gücü varsa NORMAL ŞİDDETTE uygula
+            damageToTake = amount / 2f; 
+            Debug.Log("🛡️ Hasar Bloklandı!");
             if (knockbackForce > 0)
             {
                 Vector2 knockbackDir = (transform.position - attacker.position).normalized;
                 charControl.ApplyKnockback(knockbackDir, knockbackForce);
             }
         }
-        // --- SENARYO B: BLOK YOK ---
         else
         {
-            // TAM HASAR AL
-            currentHealth -= amount;
-
-            // Eğer itme gücü varsa 2 KAT ŞİDDETLE uygula (Ceza)
+            damageToTake = amount;
             if (knockbackForce > 0 && attacker != null)
             {
                 Vector2 knockbackDir = (transform.position - attacker.position).normalized;
@@ -74,14 +94,27 @@ public class player_health_system : MonoBehaviour
             }
         }
 
-        // Canın eksiye düşmesini engelle
-        if (currentHealth < 0) currentHealth = 0;
+        currentHealth -= damageToTake;
+        ShowDamagePopup((int)damageToTake);
 
+        if (currentHealth < 0) currentHealth = 0;
+        
         UpdateHealthUI();
 
         if (currentHealth == 0)
         {
             Die(); 
+        }
+    }
+
+    void ShowDamagePopup(int damageAmount)
+    {
+        if (damagePopupPrefab != null)
+        {
+            Vector3 spawnPosition = transform.position + new Vector3(Random.Range(-0.5f, 0.5f), 1.5f, 0);
+            GameObject popup = Instantiate(damagePopupPrefab, spawnPosition, Quaternion.identity);
+            DamagePopup popupScript = popup.GetComponent<DamagePopup>();
+            if (popupScript != null) popupScript.Setup(damageAmount);
         }
     }
 
@@ -94,11 +127,7 @@ public class player_health_system : MonoBehaviour
 
     void UpdateHealthUI()
     {
-        if (healthText != null)
-        {
-            healthText.text = $"{currentHealth.ToString("F0")}/{maxHealth}";
-        }
-
+        if (healthText != null) healthText.text = $"{currentHealth.ToString("F0")}/{maxHealth}";
         if (healthBarImage != null)
         {
             float healthPercentage = currentHealth / maxHealth;
@@ -110,9 +139,25 @@ public class player_health_system : MonoBehaviour
     void Die()
     {
         Debug.Log("Oyuncu Öldü!");
-        if (charControl != null)
+        if (charControl != null) charControl.TriggerDeath();
+
+        // --- ÖNEMLİ DEĞİŞİKLİK ---
+        // Direkt yeniden başlatmak yerine Game Over ekranını açıyoruz.
+        // 2 saniye bekle (ölüm animasyonu için), sonra ekranı aç.
+        Invoke("OpenGameOverScreen", 2.0f);
+    }
+
+    void OpenGameOverScreen()
+    {
+        if (gameOverManager != null)
         {
-            charControl.TriggerDeath();
+            gameOverManager.ShowGameOver();
+        }
+        else
+        {
+            // Eğer UI yoksa eski yöntemle yeniden başlat (Yedek Plan)
+            Debug.LogWarning("Game Over UI bulunamadı, direkt resetleniyor.");
+            if (GameManager.Instance != null) GameManager.Instance.OyuncuOldu();
         }
     }
 }

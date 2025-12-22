@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bbfea8788621cc4abdf81d1ec805d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
+  damage: 1
   lifeTime: 3
   rotationOffset: 0
 --- !u!61 &1909828589790969488

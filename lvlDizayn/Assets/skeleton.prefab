@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 4494455171735266378}
   m_Layer: 6
   m_Name: skeleton
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -416,7 +416,7 @@ MonoBehaviour:
   healthGradient:
     serializedVersion: 2
     key0: {r: 1, g: 0, b: 0, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 0, b: 0, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -507,6 +507,6 @@ MonoBehaviour:
   detectionRange: 10
   moveSpeed: 1.5
   stopDistance: 2
-  attackDamage: 40
+  attackDamage: 10
   minAttackCooldown: 2
   maxAttackCooldown: 4.5

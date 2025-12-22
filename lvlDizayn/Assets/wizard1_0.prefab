@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1612185918088277760}
   m_Layer: 6
   m_Name: wizard1_0
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -135,7 +135,7 @@ Animator:
   m_GameObject: {fileID: 4121310127443701054}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0210acaba429c9f43900451c91835f17, type: 2}
+  m_Controller: {fileID: 9100000, guid: d46f920505990c6479be0073317fd270, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -287,7 +287,8 @@ MonoBehaviour:
   detectionRange: 10
   fireballPrefab: {fileID: 1768928223667717553, guid: 9d2532d5389c64b40a2db636d3d8d293, type: 3}
   firePoint: {fileID: 3028464984406777716}
-  attackCooldown: 2
+  minAttackCooldown: 1.5
+  maxAttackCooldown: 3.5
 --- !u!1 &4688993272635839905
 GameObject:
   m_ObjectHideFlags: 0

@@ -219,11 +219,32 @@ public class enemy_king_movement : MonoBehaviour
         if (rb != null) rb.linearVelocity = Vector2.zero;
     }
 
-    void FlipTowardsPlayer()
+void FlipTowardsPlayer()
     {
         if (isBusy) return;
-        if (player.position.x > transform.position.x) spriteRenderer.flipX = false; 
-        else spriteRenderer.flipX = true; 
+
+        // Eğer AttackPoint atanmamışsa hata vermemesi için kontrol
+        if (attackPoint == null) return;
+
+        // AttackPoint'in merkeze olan uzaklığını al (Mutlak değer kullanıyoruz ki hep pozitif olsun)
+        float distanceFromCenter = Mathf.Abs(attackPoint.localPosition.x);
+
+        if (player.position.x > transform.position.x)
+        {
+            // --- SAĞA BAKIYOR ---
+            spriteRenderer.flipX = false;
+            
+            // AttackPoint'i sağ tarafa al (Pozitif X)
+            attackPoint.localPosition = new Vector3(distanceFromCenter, attackPoint.localPosition.y, attackPoint.localPosition.z);
+        }
+        else
+        {
+            // --- SOLA BAKIYOR ---
+            spriteRenderer.flipX = true;
+
+            // AttackPoint'i sol tarafa al (Negatif X)
+            attackPoint.localPosition = new Vector3(-distanceFromCenter, attackPoint.localPosition.y, attackPoint.localPosition.z);
+        }
     }
 
     public void TriggerDeath()
