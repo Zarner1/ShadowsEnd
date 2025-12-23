@@ -17,12 +17,20 @@ public class Character_Control : MonoBehaviour
     [Header("Combat Settings")]
     public Transform attackPoint; 
     public float attackRange = 0.8f; 
-    public LayerMask enemyLayers; // Unity'den "Enemy" layer'ını seçmeyi unutma!
-    public int slashDamage = 20; 
+    public LayerMask enemyLayers; 
+    
+    [Header("Attack Types")]
+    // --- 1. NORMAL SALDIRI AYARLARI (SOL TIK) ---
+    public int normalDamage = 10;       // Normal saldırı hasarı
+    public float normalAttackCooldown = 0.167f; // 0.167 saniye bekleme süresi
+    private float nextNormalAttackTime = 0f;
+
+    // --- 2. SLASH (ÖZEL) SALDIRI AYARLARI (SAĞ TIK) ---
+    public int slashDamage = 20;        // Özel saldırı hasarı
     public float specialAttackDuration = 0.5f;
 
     [Header("Knockback Settings")]
-    public float upwardKnockbackStrength = 5f; // Oyuncuyu havaya kaldırma gücü
+    public float upwardKnockbackStrength = 5f; 
 
     private float currentSpeed = 0.0f;
     private bool isGrounded;
@@ -31,13 +39,12 @@ public class Character_Control : MonoBehaviour
     private float lastClickTime;
     
     // Durum Kontrolü
-    private bool swordSlash;
+    private bool swordSlash;          // Sağ tık animasyonu için
     private bool isSpecialAttacking = false;
     
     public bool isBlocking = false; 
     private bool isDead = false;
 
-    // Savruluyor mu?
     private bool isKnockedBack = false;
 
     // Components
@@ -59,18 +66,17 @@ public class Character_Control : MonoBehaviour
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
-        // Durumları yönet
         HandleBlocking(); 
         HandleMovement();
         HandleJump();
         HandleCrouch();
-        HandleAttack();
-        HandleSpecialAttack();
+        
+        // Saldırıları ayırdık:
+        HandleNormalAttack();  // Sol Tık
+        HandleSlashAttack();   // Sağ Tık
 
-        // Animasyonları güncelle
         UpdateAnimations();
 
-        // Tıklama sayacını sıfırla (Combo sistemi için)
         if (Time.time - lastClickTime >= resetTime)
         {
             clickCount = 0;
@@ -84,23 +90,18 @@ public class Character_Control : MonoBehaviour
         _rigidbody2D.linearVelocity = Vector2.zero; 
         currentSpeed = 0;
         _animator.SetBool("isDead", true);
-        
-        // Fizik etkileşimlerini kapatmak istersen:
-        // _rigidbody2D.bodyType = RigidbodyType2D.Static;
     }
 
     private void HandleBlocking()
     {
-        // Savrulurken blok açıp kapatamayalım
         if (isKnockedBack) return;
 
         if (isGrounded && !isSpecialAttacking)
         {
-            // Shift tuşuna basılı tutunca blok yap
             if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
             {
                 isBlocking = true;
-                currentSpeed = 0; // Blok yaparken hareket edemesin
+                currentSpeed = 0; 
             }
             else
             {
@@ -115,26 +116,23 @@ public class Character_Control : MonoBehaviour
 
     private void HandleMovement()
     {
-        // Savruluyorsak kontrol bizde değil
         if (isKnockedBack) return; 
 
-        // Hareket tuşlarına basılıyor mu? (Saldırı ve blok yoksa)
         if (Input.GetKey(KeyCode.D) && !isSpecialAttacking && !isBlocking && !Input.GetKey(KeyCode.S) && !Input.GetMouseButton(0))
         {
             currentSpeed = moveSpeed;
-            transform.rotation = Quaternion.Euler(0, 0, 0); // Sağa dön
+            transform.rotation = Quaternion.Euler(0, 0, 0); 
         }
         else if (Input.GetKey(KeyCode.A) && !isSpecialAttacking && !isBlocking && !Input.GetKey(KeyCode.S) && !Input.GetMouseButton(0))
         {
             currentSpeed = -moveSpeed;
-            transform.rotation = Quaternion.Euler(0, 180, 0); // Sola dön
+            transform.rotation = Quaternion.Euler(0, 180, 0); 
         }
         else
         {
             currentSpeed = 0.0f;
         }
         
-        // Hızı uygula (Y ekseni hızını koruyarak)
         _rigidbody2D.linearVelocity = new Vector2(currentSpeed, _rigidbody2D.linearVelocity.y);
     }
 
@@ -154,39 +152,50 @@ public class Character_Control : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.S)) isCrouching = false;
     }
 
-    private void HandleAttack()
+    // --- SOL TIK: NORMAL SALDIRI YÖNETİMİ ---
+    private void HandleNormalAttack()
     {
         if (isKnockedBack) return;
 
-        // Sol tık saldırısı
+        // Sol Tık (0)
         if (Input.GetMouseButtonDown(0) && !isSpecialAttacking && !isBlocking)
         {
-            clickCount++;
-            lastClickTime = Time.time;
-            
-            // Animasyon Event'i kullanmıyorsan saldırıyı buradan tetikleyebilirsin
-            // Ancak genelde animasyonun belirli karesinde SlashAttack() çağrılır.
-            // Şimdilik animasyondan çağrıldığını varsayıyoruz.
+            // Cooldown kontrolü (0.167 saniye geçti mi?)
+            if (Time.time >= nextNormalAttackTime)
+            {
+                clickCount++;
+                lastClickTime = Time.time;
+                
+                // Bir sonraki vuruş zamanını belirle
+                nextNormalAttackTime = Time.time + normalAttackCooldown;
+
+                // Normal saldırıyı gerçekleştir
+                NormalAttack();
+                
+                // Eğer normal saldırı için bir animasyon trigger'ın varsa buraya ekleyebilirsin:
+                // _animator.SetTrigger("NormalAttack");
+            }
         }
     }
 
-    private void HandleSpecialAttack()
+    // --- SAĞ TIK: SLASH (ÖZEL) SALDIRI YÖNETİMİ ---
+    private void HandleSlashAttack()
     {
         if (isKnockedBack) return;
 
-        // Sağ tık özel saldırı
+        // Sağ Tık (1)
         if (Input.GetMouseButtonDown(1) && !isSpecialAttacking && !isBlocking)
         {
-            StartCoroutine(SpecialAttackRoutine());
+            StartCoroutine(SlashAttackRoutine());
         }
     }
 
-    IEnumerator SpecialAttackRoutine()
+    IEnumerator SlashAttackRoutine()
     {
         isSpecialAttacking = true; 
-        swordSlash = true;        
+        swordSlash = true; // Animasyon için bool
 
-        // Özel saldırıda da hasar ver
+        // Özel saldırı fonksiyonunu çağır
         SlashAttack(); 
 
         yield return new WaitForSeconds(specialAttackDuration);
@@ -195,49 +204,57 @@ public class Character_Control : MonoBehaviour
         isSpecialAttacking = false; 
     }
 
-    // --- HASAR VERME FONKSİYONU ---
-    // Bu fonksiyonu Animation Event ile çağırmanı tavsiye ederim.
-// --- HASAR VERME FONKSİYONU (GÜNCELLENDİ) ---
-    public void SlashAttack()
+    // ==========================================================
+    // --- 1. NORMAL SALDIRI FONKSİYONU (SOL TIK İÇİN) ---
+    // ==========================================================
+    public void NormalAttack()
     {
         if (attackPoint == null) return;
 
-        // Çember içindeki düşmanları bul
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
 
         foreach(Collider2D enemy in hitEnemies)
         {
-            // --- 1. ÖNCELİK: ŞÖVALYE KONTROLÜ ---
-            // Eğer vurduğumuz şey bir "Knight" ise, onun kendi scriptini çağır.
-            // Çünkü bloklama mantığı orada yazıyor.
+            // Şövalye Kontrolü (Savunma yapıyor mu?)
             enemy_knight_movement knight = enemy.GetComponent<enemy_knight_movement>();
             if (knight != null)
             {
-                // Şövalyenin kendi hasar alma fonksiyonunu çağırıyoruz.
-                // O fonksiyon içeride "defend" (blok) durumunu kontrol edecek.
-                knight.ReceiveDamage(slashDamage);
-                
-                // Şövalye bulunduğuna göre döngünün bu turunu bitir (Aşağıdaki health_system'e tekrar vurmasın)
+                knight.ReceiveDamage(normalDamage); // Normal hasar miktarını gönder
                 continue; 
             }
 
-            // --- 2. ÖNCELİK: KRAL (BOSS) KONTROLÜ ---
-            /* Eğer Kral'ın da özel bir savunma mekaniği varsa burayı açabilirsin
-            enemy_king_movement king = enemy.GetComponent<enemy_king_movement>();
-            if (king != null)
-            {
-                // king.TakeDamage(slashDamage);
-                // continue;
-            }
-            */
-
-            // --- 3. ÖNCELİK: STANDART DÜŞMANLAR (İskelet, Büyücü, vs.) ---
-            // Eğer özel bir scripti yoksa (veya blok mekaniği yoksa) direkt canına vur.
+            // Diğer Düşmanlar
             health_system enemyHealth = enemy.GetComponent<health_system>();
-
             if (enemyHealth != null)
             {
-                // Hasar ver (Saldırgan olarak kendimizi 'transform' gönderiyoruz)
+                enemyHealth.TakeDamage(normalDamage, transform);
+            }
+        }
+    }
+
+    // ==========================================================
+    // --- 2. SLASH SALDIRI FONKSİYONU (SAĞ TIK İÇİN) ---
+    // ==========================================================
+    public void SlashAttack()
+    {
+        if (attackPoint == null) return;
+
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+
+        foreach(Collider2D enemy in hitEnemies)
+        {
+            // Şövalye Kontrolü
+            enemy_knight_movement knight = enemy.GetComponent<enemy_knight_movement>();
+            if (knight != null)
+            {
+                knight.ReceiveDamage(slashDamage); // Yüksek hasar miktarını gönder
+                continue; 
+            }
+
+            // Diğer Düşmanlar
+            health_system enemyHealth = enemy.GetComponent<health_system>();
+            if (enemyHealth != null)
+            {
                 enemyHealth.TakeDamage(slashDamage, transform);
             }
         }
@@ -250,10 +267,9 @@ public class Character_Control : MonoBehaviour
         _animator.SetBool("isCrouching", isCrouching);
         _animator.SetInteger("clickCount", clickCount);
         _animator.SetBool("isGrounded", isGrounded);
-        _animator.SetBool("swordSlash", swordSlash);
+        _animator.SetBool("swordSlash", swordSlash); // Sağ tık animasyonu
         _animator.SetBool("isBlocking", isBlocking);
         
-        // Savrulma animasyonu varsa ekle:
         _animator.SetBool("isHurt", isKnockedBack);
     }
 
@@ -271,31 +287,20 @@ public class Character_Control : MonoBehaviour
         }
     }
 
-    // --- KNOCKBACK (SAVRULMA) FONKSİYONU ---
     public void ApplyKnockback(Vector2 direction, float force)
     {
-        // Kontrolü kilitle
         isKnockedBack = true;
-
-        // Mevcut hızı sıfırla (Uçup gitmemek için)
         _rigidbody2D.linearVelocity = Vector2.zero; 
         
-        // Yönü belirle (Sadece X ekseni: Sağa mı Sola mı?)
         float pushDirX = (direction.x >= 0) ? 1f : -1f;
-
-        // Çapraz Vektör: Geriye it + Yukarı kaldır
         Vector2 knockbackVector = new Vector2(pushDirX * force, upwardKnockbackStrength);
 
-        // Gücü uygula
         _rigidbody2D.AddForce(knockbackVector, ForceMode2D.Impulse);
-
-        // Kontrolü geri vermek için bekle
         StartCoroutine(ResetKnockbackRoutine());
     }
 
     IEnumerator ResetKnockbackRoutine()
     {
-        // 0.2 saniye boyunca oyuncu kontrolü kaybeder (Havada süzülür)
         yield return new WaitForSeconds(0.2f);
         isKnockedBack = false;
     }

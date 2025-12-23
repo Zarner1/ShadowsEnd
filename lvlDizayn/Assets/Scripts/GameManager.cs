@@ -1,18 +1,22 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic; // Dictionary için gerekli
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance; // Her yerden erişmek için Singleton yapısı
+    public static GameManager Instance;
 
     [Header("Ceza Ayarları")]
-    public float baslangicMaxCan = 100f; // Oyunun en başındaki saf can
-    public float canAzalmaMiktari = 20f; // Her ölümde silinecek max can miktarı
-    public float minCanLimiti = 20f;     // Can buna düşerse oyun tamamen biter (Game Over)
+    public float baslangicMaxCan = 100f;
+    public float canAzalmaMiktari = 20f;
+    public float minCanLimiti = 20f;
+
+    // --- YENİ: Düşmanların Can Veritabanı ---
+    // String: Düşmanın ID'si, Float: Kalan Canı
+    public Dictionary<string, float> dusmanHafizasi = new Dictionary<string, float>();
 
     private void Awake()
     {
-        // Bu objenin sahneler arası yok olmasını engelle
         if (Instance == null)
         {
             Instance = this;
@@ -24,14 +28,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Oyuncunun o anki Max Can değerini getirir
     public float GetKayitliMaxCan()
     {
-        // Eğer kayıt yoksa varsayılan değeri döndür
         return PlayerPrefs.GetFloat("MaxHP", baslangicMaxCan);
     }
 
-    // Oyuncu öldüğünde çağrılacak fonksiyon
     public void OyuncuOldu()
     {
         float suankiMaxCan = GetKayitliMaxCan();
@@ -39,28 +40,51 @@ public class GameManager : MonoBehaviour
 
         if (yeniMaxCan < minCanLimiti)
         {
-            Debug.Log("OYUN TAMAMEN BİTTİ! HER ŞEY SIFIRLANIYOR.");
+            Debug.Log("OYUN TAMAMEN BİTTİ!");
             TamamenSifirla();
-            SceneManager.LoadScene(0); // Ana menüye dön
+            SceneManager.LoadScene(0);
         }
         else
         {
             Debug.Log("Öldün! Max canın düştü: " + yeniMaxCan);
             
-            // Yeni cezalı canı kaydet
             PlayerPrefs.SetFloat("MaxHP", yeniMaxCan);
             PlayerPrefs.Save();
 
-            // En baştan başlat (Sahne 1)
-            // Not: İlerlemeyi (Unlocklar, itemler) korumak istiyorsan onları silme, sadece sahneyi yükle.
+            // --- ÖNEMLİ: Düşman hafızasını SİLMİYORUZ, olduğu gibi tutuyoruz ---
+            // Böylece sahne yeniden açıldığında düşmanlar eski verileri hatırlayacak.
+            
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
-    // Oyunu tamamen sıfırlamak için (Menüde 'New Game' butonu için de kullanabilirsin)
     public void TamamenSifirla()
     {
         PlayerPrefs.DeleteKey("MaxHP");
-        // Varsa diğer kayıtları da (Itemler, Level kilidi) burada silebilirsin.
+        
+        // --- YENİ: Oyun tamamen bittiyse düşmanları da sıfırla ---
+        dusmanHafizasi.Clear();
+    }
+
+    // --- YENİ: Düşmanların Veri Kaydetme Fonksiyonları ---
+    public void DusmanVerisiniKaydet(string id, float can)
+    {
+        if (dusmanHafizasi.ContainsKey(id))
+        {
+            dusmanHafizasi[id] = can;
+        }
+        else
+        {
+            dusmanHafizasi.Add(id, can);
+        }
+    }
+
+    public float DusmanVerisiniGetir(string id, float varsayilanCan)
+    {
+        if (dusmanHafizasi.ContainsKey(id))
+        {
+            return dusmanHafizasi[id];
+        }
+        return varsayilanCan;
     }
 }
