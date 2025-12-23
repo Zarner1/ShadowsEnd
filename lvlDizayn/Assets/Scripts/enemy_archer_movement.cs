@@ -215,6 +215,9 @@ public class Enemy_archer_movement : MonoBehaviour
             anim.SetBool("rangedAttack", false);
             anim.SetFloat("speed", 0);
         }
+        this.enabled = false;
+        Manager.Instance.EnemyDied();
+        Destroy(gameObject, 1.2f);
     }
 
     void MoveTowardsPlayer()

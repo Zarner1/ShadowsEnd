@@ -1,0 +1,4238 @@
+From ea0465f1f156131c69e25a046de74d0342df13d7 Mon Sep 17 00:00:00 2001
+From: Heafoyz <yusuf200354@gmail.com>
+Date: Thu, 11 Dec 2025 00:17:10 +0300
+Subject: [PATCH 17/23] =?UTF-8?q?ok=C3=A7u=20mekanikleri=20eklendi=20asker?=
+ =?UTF-8?q?=20mekanikleri=20g=C3=BCncellendi?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ .../Archer/Animations/Enemy_Archer_death.anim | 107 +-
+ .../Archer/Animations/Enemy_Archer_idle.anim  |  50 +-
+ .../Animations/Enemy_Archer_melee_attack.anim | 110 ++-
+ .../Enemy_Archer_ranged_attack.anim           |  68 +-
+ .../Archer/Animations/Enemy_Archer_run.anim   |  50 +-
+ .../spr_ArcherIdle_strip_NoBkg_0.controller   | 701 +++++++++++++-
+ .../spr_ArcherAttack_strip_NoBkg.png.meta     | 159 ++-
+ .../spr_ArcherAttack_strip_NoBkg_18.prefab    | 176 ++++
+ ...pr_ArcherAttack_strip_NoBkg_18.prefab.meta |   7 +
+ .../spr_ArcherDash_strip_NoBkg.png.meta       |   8 +-
+ .../spr_ArcherDeath_strip_NoBkg.png.meta      | 167 +---
+ .../spr_ArcherIdle_strip_NoBkg.png.meta       |   8 +-
+ ...spr_ArcherJumpAndFall_strip_NoBkg.png.meta |   8 +-
+ .../spr_ArcherMelee_strip_NoBkg.png.meta      |   8 +-
+ .../spr_ArcherRun_strip_NoBkg.png.meta        |   8 +-
+ Assets/Scenes/SampleScene.unity               | 912 +++++++++++++++++-
+ .../player_animations/player_hurt.anim        |  62 +-
+ Assets/enemy_archer_movement.cs               | 182 ++++
+ Assets/enemy_archer_movement.cs.meta          |  11 +
+ Assets/enemy_arrow.cs                         |  75 ++
+ Assets/enemy_arrow.cs.meta                    |  11 +
+ Assets/enemy_knight_movement.cs               | 151 ++-
+ Assets/health_system.cs                       |  72 +-
+ Assets/player_control.cs                      |  78 +-
+ 24 files changed, 2861 insertions(+), 328 deletions(-)
+ create mode 100644 Assets/Archer/Sprites/spr_ArcherAttack_strip_NoBkg_18.prefab
+ create mode 100644 Assets/Archer/Sprites/spr_ArcherAttack_strip_NoBkg_18.prefab.meta
+ create mode 100644 Assets/enemy_archer_movement.cs
+ create mode 100644 Assets/enemy_archer_movement.cs.meta
+ create mode 100644 Assets/enemy_arrow.cs
+ create mode 100644 Assets/enemy_arrow.cs.meta
+
+diff --git a/Assets/Archer/Animations/Enemy_Archer_death.anim b/Assets/Archer/Animations/Enemy_Archer_death.anim
+index c5bd780e..1287fab3 100644
+--- a/Assets/Archer/Animations/Enemy_Archer_death.anim
++++ b/Assets/Archer/Animations/Enemy_Archer_death.anim
+@@ -17,21 +17,118 @@ AnimationClip:
+   m_PositionCurves: []
+   m_ScaleCurves: []
+   m_FloatCurves: []
+-  m_PPtrCurves: []
+-  m_SampleRate: 60
++  m_PPtrCurves:
++  - serializedVersion: 2
++    curve:
++    - time: 0
++      value: {fileID: -1750972731, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 0.083333336
++      value: {fileID: -781450468, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 0.16666667
++      value: {fileID: 438117232, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 0.25
++      value: {fileID: -102884169, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 0.33333334
++      value: {fileID: -1689441147, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 0.41666666
++      value: {fileID: 1222733340, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 0.5
++      value: {fileID: -243062384, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 0.5833333
++      value: {fileID: -650480568, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 0.6666667
++      value: {fileID: -800651555, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 0.75
++      value: {fileID: -1268723870, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 0.8333333
++      value: {fileID: -374108363, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 0.9166667
++      value: {fileID: -79210700, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 1
++      value: {fileID: 437353410, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 1.0833334
++      value: {fileID: 1034957915, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 1.1666666
++      value: {fileID: -1715764869, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 1.25
++      value: {fileID: 2019060386, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 1.3333334
++      value: {fileID: -2039140982, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 1.4166666
++      value: {fileID: -1132895858, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 1.5
++      value: {fileID: -371074673, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 1.5833334
++      value: {fileID: -1094799017, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 1.6666666
++      value: {fileID: 728690014, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 1.75
++      value: {fileID: -2109979264, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 1.8333334
++      value: {fileID: 2102666858, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 1.9166666
++      value: {fileID: -459641610, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 2
++      value: {fileID: -1206171892, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 2.0833333
++      value: {fileID: -1926838661, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - time: 2.1666667
++      value: {fileID: 1321772984, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    attribute: m_Sprite
++    path: 
++    classID: 212
++    script: {fileID: 0}
++    flags: 2
++  m_SampleRate: 12
+   m_WrapMode: 0
+   m_Bounds:
+     m_Center: {x: 0, y: 0, z: 0}
+     m_Extent: {x: 0, y: 0, z: 0}
+   m_ClipBindingConstant:
+-    genericBindings: []
+-    pptrCurveMapping: []
++    genericBindings:
++    - serializedVersion: 2
++      path: 0
++      attribute: 0
++      script: {fileID: 0}
++      typeID: 212
++      customType: 23
++      isPPtrCurve: 1
++      isIntCurve: 0
++      isSerializeReferenceCurve: 0
++    pptrCurveMapping:
++    - {fileID: -1750972731, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: -781450468, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: 438117232, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: -102884169, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: -1689441147, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: 1222733340, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: -243062384, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: -650480568, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: -800651555, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: -1268723870, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: -374108363, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: -79210700, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: 437353410, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: 1034957915, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: -1715764869, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: 2019060386, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: -2039140982, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: -1132895858, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: -371074673, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: -1094799017, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: 728690014, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: -2109979264, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: 2102666858, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: -459641610, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: -1206171892, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: -1926838661, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
++    - {fileID: 1321772984, guid: 8a0a32a1138469a49b6fe651fec6f000, type: 3}
+   m_AnimationClipSettings:
+     serializedVersion: 2
+     m_AdditiveReferencePoseClip: {fileID: 0}
+     m_AdditiveReferencePoseTime: 0
+     m_StartTime: 0
+-    m_StopTime: 1
++    m_StopTime: 2.25
+     m_OrientationOffsetY: 0
+     m_Level: 0
+     m_CycleOffset: 0
+diff --git a/Assets/Archer/Animations/Enemy_Archer_idle.anim b/Assets/Archer/Animations/Enemy_Archer_idle.anim
+index 1fee7c95..afacb433 100644
+--- a/Assets/Archer/Animations/Enemy_Archer_idle.anim
++++ b/Assets/Archer/Animations/Enemy_Archer_idle.anim
+@@ -17,21 +17,61 @@ AnimationClip:
+   m_PositionCurves: []
+   m_ScaleCurves: []
+   m_FloatCurves: []
+-  m_PPtrCurves: []
+-  m_SampleRate: 60
++  m_PPtrCurves:
++  - serializedVersion: 2
++    curve:
++    - time: 0
++      value: {fileID: 1492706492, guid: d9e18cc4ec6036f4aa38158dcda689fc, type: 3}
++    - time: 0.083333336
++      value: {fileID: -106820507, guid: d9e18cc4ec6036f4aa38158dcda689fc, type: 3}
++    - time: 0.16666667
++      value: {fileID: -1588102515, guid: d9e18cc4ec6036f4aa38158dcda689fc, type: 3}
++    - time: 0.25
++      value: {fileID: 1521688121, guid: d9e18cc4ec6036f4aa38158dcda689fc, type: 3}
++    - time: 0.33333334
++      value: {fileID: -1850489478, guid: d9e18cc4ec6036f4aa38158dcda689fc, type: 3}
++    - time: 0.41666666
++      value: {fileID: -963625215, guid: d9e18cc4ec6036f4aa38158dcda689fc, type: 3}
++    - time: 0.5
++      value: {fileID: -1088927497, guid: d9e18cc4ec6036f4aa38158dcda689fc, type: 3}
++    - time: 0.5833333
++      value: {fileID: -1795938713, guid: d9e18cc4ec6036f4aa38158dcda689fc, type: 3}
++    attribute: m_Sprite
++    path: 
++    classID: 212
++    script: {fileID: 0}
++    flags: 2
++  m_SampleRate: 12
+   m_WrapMode: 0
+   m_Bounds:
+     m_Center: {x: 0, y: 0, z: 0}
+     m_Extent: {x: 0, y: 0, z: 0}
+   m_ClipBindingConstant:
+-    genericBindings: []
+-    pptrCurveMapping: []
++    genericBindings:
++    - serializedVersion: 2
++      path: 0
++      attribute: 0
++      script: {fileID: 0}
++      typeID: 212
++      customType: 23
++      isPPtrCurve: 1
++      isIntCurve: 0
++      isSerializeReferenceCurve: 0
++    pptrCurveMapping:
++    - {fileID: 1492706492, guid: d9e18cc4ec6036f4aa38158dcda689fc, type: 3}
++    - {fileID: -106820507, guid: d9e18cc4ec6036f4aa38158dcda689fc, type: 3}
++    - {fileID: -1588102515, guid: d9e18cc4ec6036f4aa38158dcda689fc, type: 3}
++    - {fileID: 1521688121, guid: d9e18cc4ec6036f4aa38158dcda689fc, type: 3}
++    - {fileID: -1850489478, guid: d9e18cc4ec6036f4aa38158dcda689fc, type: 3}
++    - {fileID: -963625215, guid: d9e18cc4ec6036f4aa38158dcda689fc, type: 3}
++    - {fileID: -1088927497, guid: d9e18cc4ec6036f4aa38158dcda689fc, type: 3}
++    - {fileID: -1795938713, guid: d9e18cc4ec6036f4aa38158dcda689fc, type: 3}
+   m_AnimationClipSettings:
+     serializedVersion: 2
+     m_AdditiveReferencePoseClip: {fileID: 0}
+     m_AdditiveReferencePoseTime: 0
+     m_StartTime: 0
+-    m_StopTime: 1
++    m_StopTime: 0.6666666
+     m_OrientationOffsetY: 0
+     m_Level: 0
+     m_CycleOffset: 0
+diff --git a/Assets/Archer/Animations/Enemy_Archer_melee_attack.anim b/Assets/Archer/Animations/Enemy_Archer_melee_attack.anim
+index 903a6fd5..7bde470d 100644
+--- a/Assets/Archer/Animations/Enemy_Archer_melee_attack.anim
++++ b/Assets/Archer/Animations/Enemy_Archer_melee_attack.anim
+@@ -17,21 +17,121 @@ AnimationClip:
+   m_PositionCurves: []
+   m_ScaleCurves: []
+   m_FloatCurves: []
+-  m_PPtrCurves: []
+-  m_SampleRate: 60
++  m_PPtrCurves:
++  - serializedVersion: 2
++    curve:
++    - time: 0
++      value: {fileID: -605376451, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 0.083333336
++      value: {fileID: 2049623204, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 0.16666667
++      value: {fileID: -1913507428, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 0.25
++      value: {fileID: -311007226, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 0.33333334
++      value: {fileID: 1087885358, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 0.41666666
++      value: {fileID: -1238784109, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 0.5
++      value: {fileID: 1909419874, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 0.5833333
++      value: {fileID: -1657244700, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 0.6666667
++      value: {fileID: 405212377, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 0.75
++      value: {fileID: -956909503, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 0.8333333
++      value: {fileID: 268767783, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 0.9166667
++      value: {fileID: -307587668, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 1
++      value: {fileID: 671361199, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 1.0833334
++      value: {fileID: -602554875, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 1.1666666
++      value: {fileID: -749603430, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 1.25
++      value: {fileID: -1715764729, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 1.3333334
++      value: {fileID: -1537867444, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 1.4166666
++      value: {fileID: -1857678326, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 1.5
++      value: {fileID: -267143867, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 1.5833334
++      value: {fileID: 51220923, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 1.6666666
++      value: {fileID: 1807364236, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 1.75
++      value: {fileID: -2052687935, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 1.8333334
++      value: {fileID: 1417768633, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 1.9166666
++      value: {fileID: 901996506, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 2
++      value: {fileID: 2142307909, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 2.0833333
++      value: {fileID: -327743768, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 2.1666667
++      value: {fileID: 1633409757, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - time: 2.25
++      value: {fileID: 1660728128, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    attribute: m_Sprite
++    path: 
++    classID: 212
++    script: {fileID: 0}
++    flags: 2
++  m_SampleRate: 12
+   m_WrapMode: 0
+   m_Bounds:
+     m_Center: {x: 0, y: 0, z: 0}
+     m_Extent: {x: 0, y: 0, z: 0}
+   m_ClipBindingConstant:
+-    genericBindings: []
+-    pptrCurveMapping: []
++    genericBindings:
++    - serializedVersion: 2
++      path: 0
++      attribute: 0
++      script: {fileID: 0}
++      typeID: 212
++      customType: 23
++      isPPtrCurve: 1
++      isIntCurve: 0
++      isSerializeReferenceCurve: 0
++    pptrCurveMapping:
++    - {fileID: -605376451, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: 2049623204, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: -1913507428, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: -311007226, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: 1087885358, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: -1238784109, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: 1909419874, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: -1657244700, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: 405212377, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: -956909503, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: 268767783, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: -307587668, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: 671361199, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: -602554875, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: -749603430, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: -1715764729, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: -1537867444, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: -1857678326, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: -267143867, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: 51220923, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: 1807364236, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: -2052687935, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: 1417768633, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: 901996506, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: 2142307909, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: -327743768, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: 1633409757, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
++    - {fileID: 1660728128, guid: 4861f9dd66b39234f947a699ada2dc42, type: 3}
+   m_AnimationClipSettings:
+     serializedVersion: 2
+     m_AdditiveReferencePoseClip: {fileID: 0}
+     m_AdditiveReferencePoseTime: 0
+     m_StartTime: 0
+-    m_StopTime: 1
++    m_StopTime: 2.3333333
+     m_OrientationOffsetY: 0
+     m_Level: 0
+     m_CycleOffset: 0
+diff --git a/Assets/Archer/Animations/Enemy_Archer_ranged_attack.anim b/Assets/Archer/Animations/Enemy_Archer_ranged_attack.anim
+index 362b0483..54c49627 100644
+--- a/Assets/Archer/Animations/Enemy_Archer_ranged_attack.anim
++++ b/Assets/Archer/Animations/Enemy_Archer_ranged_attack.anim
+@@ -17,21 +17,79 @@ AnimationClip:
+   m_PositionCurves: []
+   m_ScaleCurves: []
+   m_FloatCurves: []
+-  m_PPtrCurves: []
+-  m_SampleRate: 60
++  m_PPtrCurves:
++  - serializedVersion: 2
++    curve:
++    - time: 0
++      value: {fileID: 2132690616, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - time: 0.083333336
++      value: {fileID: 1538429213, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - time: 0.16666667
++      value: {fileID: -193972803, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - time: 0.25
++      value: {fileID: -225604799, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - time: 0.33333334
++      value: {fileID: -169151210, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - time: 0.41666666
++      value: {fileID: 1397985593, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - time: 0.5
++      value: {fileID: -2127941027, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - time: 0.5833333
++      value: {fileID: -1458672534, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - time: 0.6666667
++      value: {fileID: 1020135510, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - time: 0.75
++      value: {fileID: 189363484, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - time: 0.8333333
++      value: {fileID: -2011364188, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - time: 0.9166667
++      value: {fileID: -969878284, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - time: 1
++      value: {fileID: -555870376, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - time: 1.0833334
++      value: {fileID: -1930953353, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    attribute: m_Sprite
++    path: 
++    classID: 212
++    script: {fileID: 0}
++    flags: 2
++  m_SampleRate: 12
+   m_WrapMode: 0
+   m_Bounds:
+     m_Center: {x: 0, y: 0, z: 0}
+     m_Extent: {x: 0, y: 0, z: 0}
+   m_ClipBindingConstant:
+-    genericBindings: []
+-    pptrCurveMapping: []
++    genericBindings:
++    - serializedVersion: 2
++      path: 0
++      attribute: 0
++      script: {fileID: 0}
++      typeID: 212
++      customType: 23
++      isPPtrCurve: 1
++      isIntCurve: 0
++      isSerializeReferenceCurve: 0
++    pptrCurveMapping:
++    - {fileID: 2132690616, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - {fileID: 1538429213, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - {fileID: -193972803, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - {fileID: -225604799, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - {fileID: -169151210, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - {fileID: 1397985593, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - {fileID: -2127941027, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - {fileID: -1458672534, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - {fileID: 1020135510, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - {fileID: 189363484, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - {fileID: -2011364188, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - {fileID: -969878284, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - {fileID: -555870376, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++    - {fileID: -1930953353, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
+   m_AnimationClipSettings:
+     serializedVersion: 2
+     m_AdditiveReferencePoseClip: {fileID: 0}
+     m_AdditiveReferencePoseTime: 0
+     m_StartTime: 0
+-    m_StopTime: 1
++    m_StopTime: 1.1666667
+     m_OrientationOffsetY: 0
+     m_Level: 0
+     m_CycleOffset: 0
+diff --git a/Assets/Archer/Animations/Enemy_Archer_run.anim b/Assets/Archer/Animations/Enemy_Archer_run.anim
+index 43286c85..13607838 100644
+--- a/Assets/Archer/Animations/Enemy_Archer_run.anim
++++ b/Assets/Archer/Animations/Enemy_Archer_run.anim
+@@ -17,21 +17,61 @@ AnimationClip:
+   m_PositionCurves: []
+   m_ScaleCurves: []
+   m_FloatCurves: []
+-  m_PPtrCurves: []
+-  m_SampleRate: 60
++  m_PPtrCurves:
++  - serializedVersion: 2
++    curve:
++    - time: 0
++      value: {fileID: 149433361, guid: c5989287d8cf19441ba055249b136cc7, type: 3}
++    - time: 0.083333336
++      value: {fileID: -149516112, guid: c5989287d8cf19441ba055249b136cc7, type: 3}
++    - time: 0.16666667
++      value: {fileID: -1143556453, guid: c5989287d8cf19441ba055249b136cc7, type: 3}
++    - time: 0.25
++      value: {fileID: -1926323937, guid: c5989287d8cf19441ba055249b136cc7, type: 3}
++    - time: 0.33333334
++      value: {fileID: -1264476765, guid: c5989287d8cf19441ba055249b136cc7, type: 3}
++    - time: 0.41666666
++      value: {fileID: -593957336, guid: c5989287d8cf19441ba055249b136cc7, type: 3}
++    - time: 0.5
++      value: {fileID: -320644333, guid: c5989287d8cf19441ba055249b136cc7, type: 3}
++    - time: 0.5833333
++      value: {fileID: 1820614629, guid: c5989287d8cf19441ba055249b136cc7, type: 3}
++    attribute: m_Sprite
++    path: 
++    classID: 212
++    script: {fileID: 0}
++    flags: 2
++  m_SampleRate: 12
+   m_WrapMode: 0
+   m_Bounds:
+     m_Center: {x: 0, y: 0, z: 0}
+     m_Extent: {x: 0, y: 0, z: 0}
+   m_ClipBindingConstant:
+-    genericBindings: []
+-    pptrCurveMapping: []
++    genericBindings:
++    - serializedVersion: 2
++      path: 0
++      attribute: 0
++      script: {fileID: 0}
++      typeID: 212
++      customType: 23
++      isPPtrCurve: 1
++      isIntCurve: 0
++      isSerializeReferenceCurve: 0
++    pptrCurveMapping:
++    - {fileID: 149433361, guid: c5989287d8cf19441ba055249b136cc7, type: 3}
++    - {fileID: -149516112, guid: c5989287d8cf19441ba055249b136cc7, type: 3}
++    - {fileID: -1143556453, guid: c5989287d8cf19441ba055249b136cc7, type: 3}
++    - {fileID: -1926323937, guid: c5989287d8cf19441ba055249b136cc7, type: 3}
++    - {fileID: -1264476765, guid: c5989287d8cf19441ba055249b136cc7, type: 3}
++    - {fileID: -593957336, guid: c5989287d8cf19441ba055249b136cc7, type: 3}
++    - {fileID: -320644333, guid: c5989287d8cf19441ba055249b136cc7, type: 3}
++    - {fileID: 1820614629, guid: c5989287d8cf19441ba055249b136cc7, type: 3}
+   m_AnimationClipSettings:
+     serializedVersion: 2
+     m_AdditiveReferencePoseClip: {fileID: 0}
+     m_AdditiveReferencePoseTime: 0
+     m_StartTime: 0
+-    m_StopTime: 1
++    m_StopTime: 0.6666666
+     m_OrientationOffsetY: 0
+     m_Level: 0
+     m_CycleOffset: 0
+diff --git a/Assets/Archer/Animations/spr_ArcherIdle_strip_NoBkg_0.controller b/Assets/Archer/Animations/spr_ArcherIdle_strip_NoBkg_0.controller
+index 2715fdaf..b5aa4ee8 100644
+--- a/Assets/Archer/Animations/spr_ArcherIdle_strip_NoBkg_0.controller
++++ b/Assets/Archer/Animations/spr_ArcherIdle_strip_NoBkg_0.controller
+@@ -1,5 +1,289 @@
+ %YAML 1.1
+ %TAG !u! tag:unity3d.com,2011:
++--- !u!1101 &-8791024169405495090
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 1
++    m_ConditionEvent: rangedAttack
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: 6596661863106793376}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.625
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1102 &-8473317317758112619
++AnimatorState:
++  serializedVersion: 6
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: Enemy_archer_melee_attack
++  m_Speed: 1
++  m_CycleOffset: 0
++  m_Transitions:
++  - {fileID: -4358522450046690594}
++  - {fileID: -3271510698517874769}
++  - {fileID: 9181854836758474886}
++  - {fileID: 8845883641200160730}
++  m_StateMachineBehaviours: []
++  m_Position: {x: 50, y: 50, z: 0}
++  m_IKOnFeet: 0
++  m_WriteDefaultValues: 0
++  m_Mirror: 0
++  m_SpeedParameterActive: 0
++  m_MirrorParameterActive: 0
++  m_CycleOffsetParameterActive: 0
++  m_TimeParameterActive: 0
++  m_Motion: {fileID: 7400000, guid: 8a076f023cab69849939ed530149f5eb, type: 2}
++  m_Tag: 
++  m_SpeedParameter: 
++  m_MirrorParameter: 
++  m_CycleOffsetParameter: 
++  m_TimeParameter: 
++--- !u!1101 &-6552983531216368705
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 1
++    m_ConditionEvent: meleeAttack
++    m_EventTreshold: 0
++  - m_ConditionMode: 4
++    m_ConditionEvent: speed
++    m_EventTreshold: 0.01
++  - m_ConditionMode: 2
++    m_ConditionEvent: rangedAttack
++    m_EventTreshold: 0
++  - m_ConditionMode: 2
++    m_ConditionEvent: isDead
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: -8473317317758112619}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.78571427
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1102 &-5987790243003424984
++AnimatorState:
++  serializedVersion: 6
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: Enemy_Archer_idle
++  m_Speed: 1
++  m_CycleOffset: 0
++  m_Transitions:
++  - {fileID: 7194281597957178942}
++  - {fileID: -3895586955477839488}
++  - {fileID: -8791024169405495090}
++  - {fileID: 5909270662517906352}
++  m_StateMachineBehaviours: []
++  m_Position: {x: 50, y: 50, z: 0}
++  m_IKOnFeet: 0
++  m_WriteDefaultValues: 0
++  m_Mirror: 0
++  m_SpeedParameterActive: 0
++  m_MirrorParameterActive: 0
++  m_CycleOffsetParameterActive: 0
++  m_TimeParameterActive: 0
++  m_Motion: {fileID: 7400000, guid: 5afa4657ad84f3e4b8304947ecf45232, type: 2}
++  m_Tag: 
++  m_SpeedParameter: 
++  m_MirrorParameter: 
++  m_CycleOffsetParameter: 
++  m_TimeParameter: 
++--- !u!1102 &-5393467671568721208
++AnimatorState:
++  serializedVersion: 6
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: Enemy_Archer_run
++  m_Speed: 1
++  m_CycleOffset: 0
++  m_Transitions:
++  - {fileID: 1958628248778182100}
++  - {fileID: -947058940908503287}
++  - {fileID: 3266731799687564777}
++  - {fileID: 4196281038398670374}
++  m_StateMachineBehaviours: []
++  m_Position: {x: 50, y: 50, z: 0}
++  m_IKOnFeet: 0
++  m_WriteDefaultValues: 0
++  m_Mirror: 0
++  m_SpeedParameterActive: 0
++  m_MirrorParameterActive: 0
++  m_CycleOffsetParameterActive: 0
++  m_TimeParameterActive: 0
++  m_Motion: {fileID: 7400000, guid: f4e70929c9aaf7f408039eb271eebfab, type: 2}
++  m_Tag: 
++  m_SpeedParameter: 
++  m_MirrorParameter: 
++  m_CycleOffsetParameter: 
++  m_TimeParameter: 
++--- !u!1101 &-4358522450046690594
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 2
++    m_ConditionEvent: meleeAttack
++    m_EventTreshold: 0
++  - m_ConditionMode: 4
++    m_ConditionEvent: speed
++    m_EventTreshold: 0.01
++  - m_ConditionMode: 2
++    m_ConditionEvent: rangedAttack
++    m_EventTreshold: 0
++  - m_ConditionMode: 2
++    m_ConditionEvent: isDead
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: -5987790243003424984}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.89285713
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1101 &-3895586955477839488
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 3
++    m_ConditionEvent: speed
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: -5393467671568721208}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.625
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1101 &-3271510698517874769
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 1
++    m_ConditionEvent: isDead
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: -1050117605606407321}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.89285713
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1102 &-1050117605606407321
++AnimatorState:
++  serializedVersion: 6
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: Enemy_Archer_death
++  m_Speed: 1
++  m_CycleOffset: 0
++  m_Transitions: []
++  m_StateMachineBehaviours: []
++  m_Position: {x: 50, y: 50, z: 0}
++  m_IKOnFeet: 0
++  m_WriteDefaultValues: 0
++  m_Mirror: 0
++  m_SpeedParameterActive: 0
++  m_MirrorParameterActive: 0
++  m_CycleOffsetParameterActive: 0
++  m_TimeParameterActive: 0
++  m_Motion: {fileID: 7400000, guid: f571bbd9065ac124884fbc87cb882e07, type: 2}
++  m_Tag: 
++  m_SpeedParameter: 
++  m_MirrorParameter: 
++  m_CycleOffsetParameter: 
++  m_TimeParameter: 
++--- !u!1101 &-947058940908503287
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 1
++    m_ConditionEvent: isDead
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: -1050117605606407321}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.625
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
+ --- !u!91 &9100000
+ AnimatorController:
+   m_ObjectHideFlags: 0
+@@ -8,5 +292,418 @@ AnimatorController:
+   m_PrefabAsset: {fileID: 0}
+   m_Name: spr_ArcherIdle_strip_NoBkg_0
+   serializedVersion: 5
+-  m_AnimatorParameters: []
+-  m_AnimatorLayers: []
++  m_AnimatorParameters:
++  - m_Name: meleeAttack
++    m_Type: 4
++    m_DefaultFloat: 0
++    m_DefaultInt: 0
++    m_DefaultBool: 0
++    m_Controller: {fileID: 9100000}
++  - m_Name: speed
++    m_Type: 1
++    m_DefaultFloat: 0
++    m_DefaultInt: 0
++    m_DefaultBool: 0
++    m_Controller: {fileID: 9100000}
++  - m_Name: rangedAttack
++    m_Type: 4
++    m_DefaultFloat: 0
++    m_DefaultInt: 0
++    m_DefaultBool: 0
++    m_Controller: {fileID: 9100000}
++  - m_Name: isDead
++    m_Type: 4
++    m_DefaultFloat: 0
++    m_DefaultInt: 0
++    m_DefaultBool: 0
++    m_Controller: {fileID: 9100000}
++  m_AnimatorLayers:
++  - serializedVersion: 5
++    m_Name: Base Layer
++    m_StateMachine: {fileID: 3523346642864917988}
++    m_Mask: {fileID: 0}
++    m_Motions: []
++    m_Behaviours: []
++    m_BlendingMode: 0
++    m_SyncedLayerIndex: -1
++    m_DefaultWeight: 0
++    m_IKPass: 0
++    m_SyncedLayerAffectsTiming: 0
++    m_Controller: {fileID: 9100000}
++--- !u!1101 &1958628248778182100
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 2
++    m_ConditionEvent: meleeAttack
++    m_EventTreshold: 0
++  - m_ConditionMode: 2
++    m_ConditionEvent: rangedAttack
++    m_EventTreshold: 0
++  - m_ConditionMode: 4
++    m_ConditionEvent: speed
++    m_EventTreshold: 0.01
++  - m_ConditionMode: 2
++    m_ConditionEvent: isDead
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: -5987790243003424984}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.625
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1101 &3266731799687564777
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 2
++    m_ConditionEvent: meleeAttack
++    m_EventTreshold: 0
++  - m_ConditionMode: 4
++    m_ConditionEvent: speed
++    m_EventTreshold: 0.01
++  - m_ConditionMode: 1
++    m_ConditionEvent: rangedAttack
++    m_EventTreshold: 0
++  - m_ConditionMode: 2
++    m_ConditionEvent: isDead
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: 6596661863106793376}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.625
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1107 &3523346642864917988
++AnimatorStateMachine:
++  serializedVersion: 6
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: Base Layer
++  m_ChildStates:
++  - serializedVersion: 1
++    m_State: {fileID: -5987790243003424984}
++    m_Position: {x: 300, y: 60, z: 0}
++  - serializedVersion: 1
++    m_State: {fileID: -1050117605606407321}
++    m_Position: {x: 200, y: 260, z: 0}
++  - serializedVersion: 1
++    m_State: {fileID: -8473317317758112619}
++    m_Position: {x: 500, y: 160, z: 0}
++  - serializedVersion: 1
++    m_State: {fileID: 6596661863106793376}
++    m_Position: {x: 600, y: 60, z: 0}
++  - serializedVersion: 1
++    m_State: {fileID: -5393467671568721208}
++    m_Position: {x: 400, y: -140, z: 0}
++  m_ChildStateMachines: []
++  m_AnyStateTransitions: []
++  m_EntryTransitions: []
++  m_StateMachineTransitions: {}
++  m_StateMachineBehaviours: []
++  m_AnyStatePosition: {x: 40, y: 40, z: 0}
++  m_EntryPosition: {x: 40, y: 70, z: 0}
++  m_ExitPosition: {x: 40, y: 100, z: 0}
++  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
++  m_DefaultState: {fileID: -5987790243003424984}
++--- !u!1101 &4076361050249817506
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 1
++    m_ConditionEvent: isDead
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: -1050117605606407321}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.78571427
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1101 &4196281038398670374
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 1
++    m_ConditionEvent: meleeAttack
++    m_EventTreshold: 0
++  - m_ConditionMode: 4
++    m_ConditionEvent: speed
++    m_EventTreshold: 0.01
++  - m_ConditionMode: 2
++    m_ConditionEvent: rangedAttack
++    m_EventTreshold: 0
++  - m_ConditionMode: 2
++    m_ConditionEvent: isDead
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: -8473317317758112619}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.625
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1101 &5268307742915234410
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 2
++    m_ConditionEvent: meleeAttack
++    m_EventTreshold: 0
++  - m_ConditionMode: 4
++    m_ConditionEvent: speed
++    m_EventTreshold: 0.01
++  - m_ConditionMode: 2
++    m_ConditionEvent: rangedAttack
++    m_EventTreshold: 0
++  - m_ConditionMode: 2
++    m_ConditionEvent: isDead
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: -5987790243003424984}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.78571427
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1101 &5909270662517906352
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 1
++    m_ConditionEvent: isDead
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: -1050117605606407321}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.625
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1101 &6213318675449440509
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 2
++    m_ConditionEvent: meleeAttack
++    m_EventTreshold: 0
++  - m_ConditionMode: 3
++    m_ConditionEvent: speed
++    m_EventTreshold: 0
++  - m_ConditionMode: 2
++    m_ConditionEvent: rangedAttack
++    m_EventTreshold: 0
++  - m_ConditionMode: 2
++    m_ConditionEvent: isDead
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: -5393467671568721208}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.78571427
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1102 &6596661863106793376
++AnimatorState:
++  serializedVersion: 6
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: Enemy_Archer_ranged_attack
++  m_Speed: 1
++  m_CycleOffset: 0
++  m_Transitions:
++  - {fileID: 5268307742915234410}
++  - {fileID: 4076361050249817506}
++  - {fileID: 6213318675449440509}
++  - {fileID: -6552983531216368705}
++  m_StateMachineBehaviours: []
++  m_Position: {x: 50, y: 50, z: 0}
++  m_IKOnFeet: 0
++  m_WriteDefaultValues: 0
++  m_Mirror: 0
++  m_SpeedParameterActive: 0
++  m_MirrorParameterActive: 0
++  m_CycleOffsetParameterActive: 0
++  m_TimeParameterActive: 0
++  m_Motion: {fileID: 7400000, guid: d36497378decbd24da5dd2725356d4d3, type: 2}
++  m_Tag: 
++  m_SpeedParameter: 
++  m_MirrorParameter: 
++  m_CycleOffsetParameter: 
++  m_TimeParameter: 
++--- !u!1101 &7194281597957178942
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 1
++    m_ConditionEvent: meleeAttack
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: -8473317317758112619}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.625
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1101 &8845883641200160730
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 2
++    m_ConditionEvent: meleeAttack
++    m_EventTreshold: 0
++  - m_ConditionMode: 3
++    m_ConditionEvent: speed
++    m_EventTreshold: 0
++  - m_ConditionMode: 2
++    m_ConditionEvent: rangedAttack
++    m_EventTreshold: 0
++  - m_ConditionMode: 2
++    m_ConditionEvent: isDead
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: -5393467671568721208}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.89285713
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1101 &9181854836758474886
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 2
++    m_ConditionEvent: meleeAttack
++    m_EventTreshold: 0
++  - m_ConditionMode: 4
++    m_ConditionEvent: speed
++    m_EventTreshold: 0.01
++  - m_ConditionMode: 1
++    m_ConditionEvent: rangedAttack
++    m_EventTreshold: 0
++  - m_ConditionMode: 2
++    m_ConditionEvent: isDead
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: 6596661863106793376}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.89285713
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
+diff --git a/Assets/Archer/Sprites/spr_ArcherAttack_strip_NoBkg.png.meta b/Assets/Archer/Sprites/spr_ArcherAttack_strip_NoBkg.png.meta
+index 453848c6..2ba5b994 100644
+--- a/Assets/Archer/Sprites/spr_ArcherAttack_strip_NoBkg.png.meta
++++ b/Assets/Archer/Sprites/spr_ArcherAttack_strip_NoBkg.png.meta
+@@ -44,8 +44,8 @@ TextureImporter:
+   lightmap: 0
+   compressionQuality: 50
+   spriteMode: 2
+-  spriteExtrude: 1
+-  spriteMeshType: 1
++  spriteExtrude: 32
++  spriteMeshType: 0
+   alignment: 0
+   spritePivot: {x: 0.5, y: 0.5}
+   spritePixelsToUnits: 100
+@@ -69,10 +69,10 @@ TextureImporter:
+   platformSettings:
+   - serializedVersion: 3
+     buildTarget: DefaultTexturePlatform
+-    maxTextureSize: 2048
++    maxTextureSize: 16384
+     resizeAlgorithm: 0
+     textureFormat: -1
+-    textureCompression: 1
++    textureCompression: 2
+     compressionQuality: 50
+     crunchedCompression: 0
+     allowsAlphaSplitting: 0
+@@ -126,12 +126,12 @@ TextureImporter:
+       name: spr_ArcherAttack_strip_NoBkg_0
+       rect:
+         serializedVersion: 2
+-        x: 0
+-        y: 51
+-        width: 76
+-        height: 41
++        x: 48
++        y: 50
++        width: 28
++        height: 42
+       alignment: 0
+-      pivot: {x: 0, y: 0}
++      pivot: {x: 0.5, y: 0.5}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -152,7 +152,7 @@ TextureImporter:
+         width: 29
+         height: 42
+       alignment: 0
+-      pivot: {x: 0, y: 0}
++      pivot: {x: 0.5, y: 0.5}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -168,12 +168,12 @@ TextureImporter:
+       name: spr_ArcherAttack_strip_NoBkg_2
+       rect:
+         serializedVersion: 2
+-        x: 404
+-        y: 51
++        x: 405
++        y: 50
+         width: 32
+         height: 41
+       alignment: 0
+-      pivot: {x: 0, y: 0}
++      pivot: {x: 0.5, y: 0.5}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -194,7 +194,7 @@ TextureImporter:
+         width: 28
+         height: 42
+       alignment: 0
+-      pivot: {x: 0, y: 0}
++      pivot: {x: 0.5, y: 0.5}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -215,7 +215,7 @@ TextureImporter:
+         width: 43
+         height: 41
+       alignment: 0
+-      pivot: {x: 0, y: 0}
++      pivot: {x: 0.5, y: 0.5}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -236,7 +236,7 @@ TextureImporter:
+         width: 41
+         height: 41
+       alignment: 0
+-      pivot: {x: 0, y: 0}
++      pivot: {x: 0.5, y: 0.5}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -257,7 +257,7 @@ TextureImporter:
+         width: 30
+         height: 38
+       alignment: 0
+-      pivot: {x: 0, y: 0}
++      pivot: {x: 0.5, y: 0.5}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -278,7 +278,7 @@ TextureImporter:
+         width: 31
+         height: 38
+       alignment: 0
+-      pivot: {x: 0, y: 0}
++      pivot: {x: 0.5, y: 0.5}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -294,12 +294,12 @@ TextureImporter:
+       name: spr_ArcherAttack_strip_NoBkg_8
+       rect:
+         serializedVersion: 2
+-        x: 1487
++        x: 1488
+         y: 51
+         width: 31
+         height: 38
+       alignment: 0
+-      pivot: {x: 0, y: 0}
++      pivot: {x: 0.5, y: 0.5}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -320,7 +320,7 @@ TextureImporter:
+         width: 31
+         height: 42
+       alignment: 0
+-      pivot: {x: 0, y: 0}
++      pivot: {x: 0.5, y: 0.5}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -336,12 +336,12 @@ TextureImporter:
+       name: spr_ArcherAttack_strip_NoBkg_11
+       rect:
+         serializedVersion: 2
+-        x: 1845
++        x: 1846
+         y: 51
+         width: 30
+         height: 39
+       alignment: 0
+-      pivot: {x: 0, y: 0}
++      pivot: {x: 0.5, y: 0.5}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -362,7 +362,7 @@ TextureImporter:
+         width: 29
+         height: 39
+       alignment: 0
+-      pivot: {x: 0, y: 0}
++      pivot: {x: 0.5, y: 0.5}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -378,12 +378,12 @@ TextureImporter:
+       name: spr_ArcherAttack_strip_NoBkg_15
+       rect:
+         serializedVersion: 2
+-        x: 2204
++        x: 2203
+         y: 51
+         width: 30
+         height: 39
+       alignment: 0
+-      pivot: {x: 0, y: 0}
++      pivot: {x: 0.5, y: 0.5}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -404,7 +404,7 @@ TextureImporter:
+         width: 30
+         height: 39
+       alignment: 0
+-      pivot: {x: 0, y: 0}
++      pivot: {x: 0.5, y: 0.5}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -416,6 +416,111 @@ TextureImporter:
+       indices: 
+       edges: []
+       weights: []
++    - serializedVersion: 2
++      name: spr_ArcherAttack_strip_NoBkg_10
++      rect:
++        serializedVersion: 2
++        x: 1777
++        y: 70
++        width: 25
++        height: 11
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      outline: []
++      physicsShape: []
++      tessellationDetail: 0
++      bones: []
++      spriteID: 30352c08bd281d349b9e70cde3ed6e14
++      internalID: -448929516
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: spr_ArcherAttack_strip_NoBkg_12
++      rect:
++        serializedVersion: 2
++        x: 1955
++        y: 68
++        width: 27
++        height: 13
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      outline: []
++      physicsShape: []
++      tessellationDetail: 0
++      bones: []
++      spriteID: 0dfde659249452f43bf67af390f4f857
++      internalID: 1964650984
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: spr_ArcherAttack_strip_NoBkg_14
++      rect:
++        serializedVersion: 2
++        x: 2136
++        y: 68
++        width: 27
++        height: 14
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      outline: []
++      physicsShape: []
++      tessellationDetail: 0
++      bones: []
++      spriteID: 86290eb8d77b3d541b71bd1694c0da6f
++      internalID: 1348776878
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: spr_ArcherAttack_strip_NoBkg_16
++      rect:
++        serializedVersion: 2
++        x: 2315
++        y: 69
++        width: 26
++        height: 8
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      outline: []
++      physicsShape: []
++      tessellationDetail: 0
++      bones: []
++      spriteID: dbf5365d36ccd5c48be56e93b68bcfec
++      internalID: -369753776
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: spr_ArcherAttack_strip_NoBkg_18
++      rect:
++        serializedVersion: 2
++        x: 2495
++        y: 71
++        width: 25
++        height: 7
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      outline: []
++      physicsShape: []
++      tessellationDetail: 0
++      bones: []
++      spriteID: 1719ea4a1a6c35b40b48be65cebc3e15
++      internalID: -193808996
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
+     outline: []
+     physicsShape: []
+     bones: []
+diff --git a/Assets/Archer/Sprites/spr_ArcherAttack_strip_NoBkg_18.prefab b/Assets/Archer/Sprites/spr_ArcherAttack_strip_NoBkg_18.prefab
+new file mode 100644
+index 00000000..e5f6aa77
+--- /dev/null
++++ b/Assets/Archer/Sprites/spr_ArcherAttack_strip_NoBkg_18.prefab
+@@ -0,0 +1,176 @@
++%YAML 1.1
++%TAG !u! tag:unity3d.com,2011:
++--- !u!1 &5755032686901383630
++GameObject:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  serializedVersion: 6
++  m_Component:
++  - component: {fileID: 1734805074084850935}
++  - component: {fileID: 2557894211759167547}
++  - component: {fileID: 4206230474611188540}
++  - component: {fileID: 1909828589790969488}
++  - component: {fileID: 1349691618063816328}
++  m_Layer: 0
++  m_Name: spr_ArcherAttack_strip_NoBkg_18
++  m_TagString: Untagged
++  m_Icon: {fileID: 0}
++  m_NavMeshLayer: 0
++  m_StaticEditorFlags: 0
++  m_IsActive: 1
++--- !u!4 &1734805074084850935
++Transform:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 5755032686901383630}
++  serializedVersion: 2
++  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
++  m_LocalPosition: {x: -6.615, y: -0.045, z: 0}
++  m_LocalScale: {x: 2.5, y: 1, z: 1}
++  m_ConstrainProportionsScale: 0
++  m_Children: []
++  m_Father: {fileID: 0}
++  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++--- !u!212 &2557894211759167547
++SpriteRenderer:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 5755032686901383630}
++  m_Enabled: 1
++  m_CastShadows: 0
++  m_ReceiveShadows: 0
++  m_DynamicOccludee: 1
++  m_StaticShadowCaster: 0
++  m_MotionVectors: 1
++  m_LightProbeUsage: 1
++  m_ReflectionProbeUsage: 1
++  m_RayTracingMode: 0
++  m_RayTraceProcedural: 0
++  m_RenderingLayerMask: 1
++  m_RendererPriority: 0
++  m_Materials:
++  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
++  m_StaticBatchInfo:
++    firstSubMesh: 0
++    subMeshCount: 0
++  m_StaticBatchRoot: {fileID: 0}
++  m_ProbeAnchor: {fileID: 0}
++  m_LightProbeVolumeOverride: {fileID: 0}
++  m_ScaleInLightmap: 1
++  m_ReceiveGI: 1
++  m_PreserveUVs: 0
++  m_IgnoreNormalsForChartDetection: 0
++  m_ImportantGI: 0
++  m_StitchLightmapSeams: 1
++  m_SelectedEditorRenderState: 0
++  m_MinimumChartSize: 4
++  m_AutoUVMaxDistance: 0.5
++  m_AutoUVMaxAngle: 89
++  m_LightmapParameters: {fileID: 0}
++  m_SortingLayerID: 0
++  m_SortingLayer: 0
++  m_SortingOrder: 0
++  m_Sprite: {fileID: -193808996, guid: 930b522db51d6a848bc4fb24255667d4, type: 3}
++  m_Color: {r: 1, g: 1, b: 1, a: 1}
++  m_FlipX: 0
++  m_FlipY: 0
++  m_DrawMode: 0
++  m_Size: {x: 0.25, y: 0.07}
++  m_AdaptiveModeThreshold: 0.5
++  m_SpriteTileMode: 0
++  m_WasSpriteAssigned: 1
++  m_MaskInteraction: 0
++  m_SpriteSortPoint: 0
++--- !u!114 &4206230474611188540
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 5755032686901383630}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: 7bbfea8788621cc4abdf81d1ec805d2a, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: 
++  speed: 10
++  damage: 10
++  lifeTime: 3
++--- !u!61 &1909828589790969488
++BoxCollider2D:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 5755032686901383630}
++  m_Enabled: 1
++  m_Density: 1
++  m_Material: {fileID: 0}
++  m_IncludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_ExcludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_LayerOverridePriority: 0
++  m_ForceSendLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_ForceReceiveLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_ContactCaptureLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_CallbackLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_IsTrigger: 1
++  m_UsedByEffector: 0
++  m_UsedByComposite: 0
++  m_Offset: {x: 0, y: 0}
++  m_SpriteTilingProperty:
++    border: {x: 0, y: 0, z: 0, w: 0}
++    pivot: {x: 0.5, y: 0.5}
++    oldSize: {x: 0.25, y: 0.07}
++    newSize: {x: 0.25, y: 0.07}
++    adaptiveTilingThreshold: 0.5
++    drawMode: 0
++    adaptiveTiling: 0
++  m_AutoTiling: 0
++  serializedVersion: 2
++  m_Size: {x: 0.25, y: 0.07}
++  m_EdgeRadius: 0
++--- !u!50 &1349691618063816328
++Rigidbody2D:
++  serializedVersion: 4
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 5755032686901383630}
++  m_BodyType: 0
++  m_Simulated: 1
++  m_UseFullKinematicContacts: 0
++  m_UseAutoMass: 0
++  m_Mass: 1
++  m_LinearDrag: 0
++  m_AngularDrag: 0.05
++  m_GravityScale: 1
++  m_Material: {fileID: 0}
++  m_IncludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_ExcludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_Interpolate: 0
++  m_SleepingMode: 1
++  m_CollisionDetection: 0
++  m_Constraints: 0
+diff --git a/Assets/Archer/Sprites/spr_ArcherAttack_strip_NoBkg_18.prefab.meta b/Assets/Archer/Sprites/spr_ArcherAttack_strip_NoBkg_18.prefab.meta
+new file mode 100644
+index 00000000..6fd672f2
+--- /dev/null
++++ b/Assets/Archer/Sprites/spr_ArcherAttack_strip_NoBkg_18.prefab.meta
+@@ -0,0 +1,7 @@
++fileFormatVersion: 2
++guid: d7eb14365a2146d4c9d307a433989816
++PrefabImporter:
++  externalObjects: {}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/Assets/Archer/Sprites/spr_ArcherDash_strip_NoBkg.png.meta b/Assets/Archer/Sprites/spr_ArcherDash_strip_NoBkg.png.meta
+index a0173249..8608b7f2 100644
+--- a/Assets/Archer/Sprites/spr_ArcherDash_strip_NoBkg.png.meta
++++ b/Assets/Archer/Sprites/spr_ArcherDash_strip_NoBkg.png.meta
+@@ -44,8 +44,8 @@ TextureImporter:
+   lightmap: 0
+   compressionQuality: 50
+   spriteMode: 2
+-  spriteExtrude: 1
+-  spriteMeshType: 1
++  spriteExtrude: 32
++  spriteMeshType: 0
+   alignment: 0
+   spritePivot: {x: 0.5, y: 0.5}
+   spritePixelsToUnits: 100
+@@ -69,10 +69,10 @@ TextureImporter:
+   platformSettings:
+   - serializedVersion: 3
+     buildTarget: DefaultTexturePlatform
+-    maxTextureSize: 2048
++    maxTextureSize: 16384
+     resizeAlgorithm: 0
+     textureFormat: -1
+-    textureCompression: 1
++    textureCompression: 2
+     compressionQuality: 50
+     crunchedCompression: 0
+     allowsAlphaSplitting: 0
+diff --git a/Assets/Archer/Sprites/spr_ArcherDeath_strip_NoBkg.png.meta b/Assets/Archer/Sprites/spr_ArcherDeath_strip_NoBkg.png.meta
+index c9d55df1..d62ab238 100644
+--- a/Assets/Archer/Sprites/spr_ArcherDeath_strip_NoBkg.png.meta
++++ b/Assets/Archer/Sprites/spr_ArcherDeath_strip_NoBkg.png.meta
+@@ -44,8 +44,8 @@ TextureImporter:
+   lightmap: 0
+   compressionQuality: 50
+   spriteMode: 2
+-  spriteExtrude: 1
+-  spriteMeshType: 1
++  spriteExtrude: 32
++  spriteMeshType: 0
+   alignment: 0
+   spritePivot: {x: 0.5, y: 0.5}
+   spritePixelsToUnits: 100
+@@ -69,10 +69,10 @@ TextureImporter:
+   platformSettings:
+   - serializedVersion: 3
+     buildTarget: DefaultTexturePlatform
+-    maxTextureSize: 2048
++    maxTextureSize: 16384
+     resizeAlgorithm: 0
+     textureFormat: -1
+-    textureCompression: 1
++    textureCompression: 2
+     compressionQuality: 50
+     crunchedCompression: 0
+     allowsAlphaSplitting: 0
+@@ -130,8 +130,8 @@ TextureImporter:
+         y: 50
+         width: 28
+         height: 43
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.5, y: 0.5}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -152,7 +152,7 @@ TextureImporter:
+         width: 29
+         height: 43
+       alignment: 0
+-      pivot: {x: 0, y: 0}
++      pivot: {x: 0.5, y: 0.5}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -172,8 +172,8 @@ TextureImporter:
+         y: 50
+         width: 27
+         height: 41
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.4924712, y: 0.5198215}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -193,8 +193,8 @@ TextureImporter:
+         y: 50
+         width: 25
+         height: 34
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.50000244, y: 0.5821881}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -214,8 +214,8 @@ TextureImporter:
+         y: 50
+         width: 28
+         height: 35
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.5058724, y: 0.57984006}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -235,8 +235,8 @@ TextureImporter:
+         y: 50
+         width: 24
+         height: 35
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.5136998, y: 0.5939294}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -256,8 +256,8 @@ TextureImporter:
+         y: 50
+         width: 24
+         height: 35
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.50000256, y: 0.57044697}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -277,8 +277,8 @@ TextureImporter:
+         y: 50
+         width: 22
+         height: 35
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.49252874, y: 0.55166125}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -298,8 +298,8 @@ TextureImporter:
+         y: 50
+         width: 26
+         height: 34
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.4683885, y: 0.6015266}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -319,8 +319,8 @@ TextureImporter:
+         y: 50
+         width: 52
+         height: 29
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.48735633, y: 0.6303674}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -340,8 +340,8 @@ TextureImporter:
+         y: 50
+         width: 54
+         height: 29
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.51217765, y: 0.6190312}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -361,8 +361,8 @@ TextureImporter:
+         y: 50
+         width: 48
+         height: 29
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.5171229, y: 0.607695}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -374,27 +374,6 @@ TextureImporter:
+       indices: 
+       edges: []
+       weights: []
+-    - serializedVersion: 2
+-      name: spr_ArcherDeath_strip_NoBkg_12
+-      rect:
+-        serializedVersion: 2
+-        x: 1513
+-        y: 54
+-        width: 6
+-        height: 5
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
+-      border: {x: 0, y: 0, z: 0, w: 0}
+-      outline: []
+-      physicsShape: []
+-      tessellationDetail: 0
+-      bones: []
+-      spriteID: dbae1e9c5ab997142b0c3fb44e8103b5
+-      internalID: 437353410
+-      vertices: []
+-      indices: 
+-      edges: []
+-      weights: []
+     - serializedVersion: 2
+       name: spr_ArcherDeath_strip_NoBkg_13
+       rect:
+@@ -403,8 +382,8 @@ TextureImporter:
+         y: 50
+         width: 48
+         height: 29
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.5136998, y: 0.5793541}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -416,27 +395,6 @@ TextureImporter:
+       indices: 
+       edges: []
+       weights: []
+-    - serializedVersion: 2
+-      name: spr_ArcherDeath_strip_NoBkg_14
+-      rect:
+-        serializedVersion: 2
+-        x: 1642
+-        y: 55
+-        width: 6
+-        height: 6
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
+-      border: {x: 0, y: 0, z: 0, w: 0}
+-      outline: []
+-      physicsShape: []
+-      tessellationDetail: 0
+-      bones: []
+-      spriteID: 0c4531c05ff00d744a389950a6b63386
+-      internalID: -1715764869
+-      vertices: []
+-      indices: 
+-      edges: []
+-      weights: []
+     - serializedVersion: 2
+       name: spr_ArcherDeath_strip_NoBkg_15
+       rect:
+@@ -445,8 +403,8 @@ TextureImporter:
+         y: 50
+         width: 48
+         height: 29
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.5342458, y: 0.6020268}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -466,8 +424,8 @@ TextureImporter:
+         y: 50
+         width: 48
+         height: 29
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.5068512, y: 0.6133631}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -487,8 +445,8 @@ TextureImporter:
+         y: 50
+         width: 49
+         height: 29
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.5134203, y: 0.6303674}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -508,8 +466,8 @@ TextureImporter:
+         y: 50
+         width: 48
+         height: 26
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.5171254, y: 0.67702043}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -529,8 +487,8 @@ TextureImporter:
+         y: 50
+         width: 52
+         height: 15
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.49684027, y: 1.102713}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -550,8 +508,8 @@ TextureImporter:
+         y: 50
+         width: 54
+         height: 11
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.5030472, y: 1.8897254}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -571,8 +529,8 @@ TextureImporter:
+         y: 50
+         width: 57
+         height: 11
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.50288683, y: 1.9644421}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -584,37 +542,16 @@ TextureImporter:
+       indices: 
+       edges: []
+       weights: []
+-    - serializedVersion: 2
+-      name: spr_ArcherDeath_strip_NoBkg_22
+-      rect:
+-        serializedVersion: 2
+-        x: 2606
+-        y: 55
+-        width: 6
+-        height: 6
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
+-      border: {x: 0, y: 0, z: 0, w: 0}
+-      outline: []
+-      physicsShape: []
+-      tessellationDetail: 0
+-      bones: []
+-      spriteID: 491ce28218199c74e99f3eae938f98b3
+-      internalID: 2102666858
+-      vertices: []
+-      indices: 
+-      edges: []
+-      weights: []
+     - serializedVersion: 2
+       name: spr_ArcherDeath_strip_NoBkg_23
+       rect:
+         serializedVersion: 2
+-        x: 2612
++        x: 2613
+         y: 50
+         width: 51
+         height: 11
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.46454695, y: 2.3828542}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -634,8 +571,8 @@ TextureImporter:
+         y: 50
+         width: 52
+         height: 11
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.4936805, y: 2.0541015}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -655,8 +592,8 @@ TextureImporter:
+         y: 50
+         width: 51
+         height: 11
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.4935566, y: 2.0839884}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+@@ -676,8 +613,8 @@ TextureImporter:
+         y: 50
+         width: 51
+         height: 11
+-      alignment: 0
+-      pivot: {x: 0, y: 0}
++      alignment: 9
++      pivot: {x: 0.48066023, y: 2.039158}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       outline: []
+       physicsShape: []
+diff --git a/Assets/Archer/Sprites/spr_ArcherIdle_strip_NoBkg.png.meta b/Assets/Archer/Sprites/spr_ArcherIdle_strip_NoBkg.png.meta
+index 8c485ead..91abcf60 100644
+--- a/Assets/Archer/Sprites/spr_ArcherIdle_strip_NoBkg.png.meta
++++ b/Assets/Archer/Sprites/spr_ArcherIdle_strip_NoBkg.png.meta
+@@ -44,8 +44,8 @@ TextureImporter:
+   lightmap: 0
+   compressionQuality: 50
+   spriteMode: 2
+-  spriteExtrude: 1
+-  spriteMeshType: 1
++  spriteExtrude: 32
++  spriteMeshType: 0
+   alignment: 0
+   spritePivot: {x: 0.5, y: 0.5}
+   spritePixelsToUnits: 100
+@@ -69,10 +69,10 @@ TextureImporter:
+   platformSettings:
+   - serializedVersion: 3
+     buildTarget: DefaultTexturePlatform
+-    maxTextureSize: 2048
++    maxTextureSize: 16384
+     resizeAlgorithm: 0
+     textureFormat: -1
+-    textureCompression: 1
++    textureCompression: 2
+     compressionQuality: 50
+     crunchedCompression: 0
+     allowsAlphaSplitting: 0
+diff --git a/Assets/Archer/Sprites/spr_ArcherJumpAndFall_strip_NoBkg.png.meta b/Assets/Archer/Sprites/spr_ArcherJumpAndFall_strip_NoBkg.png.meta
+index 51849bd3..36307441 100644
+--- a/Assets/Archer/Sprites/spr_ArcherJumpAndFall_strip_NoBkg.png.meta
++++ b/Assets/Archer/Sprites/spr_ArcherJumpAndFall_strip_NoBkg.png.meta
+@@ -44,8 +44,8 @@ TextureImporter:
+   lightmap: 0
+   compressionQuality: 50
+   spriteMode: 2
+-  spriteExtrude: 1
+-  spriteMeshType: 1
++  spriteExtrude: 32
++  spriteMeshType: 0
+   alignment: 0
+   spritePivot: {x: 0.5, y: 0.5}
+   spritePixelsToUnits: 100
+@@ -69,10 +69,10 @@ TextureImporter:
+   platformSettings:
+   - serializedVersion: 3
+     buildTarget: DefaultTexturePlatform
+-    maxTextureSize: 2048
++    maxTextureSize: 16384
+     resizeAlgorithm: 0
+     textureFormat: -1
+-    textureCompression: 1
++    textureCompression: 2
+     compressionQuality: 50
+     crunchedCompression: 0
+     allowsAlphaSplitting: 0
+diff --git a/Assets/Archer/Sprites/spr_ArcherMelee_strip_NoBkg.png.meta b/Assets/Archer/Sprites/spr_ArcherMelee_strip_NoBkg.png.meta
+index a154fe1d..672b8e5c 100644
+--- a/Assets/Archer/Sprites/spr_ArcherMelee_strip_NoBkg.png.meta
++++ b/Assets/Archer/Sprites/spr_ArcherMelee_strip_NoBkg.png.meta
+@@ -44,8 +44,8 @@ TextureImporter:
+   lightmap: 0
+   compressionQuality: 50
+   spriteMode: 2
+-  spriteExtrude: 1
+-  spriteMeshType: 1
++  spriteExtrude: 32
++  spriteMeshType: 0
+   alignment: 0
+   spritePivot: {x: 0.5, y: 0.5}
+   spritePixelsToUnits: 100
+@@ -69,10 +69,10 @@ TextureImporter:
+   platformSettings:
+   - serializedVersion: 3
+     buildTarget: DefaultTexturePlatform
+-    maxTextureSize: 2048
++    maxTextureSize: 16384
+     resizeAlgorithm: 0
+     textureFormat: -1
+-    textureCompression: 1
++    textureCompression: 2
+     compressionQuality: 50
+     crunchedCompression: 0
+     allowsAlphaSplitting: 0
+diff --git a/Assets/Archer/Sprites/spr_ArcherRun_strip_NoBkg.png.meta b/Assets/Archer/Sprites/spr_ArcherRun_strip_NoBkg.png.meta
+index a16c337e..55d57067 100644
+--- a/Assets/Archer/Sprites/spr_ArcherRun_strip_NoBkg.png.meta
++++ b/Assets/Archer/Sprites/spr_ArcherRun_strip_NoBkg.png.meta
+@@ -44,8 +44,8 @@ TextureImporter:
+   lightmap: 0
+   compressionQuality: 50
+   spriteMode: 2
+-  spriteExtrude: 1
+-  spriteMeshType: 1
++  spriteExtrude: 32
++  spriteMeshType: 0
+   alignment: 0
+   spritePivot: {x: 0.5, y: 0.5}
+   spritePixelsToUnits: 100
+@@ -69,10 +69,10 @@ TextureImporter:
+   platformSettings:
+   - serializedVersion: 3
+     buildTarget: DefaultTexturePlatform
+-    maxTextureSize: 2048
++    maxTextureSize: 16384
+     resizeAlgorithm: 0
+     textureFormat: -1
+-    textureCompression: 1
++    textureCompression: 2
+     compressionQuality: 50
+     crunchedCompression: 0
+     allowsAlphaSplitting: 0
+diff --git a/Assets/Scenes/SampleScene.unity b/Assets/Scenes/SampleScene.unity
+index fd47e181..e357ab4f 100644
+--- a/Assets/Scenes/SampleScene.unity
++++ b/Assets/Scenes/SampleScene.unity
+@@ -122,6 +122,74 @@ NavMeshSettings:
+     debug:
+       m_Flags: 0
+   m_NavMeshData: {fileID: 0}
++--- !u!1 &301987912
++GameObject:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  serializedVersion: 6
++  m_Component:
++  - component: {fileID: 301987915}
++  - component: {fileID: 301987914}
++  - component: {fileID: 301987913}
++  m_Layer: 0
++  m_Name: EventSystem
++  m_TagString: Untagged
++  m_Icon: {fileID: 0}
++  m_NavMeshLayer: 0
++  m_StaticEditorFlags: 0
++  m_IsActive: 1
++--- !u!114 &301987913
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 301987912}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: 
++  m_SendPointerHoverToParent: 1
++  m_HorizontalAxis: Horizontal
++  m_VerticalAxis: Vertical
++  m_SubmitButton: Submit
++  m_CancelButton: Cancel
++  m_InputActionsPerSecond: 10
++  m_RepeatDelay: 0.5
++  m_ForceModuleActive: 0
++--- !u!114 &301987914
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 301987912}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: 
++  m_FirstSelected: {fileID: 0}
++  m_sendNavigationEvents: 1
++  m_DragThreshold: 10
++--- !u!4 &301987915
++Transform:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 301987912}
++  serializedVersion: 2
++  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
++  m_LocalPosition: {x: 0, y: 0, z: 0}
++  m_LocalScale: {x: 1, y: 1, z: 1}
++  m_ConstrainProportionsScale: 0
++  m_Children: []
++  m_Father: {fileID: 0}
++  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+ --- !u!1 &448415452
+ GameObject:
+   m_ObjectHideFlags: 0
+@@ -198,6 +266,108 @@ CanvasRenderer:
+   m_PrefabAsset: {fileID: 0}
+   m_GameObject: {fileID: 448415452}
+   m_CullTransparentMesh: 1
++--- !u!1 &453752366
++GameObject:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  serializedVersion: 6
++  m_Component:
++  - component: {fileID: 453752370}
++  - component: {fileID: 453752369}
++  - component: {fileID: 453752368}
++  - component: {fileID: 453752367}
++  m_Layer: 7
++  m_Name: HealthBarCanvasArcher
++  m_TagString: Untagged
++  m_Icon: {fileID: 0}
++  m_NavMeshLayer: 0
++  m_StaticEditorFlags: 0
++  m_IsActive: 1
++--- !u!114 &453752367
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 453752366}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: 
++  m_IgnoreReversedGraphics: 1
++  m_BlockingObjects: 0
++  m_BlockingMask:
++    serializedVersion: 2
++    m_Bits: 4294967295
++--- !u!114 &453752368
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 453752366}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: 
++  m_UiScaleMode: 0
++  m_ReferencePixelsPerUnit: 100
++  m_ScaleFactor: 1
++  m_ReferenceResolution: {x: 800, y: 600}
++  m_ScreenMatchMode: 0
++  m_MatchWidthOrHeight: 0
++  m_PhysicalUnit: 3
++  m_FallbackScreenDPI: 96
++  m_DefaultSpriteDPI: 96
++  m_DynamicPixelsPerUnit: 1
++  m_PresetInfoIsWorld: 1
++--- !u!223 &453752369
++Canvas:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 453752366}
++  m_Enabled: 1
++  serializedVersion: 3
++  m_RenderMode: 2
++  m_Camera: {fileID: 0}
++  m_PlaneDistance: 100
++  m_PixelPerfect: 0
++  m_ReceivesEvents: 1
++  m_OverrideSorting: 0
++  m_OverridePixelPerfect: 0
++  m_SortingBucketNormalizedSize: 0
++  m_VertexColorAlwaysGammaSpace: 0
++  m_AdditionalShaderChannelsFlag: 0
++  m_UpdateRectTransformForStandalone: 0
++  m_SortingLayerID: 0
++  m_SortingOrder: 0
++  m_TargetDisplay: 0
++--- !u!224 &453752370
++RectTransform:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 453752366}
++  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
++  m_LocalPosition: {x: 0, y: 0, z: 0}
++  m_LocalScale: {x: 0.0016666667, y: 0.00033333333, z: 1}
++  m_ConstrainProportionsScale: 0
++  m_Children:
++  - {fileID: 2107807304}
++  m_Father: {fileID: 1426437692}
++  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++  m_AnchorMin: {x: 0, y: 0}
++  m_AnchorMax: {x: 0, y: 0}
++  m_AnchoredPosition: {x: -0.019, y: 0.154}
++  m_SizeDelta: {x: 2, y: 0.2}
++  m_Pivot: {x: 0.5, y: 0.5}
+ --- !u!1 &519420028
+ GameObject:
+   m_ObjectHideFlags: 0
+@@ -351,6 +521,81 @@ MonoBehaviour:
+   target: {fileID: 1279667763}
+   smoothSpeed: 1
+   offset: {x: 0, y: 0, z: 0}
++--- !u!1 &600735530
++GameObject:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  serializedVersion: 6
++  m_Component:
++  - component: {fileID: 600735531}
++  - component: {fileID: 600735532}
++  - component: {fileID: 600735533}
++  m_Layer: 7
++  m_Name: Fill
++  m_TagString: Untagged
++  m_Icon: {fileID: 0}
++  m_NavMeshLayer: 0
++  m_StaticEditorFlags: 0
++  m_IsActive: 1
++--- !u!224 &600735531
++RectTransform:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 600735530}
++  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
++  m_LocalPosition: {x: 0, y: 0, z: 0}
++  m_LocalScale: {x: 1, y: 1, z: 1}
++  m_ConstrainProportionsScale: 0
++  m_Children: []
++  m_Father: {fileID: 2107807304}
++  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++  m_AnchorMin: {x: 0, y: 0}
++  m_AnchorMax: {x: 1, y: 1}
++  m_AnchoredPosition: {x: 0, y: 0}
++  m_SizeDelta: {x: 0, y: 0}
++  m_Pivot: {x: 0.5, y: 0.5}
++--- !u!222 &600735532
++CanvasRenderer:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 600735530}
++  m_CullTransparentMesh: 1
++--- !u!114 &600735533
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 600735530}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: 
++  m_Material: {fileID: 0}
++  m_Color: {r: 1, g: 0, b: 0, a: 1}
++  m_RaycastTarget: 1
++  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
++  m_Maskable: 1
++  m_OnCullStateChanged:
++    m_PersistentCalls:
++      m_Calls: []
++  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
++  m_Type: 3
++  m_PreserveAspect: 0
++  m_FillCenter: 1
++  m_FillMethod: 0
++  m_FillAmount: 1
++  m_FillClockwise: 1
++  m_FillOrigin: 0
++  m_UseSpriteMesh: 0
++  m_PixelsPerUnitMultiplier: 1
+ --- !u!1 &619394800
+ GameObject:
+   m_ObjectHideFlags: 0
+@@ -433,6 +678,81 @@ Transform:
+   m_Children: []
+   m_Father: {fileID: 0}
+   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++--- !u!1 &972245343
++GameObject:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  serializedVersion: 6
++  m_Component:
++  - component: {fileID: 972245344}
++  - component: {fileID: 972245346}
++  - component: {fileID: 972245345}
++  m_Layer: 7
++  m_Name: Fill
++  m_TagString: Untagged
++  m_Icon: {fileID: 0}
++  m_NavMeshLayer: 0
++  m_StaticEditorFlags: 0
++  m_IsActive: 1
++--- !u!224 &972245344
++RectTransform:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 972245343}
++  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
++  m_LocalPosition: {x: 0, y: 0, z: 0}
++  m_LocalScale: {x: 1, y: 1, z: 1}
++  m_ConstrainProportionsScale: 0
++  m_Children: []
++  m_Father: {fileID: 1848321862}
++  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++  m_AnchorMin: {x: 0, y: 0}
++  m_AnchorMax: {x: 1, y: 1}
++  m_AnchoredPosition: {x: 0, y: 0}
++  m_SizeDelta: {x: 0, y: 0}
++  m_Pivot: {x: 0.5, y: 0.5}
++--- !u!114 &972245345
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 972245343}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: 
++  m_Material: {fileID: 0}
++  m_Color: {r: 1, g: 0, b: 0, a: 1}
++  m_RaycastTarget: 1
++  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
++  m_Maskable: 1
++  m_OnCullStateChanged:
++    m_PersistentCalls:
++      m_Calls: []
++  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
++  m_Type: 3
++  m_PreserveAspect: 0
++  m_FillCenter: 1
++  m_FillMethod: 0
++  m_FillAmount: 1
++  m_FillClockwise: 1
++  m_FillOrigin: 0
++  m_UseSpriteMesh: 0
++  m_PixelsPerUnitMultiplier: 1
++--- !u!222 &972245346
++CanvasRenderer:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 972245343}
++  m_CullTransparentMesh: 1
+ --- !u!1 &1195863209
+ GameObject:
+   m_ObjectHideFlags: 0
+@@ -605,7 +925,8 @@ GameObject:
+   - component: {fileID: 1279667760}
+   - component: {fileID: 1279667759}
+   - component: {fileID: 1279667758}
+-  m_Layer: 0
++  - component: {fileID: 1279667764}
++  m_Layer: 6
+   m_Name: Player
+   m_TagString: Untagged
+   m_Icon: {fileID: 0}
+@@ -632,6 +953,12 @@ MonoBehaviour:
+     serializedVersion: 2
+     m_Bits: 8
+   groundCheckRadius: 0.2
++  attackPoint: {fileID: 1766823047}
++  attackRange: 0.8
++  enemyLayers:
++    serializedVersion: 2
++    m_Bits: 128
++  slashDamage: 20
+ --- !u!50 &1279667759
+ Rigidbody2D:
+   serializedVersion: 4
+@@ -786,13 +1113,60 @@ Transform:
+   m_GameObject: {fileID: 1279667757}
+   serializedVersion: 2
+   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+-  m_LocalPosition: {x: -1.76, y: 1.46, z: 0}
++  m_LocalPosition: {x: -2.28, y: -1.72, z: 0}
+   m_LocalScale: {x: 3, y: 3, z: 1}
+   m_ConstrainProportionsScale: 0
+   m_Children:
+   - {fileID: 2121890588}
++  - {fileID: 1766823047}
+   m_Father: {fileID: 0}
+   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++--- !u!114 &1279667764
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1279667757}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: e487e091613d469429c9790a37f3920a, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: 
++  healthText: {fileID: 1608610241}
++  healthBarImage: {fileID: 448415454}
++  healthGradient:
++    serializedVersion: 2
++    key0: {r: 1, g: 0, b: 0, a: 1}
++    key1: {r: 1, g: 0.9914962, b: 0, a: 1}
++    key2: {r: 0, g: 1, b: 0, a: 0}
++    key3: {r: 0, g: 0, b: 0, a: 0}
++    key4: {r: 0, g: 0, b: 0, a: 0}
++    key5: {r: 0, g: 0, b: 0, a: 0}
++    key6: {r: 0, g: 0, b: 0, a: 0}
++    key7: {r: 0, g: 0, b: 0, a: 0}
++    ctime0: 0
++    ctime1: 32768
++    ctime2: 65535
++    ctime3: 0
++    ctime4: 0
++    ctime5: 0
++    ctime6: 0
++    ctime7: 0
++    atime0: 0
++    atime1: 65535
++    atime2: 0
++    atime3: 0
++    atime4: 0
++    atime5: 0
++    atime6: 0
++    atime7: 0
++    m_Mode: 0
++    m_ColorSpace: -1
++    m_NumColorKeys: 3
++    m_NumAlphaKeys: 2
++  maxHealth: 100
++  currentHealth: 100
+ --- !u!1 &1355388782
+ GameObject:
+   m_ObjectHideFlags: 0
+@@ -806,7 +1180,7 @@ GameObject:
+   - component: {fileID: 1355388784}
+   - component: {fileID: 1355388783}
+   m_Layer: 5
+-  m_Name: Canvas
++  m_Name: Player_Health_Canvas
+   m_TagString: Untagged
+   m_Icon: {fileID: 0}
+   m_NavMeshLayer: 0
+@@ -895,7 +1269,7 @@ RectTransform:
+   m_AnchoredPosition: {x: 0, y: 0}
+   m_SizeDelta: {x: 0, y: 0}
+   m_Pivot: {x: 0, y: 0}
+---- !u!1 &1608610239
++--- !u!1 &1426437687
+ GameObject:
+   m_ObjectHideFlags: 0
+   m_CorrespondingSourceObject: {fileID: 0}
+@@ -903,7 +1277,323 @@ GameObject:
+   m_PrefabAsset: {fileID: 0}
+   serializedVersion: 6
+   m_Component:
+-  - component: {fileID: 1608610240}
++  - component: {fileID: 1426437692}
++  - component: {fileID: 1426437691}
++  - component: {fileID: 1426437690}
++  - component: {fileID: 1426437689}
++  - component: {fileID: 1426437688}
++  - component: {fileID: 1426437693}
++  - component: {fileID: 1426437694}
++  m_Layer: 7
++  m_Name: spr_ArcherIdle_strip_NoBkg_0
++  m_TagString: Untagged
++  m_Icon: {fileID: 0}
++  m_NavMeshLayer: 0
++  m_StaticEditorFlags: 0
++  m_IsActive: 1
++--- !u!50 &1426437688
++Rigidbody2D:
++  serializedVersion: 4
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1426437687}
++  m_BodyType: 0
++  m_Simulated: 1
++  m_UseFullKinematicContacts: 0
++  m_UseAutoMass: 0
++  m_Mass: 1
++  m_LinearDrag: 0
++  m_AngularDrag: 0.05
++  m_GravityScale: 1
++  m_Material: {fileID: 0}
++  m_IncludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_ExcludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_Interpolate: 0
++  m_SleepingMode: 1
++  m_CollisionDetection: 0
++  m_Constraints: 4
++--- !u!61 &1426437689
++BoxCollider2D:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1426437687}
++  m_Enabled: 1
++  m_Density: 1
++  m_Material: {fileID: 0}
++  m_IncludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_ExcludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_LayerOverridePriority: 0
++  m_ForceSendLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_ForceReceiveLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_ContactCaptureLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_CallbackLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_IsTrigger: 0
++  m_UsedByEffector: 0
++  m_UsedByComposite: 0
++  m_Offset: {x: 0.0131548345, y: 0.008156419}
++  m_SpriteTilingProperty:
++    border: {x: 0, y: 0, z: 0, w: 0}
++    pivot: {x: 0.5, y: 0.5}
++    oldSize: {x: 0.25, y: 0.39}
++    newSize: {x: 0.25, y: 0.39}
++    adaptiveTilingThreshold: 0.5
++    drawMode: 0
++    adaptiveTiling: 0
++  m_AutoTiling: 0
++  serializedVersion: 2
++  m_Size: {x: 0.17107105, y: 0.37368703}
++  m_EdgeRadius: 0
++--- !u!95 &1426437690
++Animator:
++  serializedVersion: 5
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1426437687}
++  m_Enabled: 1
++  m_Avatar: {fileID: 0}
++  m_Controller: {fileID: 9100000, guid: e4d80c5b5f4d16944a5783d48de0af2e, type: 2}
++  m_CullingMode: 0
++  m_UpdateMode: 0
++  m_ApplyRootMotion: 0
++  m_LinearVelocityBlending: 0
++  m_StabilizeFeet: 0
++  m_WarningMessage: 
++  m_HasTransformHierarchy: 1
++  m_AllowConstantClipSamplingOptimization: 1
++  m_KeepAnimatorStateOnDisable: 0
++  m_WriteDefaultValuesOnDisable: 0
++--- !u!212 &1426437691
++SpriteRenderer:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1426437687}
++  m_Enabled: 1
++  m_CastShadows: 0
++  m_ReceiveShadows: 0
++  m_DynamicOccludee: 1
++  m_StaticShadowCaster: 0
++  m_MotionVectors: 1
++  m_LightProbeUsage: 1
++  m_ReflectionProbeUsage: 1
++  m_RayTracingMode: 0
++  m_RayTraceProcedural: 0
++  m_RenderingLayerMask: 1
++  m_RendererPriority: 0
++  m_Materials:
++  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
++  m_StaticBatchInfo:
++    firstSubMesh: 0
++    subMeshCount: 0
++  m_StaticBatchRoot: {fileID: 0}
++  m_ProbeAnchor: {fileID: 0}
++  m_LightProbeVolumeOverride: {fileID: 0}
++  m_ScaleInLightmap: 1
++  m_ReceiveGI: 1
++  m_PreserveUVs: 0
++  m_IgnoreNormalsForChartDetection: 0
++  m_ImportantGI: 0
++  m_StitchLightmapSeams: 1
++  m_SelectedEditorRenderState: 0
++  m_MinimumChartSize: 4
++  m_AutoUVMaxDistance: 0.5
++  m_AutoUVMaxAngle: 89
++  m_LightmapParameters: {fileID: 0}
++  m_SortingLayerID: 0
++  m_SortingLayer: 0
++  m_SortingOrder: 0
++  m_Sprite: {fileID: 1492706492, guid: d9e18cc4ec6036f4aa38158dcda689fc, type: 3}
++  m_Color: {r: 1, g: 1, b: 1, a: 1}
++  m_FlipX: 0
++  m_FlipY: 0
++  m_DrawMode: 0
++  m_Size: {x: 0.25, y: 0.39}
++  m_AdaptiveModeThreshold: 0.5
++  m_SpriteTileMode: 0
++  m_WasSpriteAssigned: 1
++  m_MaskInteraction: 0
++  m_SpriteSortPoint: 0
++--- !u!4 &1426437692
++Transform:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1426437687}
++  serializedVersion: 2
++  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
++  m_LocalPosition: {x: -8.16, y: -1.25, z: 0}
++  m_LocalScale: {x: 3, y: 3, z: 1}
++  m_ConstrainProportionsScale: 0
++  m_Children:
++  - {fileID: 453752370}
++  m_Father: {fileID: 0}
++  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++--- !u!114 &1426437693
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1426437687}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: a6b611fd4bfedcd4c846a1733d38b379, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: 
++  healthBarFill: {fileID: 600735533}
++  healthCanvas: {fileID: 453752366}
++  maxHealth: 40
++--- !u!114 &1426437694
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1426437687}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: eb32d173b3d62ae41826d635f1c58d10, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: 
++  player: {fileID: 1279667763}
++  moveSpeed: 2
++  stopDistance: 10
++  meleeDistance: 1
++--- !u!1 &1479184991
++GameObject:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  serializedVersion: 6
++  m_Component:
++  - component: {fileID: 1479184995}
++  - component: {fileID: 1479184994}
++  - component: {fileID: 1479184993}
++  - component: {fileID: 1479184992}
++  m_Layer: 7
++  m_Name: HealthBarCanvasKnight
++  m_TagString: Untagged
++  m_Icon: {fileID: 0}
++  m_NavMeshLayer: 0
++  m_StaticEditorFlags: 0
++  m_IsActive: 1
++--- !u!114 &1479184992
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1479184991}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: 
++  m_IgnoreReversedGraphics: 1
++  m_BlockingObjects: 0
++  m_BlockingMask:
++    serializedVersion: 2
++    m_Bits: 4294967295
++--- !u!114 &1479184993
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1479184991}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: 
++  m_UiScaleMode: 0
++  m_ReferencePixelsPerUnit: 100
++  m_ScaleFactor: 1
++  m_ReferenceResolution: {x: 800, y: 600}
++  m_ScreenMatchMode: 0
++  m_MatchWidthOrHeight: 0
++  m_PhysicalUnit: 3
++  m_FallbackScreenDPI: 96
++  m_DefaultSpriteDPI: 96
++  m_DynamicPixelsPerUnit: 1
++  m_PresetInfoIsWorld: 1
++--- !u!223 &1479184994
++Canvas:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1479184991}
++  m_Enabled: 1
++  serializedVersion: 3
++  m_RenderMode: 2
++  m_Camera: {fileID: 0}
++  m_PlaneDistance: 100
++  m_PixelPerfect: 0
++  m_ReceivesEvents: 1
++  m_OverrideSorting: 0
++  m_OverridePixelPerfect: 0
++  m_SortingBucketNormalizedSize: 0
++  m_VertexColorAlwaysGammaSpace: 0
++  m_AdditionalShaderChannelsFlag: 0
++  m_UpdateRectTransformForStandalone: 0
++  m_SortingLayerID: 0
++  m_SortingOrder: 0
++  m_TargetDisplay: 0
++--- !u!224 &1479184995
++RectTransform:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1479184991}
++  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
++  m_LocalPosition: {x: 0, y: 0, z: 0}
++  m_LocalScale: {x: 0.0016666667, y: 0.00033333336, z: 1}
++  m_ConstrainProportionsScale: 0
++  m_Children:
++  - {fileID: 1848321862}
++  m_Father: {fileID: 2062435234}
++  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++  m_AnchorMin: {x: 0, y: 0}
++  m_AnchorMax: {x: 0, y: 0}
++  m_AnchoredPosition: {x: -0.011, y: 0.169}
++  m_SizeDelta: {x: 2, y: 0.2}
++  m_Pivot: {x: 0.5, y: 0.5}
++--- !u!1 &1608610239
++GameObject:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  serializedVersion: 6
++  m_Component:
++  - component: {fileID: 1608610240}
+   - component: {fileID: 1608610242}
+   - component: {fileID: 1608610241}
+   m_Layer: 5
+@@ -1029,6 +1719,37 @@ CanvasRenderer:
+   m_PrefabAsset: {fileID: 0}
+   m_GameObject: {fileID: 1608610239}
+   m_CullTransparentMesh: 1
++--- !u!1 &1766823046
++GameObject:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  serializedVersion: 6
++  m_Component:
++  - component: {fileID: 1766823047}
++  m_Layer: 6
++  m_Name: AttackPoint
++  m_TagString: Untagged
++  m_Icon: {fileID: 0}
++  m_NavMeshLayer: 0
++  m_StaticEditorFlags: 0
++  m_IsActive: 1
++--- !u!4 &1766823047
++Transform:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1766823046}
++  serializedVersion: 2
++  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
++  m_LocalPosition: {x: 0.264, y: 0.251, z: 0}
++  m_LocalScale: {x: 1, y: 1, z: 1}
++  m_ConstrainProportionsScale: 0
++  m_Children: []
++  m_Father: {fileID: 1279667763}
++  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+ --- !u!1 &1796801991
+ GameObject:
+   m_ObjectHideFlags: 0
+@@ -1080,7 +1801,7 @@ MonoBehaviour:
+   m_Name: 
+   m_EditorClassIdentifier: 
+   m_Material: {fileID: 0}
+-  m_Color: {r: 0.5471698, g: 0.503293, b: 0.503293, a: 1}
++  m_Color: {r: 0.5471698, g: 0.503293, b: 0.503293, a: 0}
+   m_RaycastTarget: 1
+   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+   m_Maskable: 1
+@@ -1105,6 +1826,82 @@ CanvasRenderer:
+   m_PrefabAsset: {fileID: 0}
+   m_GameObject: {fileID: 1796801991}
+   m_CullTransparentMesh: 1
++--- !u!1 &1848321861
++GameObject:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  serializedVersion: 6
++  m_Component:
++  - component: {fileID: 1848321862}
++  - component: {fileID: 1848321864}
++  - component: {fileID: 1848321863}
++  m_Layer: 7
++  m_Name: Background
++  m_TagString: Untagged
++  m_Icon: {fileID: 0}
++  m_NavMeshLayer: 0
++  m_StaticEditorFlags: 0
++  m_IsActive: 1
++--- !u!224 &1848321862
++RectTransform:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1848321861}
++  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
++  m_LocalPosition: {x: 0, y: 0, z: 0}
++  m_LocalScale: {x: 1, y: 1, z: 1}
++  m_ConstrainProportionsScale: 0
++  m_Children:
++  - {fileID: 972245344}
++  m_Father: {fileID: 1479184995}
++  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++  m_AnchorMin: {x: 0, y: 0}
++  m_AnchorMax: {x: 1, y: 1}
++  m_AnchoredPosition: {x: 0, y: 0}
++  m_SizeDelta: {x: 98, y: 99.8}
++  m_Pivot: {x: 0.5, y: 0.5}
++--- !u!114 &1848321863
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1848321861}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: 
++  m_Material: {fileID: 0}
++  m_Color: {r: 0, g: 0, b: 0, a: 1}
++  m_RaycastTarget: 1
++  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
++  m_Maskable: 1
++  m_OnCullStateChanged:
++    m_PersistentCalls:
++      m_Calls: []
++  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
++  m_Type: 0
++  m_PreserveAspect: 0
++  m_FillCenter: 1
++  m_FillMethod: 4
++  m_FillAmount: 1
++  m_FillClockwise: 1
++  m_FillOrigin: 0
++  m_UseSpriteMesh: 0
++  m_PixelsPerUnitMultiplier: 1
++--- !u!222 &1848321864
++CanvasRenderer:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1848321861}
++  m_CullTransparentMesh: 1
+ --- !u!1 &2062435228
+ GameObject:
+   m_ObjectHideFlags: 0
+@@ -1119,7 +1916,8 @@ GameObject:
+   - component: {fileID: 2062435231}
+   - component: {fileID: 2062435230}
+   - component: {fileID: 2062435229}
+-  m_Layer: 0
++  - component: {fileID: 2062435235}
++  m_Layer: 7
+   m_Name: noBKG_KnightAttack_strip_0
+   m_TagString: Untagged
+   m_Icon: {fileID: 0}
+@@ -1301,12 +2099,104 @@ Transform:
+   m_GameObject: {fileID: 2062435228}
+   serializedVersion: 2
+   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+-  m_LocalPosition: {x: -5.226619, y: -0.44295973, z: 0}
++  m_LocalPosition: {x: -4.99, y: -1.39, z: 0}
+   m_LocalScale: {x: 3, y: 3, z: 1}
+   m_ConstrainProportionsScale: 0
+-  m_Children: []
++  m_Children:
++  - {fileID: 1479184995}
+   m_Father: {fileID: 0}
+   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++--- !u!114 &2062435235
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 2062435228}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: a6b611fd4bfedcd4c846a1733d38b379, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: 
++  healthBarFill: {fileID: 972245345}
++  healthCanvas: {fileID: 1479184991}
++  maxHealth: 80
++--- !u!1 &2107807303
++GameObject:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  serializedVersion: 6
++  m_Component:
++  - component: {fileID: 2107807304}
++  - component: {fileID: 2107807306}
++  - component: {fileID: 2107807305}
++  m_Layer: 7
++  m_Name: Background
++  m_TagString: Untagged
++  m_Icon: {fileID: 0}
++  m_NavMeshLayer: 0
++  m_StaticEditorFlags: 0
++  m_IsActive: 1
++--- !u!224 &2107807304
++RectTransform:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 2107807303}
++  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
++  m_LocalPosition: {x: 0, y: 0, z: 0}
++  m_LocalScale: {x: 1, y: 1, z: 1}
++  m_ConstrainProportionsScale: 0
++  m_Children:
++  - {fileID: 600735531}
++  m_Father: {fileID: 453752370}
++  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++  m_AnchorMin: {x: 0, y: 0}
++  m_AnchorMax: {x: 1, y: 1}
++  m_AnchoredPosition: {x: 0, y: 0}
++  m_SizeDelta: {x: 98, y: 99.8}
++  m_Pivot: {x: 0.5, y: 0.5}
++--- !u!114 &2107807305
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 2107807303}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: 
++  m_Material: {fileID: 0}
++  m_Color: {r: 0, g: 0, b: 0, a: 1}
++  m_RaycastTarget: 1
++  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
++  m_Maskable: 1
++  m_OnCullStateChanged:
++    m_PersistentCalls:
++      m_Calls: []
++  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
++  m_Type: 0
++  m_PreserveAspect: 0
++  m_FillCenter: 1
++  m_FillMethod: 4
++  m_FillAmount: 1
++  m_FillClockwise: 1
++  m_FillOrigin: 0
++  m_UseSpriteMesh: 0
++  m_PixelsPerUnitMultiplier: 1
++--- !u!222 &2107807306
++CanvasRenderer:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 2107807303}
++  m_CullTransparentMesh: 1
+ --- !u!1 &2121890587
+ GameObject:
+   m_ObjectHideFlags: 0
+@@ -1316,7 +2206,7 @@ GameObject:
+   serializedVersion: 6
+   m_Component:
+   - component: {fileID: 2121890588}
+-  m_Layer: 0
++  m_Layer: 6
+   m_Name: groundCheck
+   m_TagString: Untagged
+   m_Icon: {fileID: 0}
+@@ -1348,3 +2238,5 @@ SceneRoots:
+   - {fileID: 1279667763}
+   - {fileID: 2062435234}
+   - {fileID: 1355388786}
++  - {fileID: 301987915}
++  - {fileID: 1426437692}
+diff --git a/Assets/Terrible Knight/player_animations/player_hurt.anim b/Assets/Terrible Knight/player_animations/player_hurt.anim
+index 5ba68970..490302dd 100644
+--- a/Assets/Terrible Knight/player_animations/player_hurt.anim	
++++ b/Assets/Terrible Knight/player_animations/player_hurt.anim	
+@@ -17,15 +17,67 @@ AnimationClip:
+   m_PositionCurves: []
+   m_ScaleCurves: []
+   m_FloatCurves: []
+-  m_PPtrCurves: []
+-  m_SampleRate: 60
++  m_PPtrCurves:
++  - serializedVersion: 2
++    curve:
++    - time: 0
++      value: {fileID: -790665560, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - time: 0.083333336
++      value: {fileID: 1408097385, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - time: 0.16666667
++      value: {fileID: -811529600, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - time: 0.25
++      value: {fileID: 443234516, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - time: 0.33333334
++      value: {fileID: 358789276, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - time: 0.41666666
++      value: {fileID: -1019316562, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - time: 0.5
++      value: {fileID: 774487908, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - time: 0.5833333
++      value: {fileID: 1810605341, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - time: 0.6666667
++      value: {fileID: -2058676836, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - time: 0.75
++      value: {fileID: 2119153628, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - time: 0.8333333
++      value: {fileID: -655936223, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - time: 0.9166667
++      value: {fileID: -1711581450, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    attribute: m_Sprite
++    path: 
++    classID: 212
++    script: {fileID: 0}
++    flags: 2
++  m_SampleRate: 12
+   m_WrapMode: 0
+   m_Bounds:
+     m_Center: {x: 0, y: 0, z: 0}
+     m_Extent: {x: 0, y: 0, z: 0}
+   m_ClipBindingConstant:
+-    genericBindings: []
+-    pptrCurveMapping: []
++    genericBindings:
++    - serializedVersion: 2
++      path: 0
++      attribute: 0
++      script: {fileID: 0}
++      typeID: 212
++      customType: 23
++      isPPtrCurve: 1
++      isIntCurve: 0
++      isSerializeReferenceCurve: 0
++    pptrCurveMapping:
++    - {fileID: -790665560, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - {fileID: 1408097385, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - {fileID: -811529600, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - {fileID: 443234516, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - {fileID: 358789276, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - {fileID: -1019316562, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - {fileID: 774487908, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - {fileID: 1810605341, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - {fileID: -2058676836, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - {fileID: 2119153628, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - {fileID: -655936223, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
++    - {fileID: -1711581450, guid: ab3f6abb1eae2f94d97902313d337502, type: 3}
+   m_AnimationClipSettings:
+     serializedVersion: 2
+     m_AdditiveReferencePoseClip: {fileID: 0}
+@@ -36,7 +88,7 @@ AnimationClip:
+     m_Level: 0
+     m_CycleOffset: 0
+     m_HasAdditiveReferencePose: 0
+-    m_LoopTime: 1
++    m_LoopTime: 0
+     m_LoopBlend: 0
+     m_LoopBlendOrientation: 0
+     m_LoopBlendPositionY: 0
+diff --git a/Assets/enemy_archer_movement.cs b/Assets/enemy_archer_movement.cs
+new file mode 100644
+index 00000000..ef6f1030
+--- /dev/null
++++ b/Assets/enemy_archer_movement.cs
+@@ -0,0 +1,182 @@
++using System.Collections;
++using System.Collections.Generic;
++using UnityEngine;
++
++public class Enemy_archer_movement : MonoBehaviour
++{
++    [Header("Hedef Ayarları")]
++    public Transform player; 
++
++    [Header("Hareket Ayarları")]
++    public float moveSpeed = 3f; 
++    public float stopDistance = 5f; 
++    public float meleeDistance = 1.5f; 
++
++    [Header("Saldırı Ayarları")]
++    public GameObject arrowPrefab; // Unity'de oluşturduğun ok prefabı
++    public Transform firePoint;    // Okun çıkacağı nokta
++    public float fireRate = 1.5f;  // Atış hızı
++    private float nextFireTime = 0f;
++
++    [Header("Ok Fizik Ayarları (YENİ)")]
++    public float launchForce = 15f;  // Fırlatma gücü
++    public float arcModifier = 0.5f; // Havaya dikme oranı (Kavis miktarı)
++
++    [Header("Bileşenler")]
++    private Animator anim;
++    private SpriteRenderer spriteRenderer;
++    private Rigidbody2D rb;      
++    private Collider2D col;      
++
++    // --- Ölüm Kontrolü ---
++    private bool isDead = false;
++
++    void Start()
++    {
++        anim = GetComponent<Animator>();
++        spriteRenderer = GetComponent<SpriteRenderer>();
++        rb = GetComponent<Rigidbody2D>();
++        col = GetComponent<Collider2D>();
++
++        if (player == null)
++        {
++            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
++            if (playerObj != null)
++            {
++                player = playerObj.transform;
++            }
++        }
++    }
++
++    void Update()
++    {
++        if (isDead) return;
++        if (player == null) return;
++
++        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
++
++        FlipTowardsPlayer();
++
++        // 1. DURUM: Karakter çok uzakta -> KOVALA
++        if (distanceToPlayer > stopDistance)
++        {
++            MoveTowardsPlayer();
++            
++            anim.SetFloat("speed", moveSpeed); 
++            anim.SetBool("meleeAttack", false);
++            anim.SetBool("rangedAttack", false);
++        }
++        // 2. DURUM: Menzilde -> OK AT (Ranged)
++        else if (distanceToPlayer <= stopDistance && distanceToPlayer > meleeDistance)
++        {
++            StopMoving();
++
++            anim.SetFloat("speed", 0f);
++            anim.SetBool("rangedAttack", true);
++            anim.SetBool("meleeAttack", false);
++
++            // Ateş Etme Mantığı
++            if (Time.time >= nextFireTime)
++            {
++                ShootArrow();
++                nextFireTime = Time.time + fireRate;
++            }
++        }
++        // 3. DURUM: Çok yakında -> KILIÇ ÇEK (Melee)
++        else if (distanceToPlayer <= meleeDistance)
++        {
++            StopMoving();
++
++            anim.SetFloat("speed", 0f);
++            anim.SetBool("meleeAttack", true);
++            anim.SetBool("rangedAttack", false);
++        }
++    }
++
++    // --- GÜNCELLENMİŞ: Eğimli Atış Fonksiyonu ---
++    void ShootArrow()
++    {
++        if (arrowPrefab != null && firePoint != null && player != null)
++        {
++            // 1. Oku oluştur
++            GameObject newArrow = Instantiate(arrowPrefab, firePoint.position, Quaternion.identity);
++            
++            // 2. Okun Rigidbody'sine ulaş
++            Rigidbody2D arrowRb = newArrow.GetComponent<Rigidbody2D>();
++
++            if (arrowRb != null)
++            {
++                // 3. Yön Hesaplama
++                // Oyuncuya olan düz vektörü bul
++                Vector2 direction = (player.position - firePoint.position).normalized;
++
++                // Mesafeye göre ne kadar havaya dikeceğimizi hesapla
++                float distance = Vector2.Distance(firePoint.position, player.position);
++                
++                // Y eksenine (yukarı) biraz ekleme yapıyoruz (arcModifier ile kontrol edilir)
++                // 0.1f çarpanı mesafenin etkisini dengeler
++                Vector2 arcDirection = new Vector2(direction.x, direction.y + (distance * 0.1f * arcModifier)).normalized;
++
++                // 4. Gücü Uygula
++                arrowRb.velocity = arcDirection * launchForce;
++            }
++        }
++        else
++        {
++            Debug.LogWarning("Arrow Prefab, Fire Point veya Player eksik!");
++        }
++    }
++
++    public void TriggerDeath()
++    {
++        if (isDead) return;
++
++        isDead = true;
++
++        if (rb != null)
++        {
++            rb.velocity = Vector2.zero;
++            rb.isKinematic = true;
++        }
++
++        if (col != null) col.enabled = false;
++
++        if (anim != null)
++        {
++            anim.SetBool("isDead", true);
++            anim.SetBool("meleeAttack", false);
++            anim.SetBool("rangedAttack", false);
++            anim.SetFloat("speed", 0);
++        }
++    }
++
++    void MoveTowardsPlayer()
++    {
++        if (isDead) return;
++        transform.position = Vector2.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
++    }
++
++    void StopMoving()
++    {
++        if(rb != null) rb.velocity = Vector2.zero;
++    }
++
++    void FlipTowardsPlayer()
++    {
++        if (isDead) return;
++        if (spriteRenderer == null) return;
++
++        if (player.position.x > transform.position.x)
++            spriteRenderer.flipX = false;
++        else if (player.position.x < transform.position.x)
++            spriteRenderer.flipX = true;
++    }
++
++    void OnDrawGizmosSelected()
++    {
++        Gizmos.color = Color.yellow;
++        Gizmos.DrawWireSphere(transform.position, stopDistance); 
++        Gizmos.color = Color.red;
++        Gizmos.DrawWireSphere(transform.position, meleeDistance); 
++    }
++}
+\ No newline at end of file
+diff --git a/Assets/enemy_archer_movement.cs.meta b/Assets/enemy_archer_movement.cs.meta
+new file mode 100644
+index 00000000..625d30ca
+--- /dev/null
++++ b/Assets/enemy_archer_movement.cs.meta
+@@ -0,0 +1,11 @@
++fileFormatVersion: 2
++guid: eb32d173b3d62ae41826d635f1c58d10
++MonoImporter:
++  externalObjects: {}
++  serializedVersion: 2
++  defaultReferences: []
++  executionOrder: 0
++  icon: {instanceID: 0}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/Assets/enemy_arrow.cs b/Assets/enemy_arrow.cs
+new file mode 100644
+index 00000000..f295302f
+--- /dev/null
++++ b/Assets/enemy_arrow.cs
+@@ -0,0 +1,75 @@
++using UnityEngine;
++
++public class Enemy_Arrow : MonoBehaviour
++{
++    [Header("Ok Ayarları")]
++    public int damage = 10;       
++    public float lifeTime = 5f;   // Yerle temas ederse ne kadar kalacağı
++    
++    [Header("Görsel Ayarlar")]
++    [Tooltip("Eğer ok yan gidiyorsa burayı 90, -90 veya 180 yap")]
++    public float rotationOffset = 0f; 
++
++    private Rigidbody2D rb;
++    private Collider2D col;
++    private bool isStuck = false; 
++
++    void Start()
++    {
++        rb = GetComponent<Rigidbody2D>();
++        col = GetComponent<Collider2D>();
++        
++        // Havada hiç bir şeye çarpmazsa 10 saniye sonra yok olsun
++        Destroy(gameObject, 10f);
++    }
++
++    void Update()
++    {
++        if (isStuck) return;
++
++        // Okun yönünü hareket ettiği açıya çevir
++        Vector2 velocity = rb.velocity;
++        if (velocity != Vector2.zero)
++        {
++            float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
++            transform.rotation = Quaternion.AngleAxis(angle + rotationOffset, Vector3.forward);
++        }
++    }
++
++    void OnTriggerEnter2D(Collider2D hitInfo)
++    {
++        if (isStuck) return;
++
++        // --- 1. OYUNCUYA ÇARPARSA (Burayı Kontrol Et) ---
++        if (hitInfo.CompareTag("Player"))
++        {
++            // Oyuncunun can scriptine ulaş
++            player_health_system playerHealth = hitInfo.GetComponent<player_health_system>();
++            
++            // Eğer script varsa hasar ver
++            if (playerHealth != null)
++            {
++                playerHealth.TakeDamage(damage);
++            }
++            
++            // Oku ANINDA yok et (Saplanmasın)
++            Destroy(gameObject);
++        }
++        
++        // 2. YERE ÇARPARSA
++        else if (hitInfo.CompareTag("Ground"))
++        {
++            Stick(); // Yerde saplanıp kalsın
++        }
++    }
++
++    void Stick()
++    {
++        isStuck = true;
++        rb.velocity = Vector2.zero;
++        rb.isKinematic = true; 
++        rb.angularVelocity = 0f;
++        if(col != null) col.enabled = false;
++        Destroy(gameObject, lifeTime);
++    }
++}
+\ No newline at end of file
+diff --git a/Assets/enemy_arrow.cs.meta b/Assets/enemy_arrow.cs.meta
+new file mode 100644
+index 00000000..fea7a3f9
+--- /dev/null
++++ b/Assets/enemy_arrow.cs.meta
+@@ -0,0 +1,11 @@
++fileFormatVersion: 2
++guid: 7bbfea8788621cc4abdf81d1ec805d2a
++MonoImporter:
++  externalObjects: {}
++  serializedVersion: 2
++  defaultReferences: []
++  executionOrder: 0
++  icon: {instanceID: 0}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/Assets/enemy_knight_movement.cs b/Assets/enemy_knight_movement.cs
+index 0a7df27a..18a661b4 100644
+--- a/Assets/enemy_knight_movement.cs
++++ b/Assets/enemy_knight_movement.cs
+@@ -8,25 +8,28 @@ public class enemy_knight_movement : MonoBehaviour
+     public GameObject Player;
+     
+     [Header("Hareket Ayarları")]
+-    [SerializeField] private float speed = 5f;
++    [SerializeField] private float speed = 3.5f; // Hızı biraz düşürdüm, daha tok dursun
+     [SerializeField] private float chaseDistance = 10f;
+     [SerializeField] private float stopDistance = 1.5f;
+ 
+     [Header("Saldırı Ayarları")]
+-    [SerializeField] private int damagePerHit = 5; 
++    [SerializeField] private int damagePerHit = 10; 
+     
+-    // Animasyonun içindeki vuruş zamanlamaları
++    // Animasyon zamanlamaları
+     [SerializeField] private float timeToFirstHit = 0.4f;  
+     [SerializeField] private float timeToSecondHit = 0.5f; 
+     [SerializeField] private float timeToThirdHit = 0.5f;  
+     [SerializeField] private float animationEndDelay = 0.5f; 
+ 
++    [Header("Yapay Zeka (AI) Doğallık Ayarları")]
++    [SerializeField] private float minWaitTime = 1.0f; // En az bekleme süresi
++    [SerializeField] private float maxWaitTime = 3.0f; // En fazla bekleme süresi
++    [Range(0, 100)] [SerializeField] private int defenseChance = 65; // Savunmaya geçme ihtimali (%)
++
+     // Durum Değişkenleri
+     private float distance;
+     private bool attack;
+-    private bool defend; // Savunma durumunu tutan değişken
+-
+-    // --- YENİ: Ölüm Kontrolü ---
++    private bool defend;
+     private bool isDead = false;
+ 
+     private Coroutine combatCoroutine;
+@@ -41,40 +44,52 @@ public class enemy_knight_movement : MonoBehaviour
+         _spriteRenderer = GetComponent<SpriteRenderer>();
+         _rb = GetComponent<Rigidbody2D>();
+         _collider = GetComponent<Collider2D>();
++
++        if (Player == null)
++        {
++            GameObject p = GameObject.FindGameObjectWithTag("Player");
++            if (p != null) Player = p;
++        }
+     }
+ 
+     void Update()
+     {
+         if (isDead) return;
+ 
+-        if (Player == null) return;
+         AIChase();
+         UpdateAnimations();
+     }
+ 
+-    // --- YENİ: Oyuncu vurduğunda bu fonksiyon çalışacak ---
+     public void ReceiveDamage(float amount)
+     {
+-        // 1. Eğer ölü ise hasar alamaz
+         if (isDead) return;
+-
+-        // 2. Eğer SAVUNMA yapıyorsa hasarı engelle
+-        if (defend)
++        
++        if (Player != null && defend)
+         {
+-            Debug.Log("Düşman Saldırıyı Blokladı!");
+-            // İstersen buraya bir bloklama sesi veya efekti ekleyebilirsin
+-            return; 
++            bool playerIsToTheRight = Player.transform.position.x > transform.position.x;
++            bool facingRight = !_spriteRenderer.flipX;
++            bool attackFromFront = (playerIsToTheRight && facingRight) || (!playerIsToTheRight && !facingRight);
++
++            if (attackFromFront)
++            {
++                Debug.Log("🛡️ Düşman Saldırıyı Blokladı!");
++                // Bloklandığında belki biraz geri itilebilir (Knockback) eklenebilir.
++                return; 
++            }
+         }
+ 
+-        // 3. Savunma yoksa canı azalt
+-        // Düşmanın kendi üzerindeki health_system scriptini bul
+         health_system myHealth = GetComponent<health_system>();
+         if (myHealth != null)
+         {
+             myHealth.TakeDamage(amount);
+             
+-            // Opsiyonel: Hasar alma animasyonunu tetikle
+-            // if(_animator != null) _animator.SetTrigger("Hurt");
++            // YENİ: Hasar alınca agresifleşsin (Combat coroutine'i resetle)
++            // Eğer savunmada değilse ve hasar aldıysa, hemen tepki vermesi için combatı yeniden başlatabiliriz.
++            if (!defend && !attack) 
++            {
++                StopCombat();
++                combatCoroutine = StartCoroutine(CombatPattern());
++            }
+         }
+     }
+ 
+@@ -91,21 +106,13 @@ public class enemy_knight_movement : MonoBehaviour
+             _rb.isKinematic = true; 
+         }
+ 
+-        if (_collider != null)
+-        {
+-            _collider.enabled = false;
+-        }
+-
+-        if (_animator != null)
+-        {
+-            _animator.SetBool("isDead", true);
+-        }
++        if (_collider != null) _collider.enabled = false;
++        if (_animator != null) _animator.SetBool("isDead", true);
+     }
+ 
+     private void AIChase()
+     {
+-        if (isDead) return;
+-        if (Player == null) return;
++        if (isDead || Player == null) return;
+ 
+         distance = Vector2.Distance(transform.position, Player.transform.position);
+ 
+@@ -116,13 +123,25 @@ public class enemy_knight_movement : MonoBehaviour
+             return; 
+         }
+ 
+-        FlipSprite(); 
++        // Saldırı veya Savunma anında dönmesin, sadece boşta veya yürürken dönsün
++        if (!attack && !defend) 
++        {
++            FlipSprite();
++        }
+ 
+         if (distance > stopDistance)
+         {
+-            StopCombat(); 
+-            transform.position = Vector2.MoveTowards(transform.position, Player.transform.position, speed * Time.deltaTime);
+-            _animator.SetFloat("speed", speed);
++            // Eğer savunma yapıyorsa yürümesin, savunmayı bıraksın sonra yürüsün
++            if (defend) 
++            {
++                defend = false; // Oyuncu uzaklaştıysa savunmayı bırakıp kovalasın
++            }
++
++            if (!attack) // Saldırırken yürümesin (Kayma sorunu olmaması için)
++            {
++                transform.position = Vector2.MoveTowards(transform.position, Player.transform.position, speed * Time.deltaTime);
++                _animator.SetFloat("speed", speed);
++            }
+         }
+         else 
+         {
+@@ -136,53 +155,82 @@ public class enemy_knight_movement : MonoBehaviour
+ 
+     private void FlipSprite()
+     {
+-        if (isDead) return; 
+-
+-        if (Player == null) return;
+         if (Player.transform.position.x > transform.position.x)
+             _spriteRenderer.flipX = false;
+         else
+             _spriteRenderer.flipX = true;
+     }
+ 
++    // --- EN ÖNEMLİ KISIM: DOĞAL SALDIRI DÖNGÜSÜ ---
+     IEnumerator CombatPattern()
+     {
+         while (true) 
+         {
+             if (isDead) yield break;
+ 
+-            // SALDIRI MODU
++            // 1. KARAR: Saldırıya başla
+             attack = true;
+             defend = false;
+ 
+-            for (int i = 0; i < 2; i++)
+-            {
+-                if (isDead) yield break; 
+-
+-                yield return new WaitForSeconds(timeToFirstHit); 
+-                DealDamage();
++            // Rastgele saldırı sayısı belirle (1 ile 3 arası)
++            // 1 gelirse sadece ilk vuruş, 2 gelirse iki vuruş, 3 gelirse full kombo
++            int attackCount = Random.Range(1, 4); 
+ 
++            // -- 1. VURUŞ --
++            yield return new WaitForSeconds(timeToFirstHit);
++            DealDamage();
++            
++            // Eğer saldırı sayısı 1'den büyükse devam et
++            if (attackCount > 1 && !isDead)
++            {
+                 yield return new WaitForSeconds(timeToSecondHit);
+                 DealDamage();
++            }
+ 
++            // Eğer saldırı sayısı 2'den büyükse devam et
++            if (attackCount > 2 && !isDead)
++            {
+                 yield return new WaitForSeconds(timeToThirdHit);
+                 DealDamage();
+-
+-                yield return new WaitForSeconds(animationEndDelay);
+             }
+ 
+-            // SAVUNMA MODU (Bu süre içinde ReceiveDamage gelirse hasar almayacak)
++            // Animasyonun bitmesini bekle
++            yield return new WaitForSeconds(animationEndDelay);
++            
++            // Saldırı bitti
+             attack = false;
+-            defend = true; 
++
++            // 2. KARAR: Sırada ne yapacak? (Savunma mı? Dinlenme mi?)
++            // %65 ihtimalle savunma, %35 ihtimalle boş bekleme (açık verme)
++            int roll = Random.Range(0, 100);
++
++            if (roll < defenseChance)
++            {
++                // Savunma Modu
++                defend = true;
++            }
++            else
++            {
++                // Agresif/Dikkatsiz Mod (Savunma açmıyor, sadece bekliyor)
++                defend = false;
++            }
++
++            // 3. KARAR: Ne kadar bekleyecek?
++            // Her seferinde sabit 2 saniye değil, rastgele bir süre (örn: 1.2 sn ile 2.8 sn arası)
++            float waitDuration = Random.Range(minWaitTime, maxWaitTime);
+             
+-            yield return new WaitForSeconds(2.0f); 
++            yield return new WaitForSeconds(waitDuration);
++
++            // Döngü başa döner...
+         }
+     }
+ 
+     private void DealDamage()
+     {
+-        if (isDead) return; 
+-        if (Player == null) return;
++        if (isDead || Player == null) return;
++
++        // Vuruş anında oyuncuya dönük olsun (Son dakika düzeltmesi)
++        FlipSprite(); 
+ 
+         float actualDistance = Vector2.Distance(transform.position, Player.transform.position);
+ 
+@@ -211,7 +259,6 @@ public class enemy_knight_movement : MonoBehaviour
+     private void UpdateAnimations()
+     {
+         if (isDead) return;
+-
+         _animator.SetBool("attack", attack);
+         _animator.SetBool("defend", defend);
+     }
+diff --git a/Assets/health_system.cs b/Assets/health_system.cs
+index 13695540..2bcd1614 100644
+--- a/Assets/health_system.cs
++++ b/Assets/health_system.cs
+@@ -1,61 +1,83 @@
++using System.Collections;
++using System.Collections.Generic;
+ using UnityEngine;
+ using UnityEngine.UI;
+ 
+ public class health_system : MonoBehaviour
+ {
+-    [Header("UI Ayarları")]
+-    public Image healthBarFill; // Yeşil/Kırmızı dolan kısım
+-    public GameObject healthCanvas; // Barın olduğu canvas (Ölünce kapatmak için)
++    [Header("Can Ayarları")]
++    public float maxHealth = 100f;
++    [SerializeField] private float currentHealth;
+ 
+-    [Header("Can Değerleri")]
+-    public float maxHealth = 50f;
+-    private float currentHealth;
++    [Header("UI Bağlantıları")]
++    public Image healthBarImage;
++    public GameObject healthCanvas;
++
++    // Her iki script türü için değişken tanımlıyoruz
++    private enemy_knight_movement knightScript;
++    private Enemy_archer_movement archerScript;
++
++    private bool isDead = false;
+ 
+     void Start()
+     {
+         currentHealth = maxHealth;
+-        UpdateBar();
++
++        // Üzerimdeki script hangisi? Onu bulup değişkene ata.
++        knightScript = GetComponent<enemy_knight_movement>();
++        archerScript = GetComponent<Enemy_archer_movement>();
++
++        UpdateHealthUI();
+     }
+ 
+     public void TakeDamage(float amount)
+     {
++        if (isDead) return;
++
+         currentHealth -= amount;
++        if (currentHealth < 0) currentHealth = 0;
++
++        Debug.Log(gameObject.name + " hasar aldı. Kalan Can: " + currentHealth);
++
++        UpdateHealthUI();
+ 
+         if (currentHealth <= 0)
+         {
+-            currentHealth = 0;
+             Die();
+         }
+-
+-        UpdateBar();
+     }
+ 
+-    void UpdateBar()
++    private void UpdateHealthUI()
+     {
+-        // Barın doluluk oranını ayarla
+-        if (healthBarFill != null)
++        if (healthBarImage != null)
+         {
+-            healthBarFill.fillAmount = currentHealth / maxHealth;
++            float fillValue = currentHealth / maxHealth;
++            healthBarImage.fillAmount = fillValue;
+         }
+     }
+ 
+-    void Die()
++    private void Die()
+     {
+-        // 1. Hareket scriptine ulaş ve ölümü tetikle
+-        if(GetComponent<enemy_knight_movement>() != null)
++        isDead = true;
++        Debug.Log(gameObject.name + " öldü.");
++
++        // Can barını gizle
++        if (healthCanvas != null)
+         {
+-            GetComponent<enemy_knight_movement>().TriggerDeath();
++            healthCanvas.SetActive(false);
+         }
+ 
+-        // 2. Can barını gizle
+-        if(healthCanvas != null)
++        // Hangi script varsa onun ölüm fonksiyonunu çalıştır
++        if (knightScript != null)
+         {
+-            healthCanvas.SetActive(false);
++            knightScript.TriggerDeath();
++        }
++        else if (archerScript != null)
++        {
++            archerScript.TriggerDeath();
+         }
+ 
+-        Debug.Log(gameObject.name + " öldü!");
+-        
+-        // 3. 5 saniye sonra cesedi tamamen yok et
+-        Destroy(gameObject, 5.0f); 
++        // 5 Saniye sonra objeyi tamamen yok et (Ceset 5 saniye yerde kalır)
++        Destroy(gameObject, 5f);
+     }
+ }
+\ No newline at end of file
+diff --git a/Assets/player_control.cs b/Assets/player_control.cs
+index 9171d9a2..ae3f725d 100644
+--- a/Assets/player_control.cs
++++ b/Assets/player_control.cs
+@@ -14,11 +14,11 @@ public class Character_Control : MonoBehaviour
+     public LayerMask groundLayer;
+     public float groundCheckRadius = 0.2f;
+ 
+-    [Header("Combat Settings (YENİ)")]
+-    public Transform attackPoint; // Kılıcın vuruş noktası
+-    public float attackRange = 0.8f; // Kılıcın menzili
+-    public LayerMask enemyLayers; // Hangi katman düşman?
+-    public int slashDamage = 20; // Vurulacak hasar miktarı
++    [Header("Combat Settings")]
++    public Transform attackPoint; 
++    public float attackRange = 0.8f; 
++    public LayerMask enemyLayers; 
++    public int slashDamage = 20; 
+ 
+     private float currentSpeed = 0.0f;
+     private bool isGrounded;
+@@ -52,9 +52,9 @@ public class Character_Control : MonoBehaviour
+         HandleMovement();
+         HandleJump();
+         HandleCrouch();
+-        HandleAttack(); // Sol tık
++        HandleAttack(); // Sol tık combo
+         UpdateAnimations();
+-        HandleSpecialAttack(); // Sağ tık (Special)
++        HandleSpecialAttack(); // Sağ tık (Vuruş)
+ 
+         if (Time.time - lastClickTime >= resetTime)
+         {
+@@ -65,43 +65,28 @@ public class Character_Control : MonoBehaviour
+     public void TriggerDeath()
+     {
+         if (isDead) return; 
+-
+         isDead = true; 
+-        
+         _rigidbody2D.velocity = Vector2.zero; 
+         currentSpeed = 0;
+-        
+         _animator.SetBool("isDead", true);
+     }
+ 
+-private void HandleMovement()
++    private void HandleMovement()
+     {
+-        // SAĞA GİTME
+         if (Input.GetKey(KeyCode.D) && !Input.GetMouseButton(1) && !Input.GetKey(KeyCode.S) && !Input.GetMouseButton(0))
+         {
+             currentSpeed = moveSpeed;
+-            
+-            // _spriteRenderer.flipX = false; // BU SATIRI İPTAL EDİYORUZ
+-            
+-            // Karakterin yönünü fiziksel olarak sağa (0 derece) çevir
+             transform.rotation = Quaternion.Euler(0, 0, 0);
+         }
+-        // SOLA GİTME
+         else if (Input.GetKey(KeyCode.A) && !Input.GetMouseButton(1) && !Input.GetKey(KeyCode.S) && !Input.GetMouseButton(0))
+         {
+             currentSpeed = -moveSpeed;
+-            
+-            // _spriteRenderer.flipX = true; // BU SATIRI İPTAL EDİYORUZ
+-
+-            // Karakterin yönünü fiziksel olarak sola (180 derece) çevir
+             transform.rotation = Quaternion.Euler(0, 180, 0);
+         }
+-        // DURMA
+         else
+         {
+             currentSpeed = 0.0f;
+         }
+-
+         _rigidbody2D.velocity = new Vector2(currentSpeed, _rigidbody2D.velocity.y);
+     }
+ 
+@@ -115,14 +100,8 @@ private void HandleMovement()
+ 
+     private void HandleCrouch()
+     {
+-        if (Input.GetKeyDown(KeyCode.S) && isGrounded)
+-        {
+-            isCrouching = true;
+-        }
+-        if (Input.GetKeyUp(KeyCode.S))
+-        {
+-            isCrouching = false;
+-        }
++        if (Input.GetKeyDown(KeyCode.S) && isGrounded) isCrouching = true;
++        if (Input.GetKeyUp(KeyCode.S)) isCrouching = false;
+     }
+ 
+     private void HandleAttack()
+@@ -139,34 +118,39 @@ private void HandleMovement()
+         if (Input.GetMouseButtonDown(1))
+         {
+             swordSlash = true;
+-            // Saldırı animasyonu başladığında hasarı hesapla
+             SlashAttack(); 
+         }
+-        
+         if (Input.GetMouseButtonUp(1))
+         {
+             swordSlash = false;
+         }
+     }
+ 
+-    // YENİ: Hasar Verme Fonksiyonu
++    // --- KRİTİK DEĞİŞİKLİK BURADA ---
+     void SlashAttack()
+     {
+         if (attackPoint == null) return;
+ 
+-        // 1. attackPoint etrafındaki düşmanları tespit et
+         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+ 
+-        // 2. Bulunan her düşmana hasar bilgisini gönder
+         foreach(Collider2D enemy in hitEnemies)
+         {
+-            // Düşman scriptini bul
+-            enemy_knight_movement enemyScript = enemy.GetComponent<enemy_knight_movement>();
+-            
+-            if(enemyScript != null)
++            // Önce: "Bu nesnenin akıllı bir yapay zekası (blok yapabilen) var mı?" diye bakıyoruz.
++            enemy_knight_movement ai = enemy.GetComponent<enemy_knight_movement>();
++
++            if (ai != null)
++            {
++                // Varsa onun ReceiveDamage fonksiyonunu çağırıyoruz (Blok kontrolü orada yapılıyor)
++                ai.ReceiveDamage(slashDamage);
++            }
++            else
+             {
+-                // Düşmanın kendi hasar alma fonksiyonunu çağır (Defans kontrolü orada yapılacak)
+-                enemyScript.ReceiveDamage(slashDamage);
++                // Yoksa (düz bir düşmansa), direkt canına vuruyoruz.
++                health_system health = enemy.GetComponent<health_system>();
++                if (health != null)
++                {
++                    health.TakeDamage(slashDamage);
++                }
+             }
+         }
+     }
+@@ -183,11 +167,11 @@ private void HandleMovement()
+ 
+     void OnDrawGizmosSelected()
+     {
+-        if (groundCheck == null) return;
+-        Gizmos.color = Color.yellow;
+-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+-
+-        // YENİ: Editörde saldırı menzilini görmek için kırmızı çember
++        if (groundCheck != null)
++        {
++            Gizmos.color = Color.yellow;
++            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
++        }
+         if (attackPoint != null)
+         {
+             Gizmos.color = Color.red;
+-- 
+2.51.0.windows.2
+

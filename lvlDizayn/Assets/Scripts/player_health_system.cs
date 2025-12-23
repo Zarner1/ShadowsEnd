@@ -17,7 +17,7 @@ public class player_health_system : MonoBehaviour
     public GameOverManager gameOverManager; // Unity'den Canvas üzerindeki scripti buraya sürükle
 
     [Header("Can Değerleri")]
-    public float maxHealth = 100f; 
+    public float maxHealth = 200f; 
     public float currentHealth;
 
     private Character_Control charControl;

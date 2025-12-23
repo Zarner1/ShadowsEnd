@@ -96,6 +96,8 @@ public class enemy_wizard_movement : MonoBehaviour
         if (col != null) col.enabled = false;
 
         this.enabled = false; 
+        Manager.Instance.EnemyDied();
+        Destroy(gameObject, 1.2f);
     }
 
     void OnDrawGizmosSelected()

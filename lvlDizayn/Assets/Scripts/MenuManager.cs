@@ -1,15 +1,22 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Sahne yönetimi için gerekli
+using UnityEngine.SceneManagement; 
 
 public class MenuManager : MonoBehaviour
 {
     // Oyna butonu tarafından çağrılacak metot
     public void StartGame()
     {
-        // YÜKSEK İHTİMALLE OYUN SAHNENİZİN INDEX'İ 1'DİR.
-        // EĞER OYUN SAHNENİZİN ADINI BİLİYORSANIZ: 
-        // SceneManager.LoadScene("YourGameSceneName"); olarak değiştirin.
-        SceneManager.LoadScene(1); 
+        if (GameManager.Instance != null)
+    {
+        GameManager.Instance.TamamenSifirla();
+    }
+    else
+    {
+        Debug.LogWarning("GameManager yok! Max can sıfırlanamadı.");
+    }
+
+        // İlk sahneyi yükle (Sahne 1 olarak varsayıyoruz)
+        SceneManager.LoadScene("LWL1");
     }
 
     // Ayarlar butonu için (İsteğe bağlı)

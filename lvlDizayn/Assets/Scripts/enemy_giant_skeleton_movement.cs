@@ -163,6 +163,8 @@ public class enemy_giant_skeleton_movement : MonoBehaviour
         anim.SetBool("isAttacking", false);
         
         this.enabled = false; 
+        Manager.Instance.EnemyDied();
+        Destroy(gameObject, 1.2f);
     }
 
     void OnDrawGizmosSelected()

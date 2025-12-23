@@ -507,6 +507,6 @@ MonoBehaviour:
   detectionRange: 10
   moveSpeed: 1.5
   stopDistance: 2
-  attackDamage: 10
+  attackDamage: 5
   minAttackCooldown: 2
   maxAttackCooldown: 4.5

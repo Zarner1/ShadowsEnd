@@ -1,0 +1,9 @@
+1.Repo Bağlantısı
+https://github.com/Zarner1/ShadowsEnd.git
+
+2.Versiyon Kontrol Dosyası Dosya Yolu
+"lvlDizayn\lvlDizayn\VKS\commitler"
+Bu klasörde detaylı commit bilgileri vardır.
+
+3.Açıklama
+3 farklı github hesabı pushlamıştır. Dosyalar çok fazla karışmasın diye görev dağılımında ortak işleri tek hesaptan pushladık. 

@@ -1,0 +1,5418 @@
+From d44bd8a72fdd8cd72fb2e7bd42b9a722e7566b76 Mon Sep 17 00:00:00 2001
+From: Zarner <ms_yildirim@outlook.com>
+Date: Fri, 12 Dec 2025 00:22:43 +0300
+Subject: [PATCH 19/23] cadi ve iskelet eklendi animasyonlari halledildi
+
+---
+ lvlDizayn/Assets/Scenes/LWL3.unity            | 374 ++++++++++++++++-
+ lvlDizayn/Assets/Skeleton.meta                |   8 +
+ .../Skeleton/Skeleton_01_Yellow_Attack2.png   | Bin 0 -> 3651 bytes
+ .../Skeleton_01_Yellow_Attack2.png.meta       | 351 ++++++++++++++++
+ .../Skeleton_01_Yellow_Attack2_0.controller   |  72 ++++
+ ...eleton_01_Yellow_Attack2_0.controller.meta |   8 +
+ .../Skeleton/Skeleton_01_Yellow_Idle.png      | Bin 0 -> 2658 bytes
+ .../Skeleton/Skeleton_01_Yellow_Idle.png.meta | 325 +++++++++++++++
+ .../Skeleton/Skeleton_01_Yellow_Walk.png      | Bin 0 -> 3805 bytes
+ .../Skeleton/Skeleton_01_Yellow_Walk.png.meta | 377 ++++++++++++++++++
+ .../Skeleton_01_Yellow_Walk_0.controller      |  72 ++++
+ .../Skeleton_01_Yellow_Walk_0.controller.meta |   8 +
+ lvlDizayn/Assets/Skeleton/skeleton.controller | 275 +++++++++++++
+ .../Assets/Skeleton/skeleton.controller.meta  |   8 +
+ lvlDizayn/Assets/Skeleton/skeleton.cs         | 137 +++++++
+ lvlDizayn/Assets/Skeleton/skeleton.cs.meta    |   2 +
+ lvlDizayn/Assets/Skeleton/skeleton.prefab     | 221 ++++++++++
+ .../Assets/Skeleton/skeleton.prefab.meta      |   7 +
+ .../Assets/Skeleton/skeleton_attack.anim      |  96 +++++
+ .../Assets/Skeleton/skeleton_attack.anim.meta |   8 +
+ lvlDizayn/Assets/Skeleton/skeleton_idle.anim  |  93 +++++
+ .../Assets/Skeleton/skeleton_idle.anim.meta   |   8 +
+ lvlDizayn/Assets/Skeleton/skeleton_walk.anim  |  99 +++++
+ .../Assets/Skeleton/skeleton_walk.anim.meta   |   8 +
+ lvlDizayn/Assets/wizard1.png                  | Bin 0 -> 3109 bytes
+ lvlDizayn/Assets/wizard1.png.meta             | 169 ++++++++
+ lvlDizayn/Assets/wizard_animation.meta        |   8 +
+ lvlDizayn/Assets/wizard_animation/FireBall.cs |  23 ++
+ .../Assets/wizard_animation/FireBall.cs.meta  |   2 +
+ .../Assets/wizard_animation/Wizard_Idle.anim  |  81 ++++
+ .../wizard_animation/Wizard_Idle.anim.meta    |   8 +
+ .../wizard_animation/Wizard_Saldir.anim       |  75 ++++
+ .../wizard_animation/Wizard_Saldir.anim.meta  |   8 +
+ lvlDizayn/Assets/wizard_animation/frame1.png  | Bin 0 -> 126 bytes
+ .../Assets/wizard_animation/frame1.png.meta   | 143 +++++++
+ lvlDizayn/Assets/wizard_animation/frame2.png  | Bin 0 -> 144 bytes
+ .../Assets/wizard_animation/frame2.png.meta   | 143 +++++++
+ .../Assets/wizard_animation/frame2_0.prefab   | 171 ++++++++
+ .../wizard_animation/frame2_0.prefab.meta     |   7 +
+ lvlDizayn/Assets/wizard_animation/preview.gif | Bin 0 -> 151 bytes
+ .../Assets/wizard_animation/preview.gif.meta  | 143 +++++++
+ .../Assets/wizard_animation/wizard-sheet.png  | Bin 0 -> 10828 bytes
+ .../wizard_animation/wizard-sheet.png.meta    | 299 ++++++++++++++
+ lvlDizayn/Assets/wizard_animation/wizard.cs   |  87 ++++
+ .../Assets/wizard_animation/wizard.cs.meta    |   2 +
+ .../Assets/wizard_animation/wizard1_0.prefab  | 240 +++++++++++
+ .../wizard_animation/wizard1_0.prefab.meta    |   7 +
+ .../wizard_controller.controller              | 156 ++++++++
+ .../wizard_controller.controller.meta         |   8 +
+ .../ProjectSettings/Physics2DSettings.asset   |  25 +-
+ lvlDizayn/ProjectSettings/TagManager.asset    |   7 +-
+ 51 files changed, 4344 insertions(+), 25 deletions(-)
+ create mode 100644 lvlDizayn/Assets/Skeleton.meta
+ create mode 100644 lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Attack2.png
+ create mode 100644 lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Attack2.png.meta
+ create mode 100644 lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Attack2_0.controller
+ create mode 100644 lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Attack2_0.controller.meta
+ create mode 100644 lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Idle.png
+ create mode 100644 lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Idle.png.meta
+ create mode 100644 lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Walk.png
+ create mode 100644 lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Walk.png.meta
+ create mode 100644 lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Walk_0.controller
+ create mode 100644 lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Walk_0.controller.meta
+ create mode 100644 lvlDizayn/Assets/Skeleton/skeleton.controller
+ create mode 100644 lvlDizayn/Assets/Skeleton/skeleton.controller.meta
+ create mode 100644 lvlDizayn/Assets/Skeleton/skeleton.cs
+ create mode 100644 lvlDizayn/Assets/Skeleton/skeleton.cs.meta
+ create mode 100644 lvlDizayn/Assets/Skeleton/skeleton.prefab
+ create mode 100644 lvlDizayn/Assets/Skeleton/skeleton.prefab.meta
+ create mode 100644 lvlDizayn/Assets/Skeleton/skeleton_attack.anim
+ create mode 100644 lvlDizayn/Assets/Skeleton/skeleton_attack.anim.meta
+ create mode 100644 lvlDizayn/Assets/Skeleton/skeleton_idle.anim
+ create mode 100644 lvlDizayn/Assets/Skeleton/skeleton_idle.anim.meta
+ create mode 100644 lvlDizayn/Assets/Skeleton/skeleton_walk.anim
+ create mode 100644 lvlDizayn/Assets/Skeleton/skeleton_walk.anim.meta
+ create mode 100644 lvlDizayn/Assets/wizard1.png
+ create mode 100644 lvlDizayn/Assets/wizard1.png.meta
+ create mode 100644 lvlDizayn/Assets/wizard_animation.meta
+ create mode 100644 lvlDizayn/Assets/wizard_animation/FireBall.cs
+ create mode 100644 lvlDizayn/Assets/wizard_animation/FireBall.cs.meta
+ create mode 100644 lvlDizayn/Assets/wizard_animation/Wizard_Idle.anim
+ create mode 100644 lvlDizayn/Assets/wizard_animation/Wizard_Idle.anim.meta
+ create mode 100644 lvlDizayn/Assets/wizard_animation/Wizard_Saldir.anim
+ create mode 100644 lvlDizayn/Assets/wizard_animation/Wizard_Saldir.anim.meta
+ create mode 100644 lvlDizayn/Assets/wizard_animation/frame1.png
+ create mode 100644 lvlDizayn/Assets/wizard_animation/frame1.png.meta
+ create mode 100644 lvlDizayn/Assets/wizard_animation/frame2.png
+ create mode 100644 lvlDizayn/Assets/wizard_animation/frame2.png.meta
+ create mode 100644 lvlDizayn/Assets/wizard_animation/frame2_0.prefab
+ create mode 100644 lvlDizayn/Assets/wizard_animation/frame2_0.prefab.meta
+ create mode 100644 lvlDizayn/Assets/wizard_animation/preview.gif
+ create mode 100644 lvlDizayn/Assets/wizard_animation/preview.gif.meta
+ create mode 100644 lvlDizayn/Assets/wizard_animation/wizard-sheet.png
+ create mode 100644 lvlDizayn/Assets/wizard_animation/wizard-sheet.png.meta
+ create mode 100644 lvlDizayn/Assets/wizard_animation/wizard.cs
+ create mode 100644 lvlDizayn/Assets/wizard_animation/wizard.cs.meta
+ create mode 100644 lvlDizayn/Assets/wizard_animation/wizard1_0.prefab
+ create mode 100644 lvlDizayn/Assets/wizard_animation/wizard1_0.prefab.meta
+ create mode 100644 lvlDizayn/Assets/wizard_animation/wizard_controller.controller
+ create mode 100644 lvlDizayn/Assets/wizard_animation/wizard_controller.controller.meta
+
+diff --git a/lvlDizayn/Assets/Scenes/LWL3.unity b/lvlDizayn/Assets/Scenes/LWL3.unity
+index 22fb6d99..2d959093 100644
+--- a/lvlDizayn/Assets/Scenes/LWL3.unity
++++ b/lvlDizayn/Assets/Scenes/LWL3.unity
+@@ -3661,7 +3661,7 @@ Transform:
+   m_GameObject: {fileID: 610040517}
+   serializedVersion: 2
+   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+-  m_LocalPosition: {x: 62.76, y: 7.8, z: -60.32}
++  m_LocalPosition: {x: 18.74, y: 6.3, z: -60.32}
+   m_LocalScale: {x: 1.2927495, y: 1.2927495, z: 1.2927495}
+   m_ConstrainProportionsScale: 1
+   m_Children: []
+@@ -5455,7 +5455,7 @@ SpriteRenderer:
+   m_FlipX: 0
+   m_FlipY: 0
+   m_DrawMode: 2
+-  m_Size: {x: 8.295706, y: 5.054825}
++  m_Size: {x: 8.295706, y: 5.1949344}
+   m_AdaptiveModeThreshold: 0.5
+   m_SpriteTileMode: 0
+   m_WasSpriteAssigned: 1
+@@ -5469,7 +5469,7 @@ Transform:
+   m_GameObject: {fileID: 1110350922}
+   serializedVersion: 2
+   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+-  m_LocalPosition: {x: 27.353199, y: 0.09889984, z: 0}
++  m_LocalPosition: {x: 27.353199, y: 0.0288, z: 0}
+   m_LocalScale: {x: 1, y: 1, z: 1}
+   m_ConstrainProportionsScale: 0
+   m_Children: []
+@@ -5851,6 +5851,14 @@ PrefabInstance:
+       propertyPath: m_Name
+       value: player
+       objectReference: {fileID: 0}
++    - target: {fileID: -2253911629886400664, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
++      propertyPath: m_Layer
++      value: 7
++      objectReference: {fileID: 0}
++    - target: {fileID: -2253911629886400664, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
++      propertyPath: m_TagString
++      value: Player
++      objectReference: {fileID: 0}
+     - target: {fileID: 1160356261127867848, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
+       propertyPath: m_Controller
+       value: 
+@@ -5893,11 +5901,11 @@ PrefabInstance:
+       objectReference: {fileID: 0}
+     - target: {fileID: 7878350319992209165, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
+       propertyPath: m_LocalPosition.x
+-      value: -9.22
++      value: 16.76
+       objectReference: {fileID: 0}
+     - target: {fileID: 7878350319992209165, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
+       propertyPath: m_LocalPosition.y
+-      value: 5.22
++      value: 5.67
+       objectReference: {fileID: 0}
+     - target: {fileID: 7878350319992209165, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
+       propertyPath: m_LocalPosition.z
+@@ -5947,6 +5955,9 @@ PrefabInstance:
+     - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
+       insertIndex: -1
+       addedObject: {fileID: 1368916494}
++    - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
++      insertIndex: -1
++      addedObject: {fileID: 1368916502}
+   m_SourcePrefab: {fileID: -8435245712485981826, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
+ --- !u!1 &1368916493 stripped
+ GameObject:
+@@ -6009,7 +6020,7 @@ BoxCollider2D:
+   m_PrefabInstance: {fileID: 0}
+   m_PrefabAsset: {fileID: 0}
+   m_GameObject: {fileID: 1368916493}
+-  m_Enabled: 1
++  m_Enabled: 0
+   serializedVersion: 3
+   m_Density: 1
+   m_Material: {fileID: 6200000, guid: 2f2f0172b395cdd4f8043b8bf47e1127, type: 2}
+@@ -6053,6 +6064,63 @@ Transform:
+   m_CorrespondingSourceObject: {fileID: 7878350319992209165, guid: 5a94c11ac055bdb4591559e172aa1e72, type: 3}
+   m_PrefabInstance: {fileID: 1296925039}
+   m_PrefabAsset: {fileID: 0}
++--- !u!60 &1368916502
++PolygonCollider2D:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1368916493}
++  m_Enabled: 1
++  serializedVersion: 3
++  m_Density: 1
++  m_Material: {fileID: 0}
++  m_IncludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_ExcludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_LayerOverridePriority: 0
++  m_ForceSendLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_ForceReceiveLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_ContactCaptureLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_CallbackLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_IsTrigger: 0
++  m_UsedByEffector: 0
++  m_CompositeOperation: 0
++  m_CompositeOrder: 0
++  m_Offset: {x: 0, y: 0}
++  m_SpriteTilingProperty:
++    border: {x: 0, y: 0, z: 0, w: 0}
++    pivot: {x: 0.5, y: 0.5}
++    oldSize: {x: 1.28, y: 0.96}
++    newSize: {x: 0.28, y: 0.39}
++    adaptiveTilingThreshold: 0.5
++    drawMode: 0
++    adaptiveTiling: 0
++  m_AutoTiling: 0
++  m_Points:
++    m_Paths:
++    - - {x: -0.0658624, y: -0.1347921}
++      - {x: -0.16596863, y: -0.20595475}
++      - {x: -0.19222854, y: -0.39}
++      - {x: -0.17999999, y: -0.42999998}
++      - {x: -0.08, y: -0.45999998}
++      - {x: 0.089999996, y: -0.45999998}
++      - {x: 0.16, y: -0.42999998}
++      - {x: 0.19161817, y: -0.31176752}
++      - {x: 0.19161817, y: -0.21060486}
++      - {x: 0.07201527, y: -0.15776941}
++  m_UseDelaunayMesh: 1
+ --- !u!1 &1369459469
+ GameObject:
+   m_ObjectHideFlags: 0
+@@ -6338,7 +6406,7 @@ GameObject:
+   - component: {fileID: 1422018137}
+   m_Layer: 3
+   m_Name: zemin_box
+-  m_TagString: Untagged
++  m_TagString: ground
+   m_Icon: {fileID: 0}
+   m_NavMeshLayer: 0
+   m_StaticEditorFlags: 0
+@@ -6702,7 +6770,7 @@ GameObject:
+   - component: {fileID: 1538626358}
+   m_Layer: 3
+   m_Name: environment_33 (1)
+-  m_TagString: Untagged
++  m_TagString: ground
+   m_Icon: {fileID: 0}
+   m_NavMeshLayer: 0
+   m_StaticEditorFlags: 0
+@@ -8291,7 +8359,7 @@ GameObject:
+   serializedVersion: 6
+   m_Component:
+   - component: {fileID: 1887418281}
+-  m_Layer: 3
++  m_Layer: 7
+   m_Name: layer
+   m_TagString: Untagged
+   m_Icon: {fileID: 0}
+@@ -9223,6 +9291,111 @@ Transform:
+   m_Children: []
+   m_Father: {fileID: 860432169}
+   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++--- !u!1001 &2053317376
++PrefabInstance:
++  m_ObjectHideFlags: 0
++  serializedVersion: 2
++  m_Modification:
++    serializedVersion: 3
++    m_TransformParent: {fileID: 0}
++    m_Modifications:
++    - target: {fileID: 1726404970746518912, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[26].x
++      value: -0.077644825
++      objectReference: {fileID: 0}
++    - target: {fileID: 1726404970746518912, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[26].y
++      value: -0.5541183
++      objectReference: {fileID: 0}
++    - target: {fileID: 1726404970746518912, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[27].x
++      value: -0.027644198
++      objectReference: {fileID: 0}
++    - target: {fileID: 1726404970746518912, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[27].y
++      value: -0.5294076
++      objectReference: {fileID: 0}
++    - target: {fileID: 1726404970746518912, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[28].x
++      value: 0.023540549
++      objectReference: {fileID: 0}
++    - target: {fileID: 1726404970746518912, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[28].y
++      value: -0.51235485
++      objectReference: {fileID: 0}
++    - target: {fileID: 1726404970746518912, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[29].x
++      value: 0.18942066
++      objectReference: {fileID: 0}
++    - target: {fileID: 1726404970746518912, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[29].y
++      value: -0.53647435
++      objectReference: {fileID: 0}
++    - target: {fileID: 2575979282260229388, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Constraints
++      value: 7
++      objectReference: {fileID: 0}
++    - target: {fileID: 4121310127443701054, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Name
++      value: wizard1_0 (1)
++      objectReference: {fileID: 0}
++    - target: {fileID: 4121310127443701054, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Layer
++      value: 6
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalScale.x
++      value: 3
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalScale.y
++      value: 3
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalPosition.x
++      value: -2.87
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalPosition.y
++      value: 15.23
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalPosition.z
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalRotation.w
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalRotation.x
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalRotation.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalRotation.z
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalEulerAnglesHint.x
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalEulerAnglesHint.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalEulerAnglesHint.z
++      value: 0
++      objectReference: {fileID: 0}
++    m_RemovedComponents: []
++    m_RemovedGameObjects: []
++    m_AddedGameObjects: []
++    m_AddedComponents: []
++  m_SourcePrefab: {fileID: 100100000, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
+ --- !u!1 &2057345302
+ GameObject:
+   m_ObjectHideFlags: 0
+@@ -9509,7 +9682,7 @@ GameObject:
+   - component: {fileID: 2091912078}
+   m_Layer: 3
+   m_Name: environment_33
+-  m_TagString: Untagged
++  m_TagString: ground
+   m_Icon: {fileID: 0}
+   m_NavMeshLayer: 0
+   m_StaticEditorFlags: 0
+@@ -9825,6 +9998,184 @@ Transform:
+   m_Children: []
+   m_Father: {fileID: 860432169}
+   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++--- !u!1001 &6423460305139758472
++PrefabInstance:
++  m_ObjectHideFlags: 0
++  serializedVersion: 2
++  m_Modification:
++    serializedVersion: 3
++    m_TransformParent: {fileID: 0}
++    m_Modifications:
++    - target: {fileID: 1738771990231088208, guid: d4d6708f5d17baf4689574e9d7a39c2d, type: 3}
++      propertyPath: m_LocalScale.z
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 1738771990231088208, guid: d4d6708f5d17baf4689574e9d7a39c2d, type: 3}
++      propertyPath: m_LocalPosition.x
++      value: 21.8
++      objectReference: {fileID: 0}
++    - target: {fileID: 1738771990231088208, guid: d4d6708f5d17baf4689574e9d7a39c2d, type: 3}
++      propertyPath: m_LocalPosition.y
++      value: 4.37
++      objectReference: {fileID: 0}
++    - target: {fileID: 1738771990231088208, guid: d4d6708f5d17baf4689574e9d7a39c2d, type: 3}
++      propertyPath: m_LocalPosition.z
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 1738771990231088208, guid: d4d6708f5d17baf4689574e9d7a39c2d, type: 3}
++      propertyPath: m_LocalRotation.w
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 1738771990231088208, guid: d4d6708f5d17baf4689574e9d7a39c2d, type: 3}
++      propertyPath: m_LocalRotation.x
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 1738771990231088208, guid: d4d6708f5d17baf4689574e9d7a39c2d, type: 3}
++      propertyPath: m_LocalRotation.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 1738771990231088208, guid: d4d6708f5d17baf4689574e9d7a39c2d, type: 3}
++      propertyPath: m_LocalRotation.z
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 1738771990231088208, guid: d4d6708f5d17baf4689574e9d7a39c2d, type: 3}
++      propertyPath: m_LocalEulerAnglesHint.x
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 1738771990231088208, guid: d4d6708f5d17baf4689574e9d7a39c2d, type: 3}
++      propertyPath: m_LocalEulerAnglesHint.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 1738771990231088208, guid: d4d6708f5d17baf4689574e9d7a39c2d, type: 3}
++      propertyPath: m_LocalEulerAnglesHint.z
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 3543330197331019868, guid: d4d6708f5d17baf4689574e9d7a39c2d, type: 3}
++      propertyPath: target
++      value: 
++      objectReference: {fileID: 1368916499}
++    - target: {fileID: 3543330197331019868, guid: d4d6708f5d17baf4689574e9d7a39c2d, type: 3}
++      propertyPath: attackCooldown
++      value: 0.001
++      objectReference: {fileID: 0}
++    - target: {fileID: 7645934514694362147, guid: d4d6708f5d17baf4689574e9d7a39c2d, type: 3}
++      propertyPath: m_Name
++      value: skeleton
++      objectReference: {fileID: 0}
++    - target: {fileID: 7645934514694362147, guid: d4d6708f5d17baf4689574e9d7a39c2d, type: 3}
++      propertyPath: m_Layer
++      value: 6
++      objectReference: {fileID: 0}
++    m_RemovedComponents: []
++    m_RemovedGameObjects: []
++    m_AddedGameObjects: []
++    m_AddedComponents: []
++  m_SourcePrefab: {fileID: 100100000, guid: d4d6708f5d17baf4689574e9d7a39c2d, type: 3}
++--- !u!1001 &8570670609894311266
++PrefabInstance:
++  m_ObjectHideFlags: 0
++  serializedVersion: 2
++  m_Modification:
++    serializedVersion: 3
++    m_TransformParent: {fileID: 0}
++    m_Modifications:
++    - target: {fileID: 1726404970746518912, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[26].x
++      value: -0.077644825
++      objectReference: {fileID: 0}
++    - target: {fileID: 1726404970746518912, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[26].y
++      value: -0.5541183
++      objectReference: {fileID: 0}
++    - target: {fileID: 1726404970746518912, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[27].x
++      value: -0.027644198
++      objectReference: {fileID: 0}
++    - target: {fileID: 1726404970746518912, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[27].y
++      value: -0.5294076
++      objectReference: {fileID: 0}
++    - target: {fileID: 1726404970746518912, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[28].x
++      value: 0.023540549
++      objectReference: {fileID: 0}
++    - target: {fileID: 1726404970746518912, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[28].y
++      value: -0.51235485
++      objectReference: {fileID: 0}
++    - target: {fileID: 1726404970746518912, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[29].x
++      value: 0.18942066
++      objectReference: {fileID: 0}
++    - target: {fileID: 1726404970746518912, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[29].y
++      value: -0.53647435
++      objectReference: {fileID: 0}
++    - target: {fileID: 2575979282260229388, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Constraints
++      value: 7
++      objectReference: {fileID: 0}
++    - target: {fileID: 4121310127443701054, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Name
++      value: wizard1_0
++      objectReference: {fileID: 0}
++    - target: {fileID: 4121310127443701054, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_Layer
++      value: 6
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalScale.x
++      value: 3
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalScale.y
++      value: 3
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalPosition.x
++      value: 21.8
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalPosition.y
++      value: 15.23
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalPosition.z
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalRotation.w
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalRotation.x
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalRotation.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalRotation.z
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalEulerAnglesHint.x
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalEulerAnglesHint.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 6094116864188855194, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
++      propertyPath: m_LocalEulerAnglesHint.z
++      value: 0
++      objectReference: {fileID: 0}
++    m_RemovedComponents: []
++    m_RemovedGameObjects: []
++    m_AddedGameObjects: []
++    m_AddedComponents: []
++  m_SourcePrefab: {fileID: 100100000, guid: 8c09a9aea947f2241967d63942bf8a3c, type: 3}
+ --- !u!1660057539 &9223372036854775807
+ SceneRoots:
+   m_ObjectHideFlags: 0
+@@ -9837,3 +10188,6 @@ SceneRoots:
+   - {fileID: 1553299966}
+   - {fileID: 232298551}
+   - {fileID: 317791236}
++  - {fileID: 8570670609894311266}
++  - {fileID: 2053317376}
++  - {fileID: 6423460305139758472}
+diff --git a/lvlDizayn/Assets/Skeleton.meta b/lvlDizayn/Assets/Skeleton.meta
+new file mode 100644
+index 00000000..4e130e91
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton.meta
+@@ -0,0 +1,8 @@
++fileFormatVersion: 2
++guid: a34fa704060f0f8428e9de194b9a1e13
++folderAsset: yes
++DefaultImporter:
++  externalObjects: {}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Attack2.png b/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Attack2.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..c2e11cf3f44099915447882f3173e6854a31a479
+GIT binary patch
+literal 3651
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Attack2.png.meta b/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Attack2.png.meta
+new file mode 100644
+index 00000000..410d608d
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Attack2.png.meta
+@@ -0,0 +1,351 @@
++fileFormatVersion: 2
++guid: 0ffa3263f56f7904091f89ba5e67bef8
++TextureImporter:
++  internalIDToNameTable:
++  - first:
++      213: -1737854667774678262
++    second: Skeleton_01_Yellow_Attack2_0
++  - first:
++      213: -5887723169146763472
++    second: Skeleton_01_Yellow_Attack2_1
++  - first:
++      213: -2055235798058913912
++    second: Skeleton_01_Yellow_Attack2_2
++  - first:
++      213: -8399435507721736076
++    second: Skeleton_01_Yellow_Attack2_3
++  - first:
++      213: -8012122512862766572
++    second: Skeleton_01_Yellow_Attack2_4
++  - first:
++      213: 4367358470940848435
++    second: Skeleton_01_Yellow_Attack2_5
++  - first:
++      213: -2139968651841817830
++    second: Skeleton_01_Yellow_Attack2_6
++  - first:
++      213: 2489568902883181048
++    second: Skeleton_01_Yellow_Attack2_7
++  - first:
++      213: -3187945644198705245
++    second: Skeleton_01_Yellow_Attack2_8
++  externalObjects: {}
++  serializedVersion: 13
++  mipmaps:
++    mipMapMode: 0
++    enableMipMap: 0
++    sRGBTexture: 1
++    linearTexture: 0
++    fadeOut: 0
++    borderMipMap: 0
++    mipMapsPreserveCoverage: 0
++    alphaTestReferenceValue: 0.5
++    mipMapFadeDistanceStart: 1
++    mipMapFadeDistanceEnd: 3
++  bumpmap:
++    convertToNormalMap: 0
++    externalNormalMap: 0
++    heightScale: 0.25
++    normalMapFilter: 0
++    flipGreenChannel: 0
++  isReadable: 0
++  streamingMipmaps: 0
++  streamingMipmapsPriority: 0
++  vTOnly: 0
++  ignoreMipmapLimit: 0
++  grayScaleToAlpha: 0
++  generateCubemap: 6
++  cubemapConvolution: 0
++  seamlessCubemap: 0
++  textureFormat: 1
++  maxTextureSize: 2048
++  textureSettings:
++    serializedVersion: 2
++    filterMode: 1
++    aniso: 1
++    mipBias: 0
++    wrapU: 1
++    wrapV: 1
++    wrapW: 1
++  nPOTScale: 0
++  lightmap: 0
++  compressionQuality: 50
++  spriteMode: 2
++  spriteExtrude: 1
++  spriteMeshType: 1
++  alignment: 0
++  spritePivot: {x: 0.5, y: 0.5}
++  spritePixelsToUnits: 100
++  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
++  spriteGenerateFallbackPhysicsShape: 1
++  alphaUsage: 1
++  alphaIsTransparency: 1
++  spriteTessellationDetail: -1
++  textureType: 8
++  textureShape: 1
++  singleChannelComponent: 0
++  flipbookRows: 1
++  flipbookColumns: 1
++  maxTextureSizeSet: 0
++  compressionQualitySet: 0
++  textureFormatSet: 0
++  ignorePngGamma: 0
++  applyGammaDecoding: 0
++  swizzle: 50462976
++  cookieLightType: 0
++  platformSettings:
++  - serializedVersion: 4
++    buildTarget: DefaultTexturePlatform
++    maxTextureSize: 2048
++    resizeAlgorithm: 0
++    textureFormat: -1
++    textureCompression: 1
++    compressionQuality: 50
++    crunchedCompression: 0
++    allowsAlphaSplitting: 0
++    overridden: 0
++    ignorePlatformSupport: 0
++    androidETC2FallbackOverride: 0
++    forceMaximumCompressionQuality_BC6H_BC7: 0
++  - serializedVersion: 4
++    buildTarget: Standalone
++    maxTextureSize: 2048
++    resizeAlgorithm: 0
++    textureFormat: -1
++    textureCompression: 1
++    compressionQuality: 50
++    crunchedCompression: 0
++    allowsAlphaSplitting: 0
++    overridden: 0
++    ignorePlatformSupport: 0
++    androidETC2FallbackOverride: 0
++    forceMaximumCompressionQuality_BC6H_BC7: 0
++  spriteSheet:
++    serializedVersion: 2
++    sprites:
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Attack2_0
++      rect:
++        serializedVersion: 2
++        x: 33
++        y: 0
++        width: 36
++        height: 47
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: a0b29002366e1e7e0800000000000000
++      internalID: -1737854667774678262
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Attack2_1
++      rect:
++        serializedVersion: 2
++        x: 125
++        y: 0
++        width: 31
++        height: 46
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 0378b2fd8fa9a4ea0800000000000000
++      internalID: -5887723169146763472
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Attack2_2
++      rect:
++        serializedVersion: 2
++        x: 219
++        y: 0
++        width: 38
++        height: 43
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 88f28074ee55a73e0800000000000000
++      internalID: -2055235798058913912
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Attack2_3
++      rect:
++        serializedVersion: 2
++        x: 315
++        y: 0
++        width: 38
++        height: 42
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 470717868e53f6b80800000000000000
++      internalID: -8399435507721736076
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Attack2_4
++      rect:
++        serializedVersion: 2
++        x: 417
++        y: 0
++        width: 63
++        height: 48
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 41a97eb46093fc090800000000000000
++      internalID: -8012122512862766572
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Attack2_5
++      rect:
++        serializedVersion: 2
++        x: 514
++        y: 0
++        width: 63
++        height: 48
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 331f83bd369fb9c30800000000000000
++      internalID: 4367358470940848435
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Attack2_6
++      rect:
++        serializedVersion: 2
++        x: 610
++        y: 0
++        width: 62
++        height: 47
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: a133f7469dd4d42e0800000000000000
++      internalID: -2139968651841817830
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Attack2_7
++      rect:
++        serializedVersion: 2
++        x: 707
++        y: 0
++        width: 47
++        height: 47
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 8f106341ab9bc8220800000000000000
++      internalID: 2489568902883181048
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Attack2_8
++      rect:
++        serializedVersion: 2
++        x: 801
++        y: 0
++        width: 36
++        height: 47
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 3a7484ab35422c3d0800000000000000
++      internalID: -3187945644198705245
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    outline: []
++    customData: 
++    physicsShape: []
++    bones: []
++    spriteID: 
++    internalID: 0
++    vertices: []
++    indices: 
++    edges: []
++    weights: []
++    secondaryTextures: []
++    spriteCustomMetadata:
++      entries: []
++    nameFileIdTable:
++      Skeleton_01_Yellow_Attack2_0: -1737854667774678262
++      Skeleton_01_Yellow_Attack2_1: -5887723169146763472
++      Skeleton_01_Yellow_Attack2_2: -2055235798058913912
++      Skeleton_01_Yellow_Attack2_3: -8399435507721736076
++      Skeleton_01_Yellow_Attack2_4: -8012122512862766572
++      Skeleton_01_Yellow_Attack2_5: 4367358470940848435
++      Skeleton_01_Yellow_Attack2_6: -2139968651841817830
++      Skeleton_01_Yellow_Attack2_7: 2489568902883181048
++      Skeleton_01_Yellow_Attack2_8: -3187945644198705245
++  mipmapLimitGroupName: 
++  pSDRemoveMatte: 0
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Attack2_0.controller b/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Attack2_0.controller
+new file mode 100644
+index 00000000..9096a3cb
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Attack2_0.controller
+@@ -0,0 +1,72 @@
++%YAML 1.1
++%TAG !u! tag:unity3d.com,2011:
++--- !u!1102 &-8622285204998536272
++AnimatorState:
++  serializedVersion: 6
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: skeleton_attak
++  m_Speed: 1
++  m_CycleOffset: 0
++  m_Transitions: []
++  m_StateMachineBehaviours: []
++  m_Position: {x: 50, y: 50, z: 0}
++  m_IKOnFeet: 0
++  m_WriteDefaultValues: 1
++  m_Mirror: 0
++  m_SpeedParameterActive: 0
++  m_MirrorParameterActive: 0
++  m_CycleOffsetParameterActive: 0
++  m_TimeParameterActive: 0
++  m_Motion: {fileID: 7400000, guid: f8342c8d379f45640ba77a8095b2f654, type: 2}
++  m_Tag: 
++  m_SpeedParameter: 
++  m_MirrorParameter: 
++  m_CycleOffsetParameter: 
++  m_TimeParameter: 
++--- !u!1107 &-3223389397666131409
++AnimatorStateMachine:
++  serializedVersion: 6
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: Base Layer
++  m_ChildStates:
++  - serializedVersion: 1
++    m_State: {fileID: -8622285204998536272}
++    m_Position: {x: 200, y: 0, z: 0}
++  m_ChildStateMachines: []
++  m_AnyStateTransitions: []
++  m_EntryTransitions: []
++  m_StateMachineTransitions: {}
++  m_StateMachineBehaviours: []
++  m_AnyStatePosition: {x: 50, y: 20, z: 0}
++  m_EntryPosition: {x: 50, y: 120, z: 0}
++  m_ExitPosition: {x: 800, y: 120, z: 0}
++  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
++  m_DefaultState: {fileID: -8622285204998536272}
++--- !u!91 &9100000
++AnimatorController:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: Skeleton_01_Yellow_Attack2_0
++  serializedVersion: 5
++  m_AnimatorParameters: []
++  m_AnimatorLayers:
++  - serializedVersion: 5
++    m_Name: Base Layer
++    m_StateMachine: {fileID: -3223389397666131409}
++    m_Mask: {fileID: 0}
++    m_Motions: []
++    m_Behaviours: []
++    m_BlendingMode: 0
++    m_SyncedLayerIndex: -1
++    m_DefaultWeight: 0
++    m_IKPass: 0
++    m_SyncedLayerAffectsTiming: 0
++    m_Controller: {fileID: 9100000}
+diff --git a/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Attack2_0.controller.meta b/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Attack2_0.controller.meta
+new file mode 100644
+index 00000000..50a7e8a5
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Attack2_0.controller.meta
+@@ -0,0 +1,8 @@
++fileFormatVersion: 2
++guid: e26d20a21f6afb746bb03621f2815d0f
++NativeFormatImporter:
++  externalObjects: {}
++  mainObjectFileID: 9100000
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Idle.png b/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Idle.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..21d08c0eb62a53b369f9b70929bf6bdc46ac9dbc
+GIT binary patch
+literal 2658
+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
+BQ+)sc
+
+literal 0
+HcmV?d00001
+
+diff --git a/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Idle.png.meta b/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Idle.png.meta
+new file mode 100644
+index 00000000..48781596
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Idle.png.meta
+@@ -0,0 +1,325 @@
++fileFormatVersion: 2
++guid: c22cfe2f54d0de34089e6ba4471c629c
++TextureImporter:
++  internalIDToNameTable:
++  - first:
++      213: -7446206344923327547
++    second: Skeleton_01_Yellow_Idle_0
++  - first:
++      213: -4120460663552790595
++    second: Skeleton_01_Yellow_Idle_1
++  - first:
++      213: 5604123498378264224
++    second: Skeleton_01_Yellow_Idle_2
++  - first:
++      213: -4325250142119288430
++    second: Skeleton_01_Yellow_Idle_3
++  - first:
++      213: 735741189606530538
++    second: Skeleton_01_Yellow_Idle_4
++  - first:
++      213: 1399157319069389031
++    second: Skeleton_01_Yellow_Idle_5
++  - first:
++      213: -8891129356961723828
++    second: Skeleton_01_Yellow_Idle_6
++  - first:
++      213: -8030778478772616401
++    second: Skeleton_01_Yellow_Idle_7
++  externalObjects: {}
++  serializedVersion: 13
++  mipmaps:
++    mipMapMode: 0
++    enableMipMap: 0
++    sRGBTexture: 1
++    linearTexture: 0
++    fadeOut: 0
++    borderMipMap: 0
++    mipMapsPreserveCoverage: 0
++    alphaTestReferenceValue: 0.5
++    mipMapFadeDistanceStart: 1
++    mipMapFadeDistanceEnd: 3
++  bumpmap:
++    convertToNormalMap: 0
++    externalNormalMap: 0
++    heightScale: 0.25
++    normalMapFilter: 0
++    flipGreenChannel: 0
++  isReadable: 0
++  streamingMipmaps: 0
++  streamingMipmapsPriority: 0
++  vTOnly: 0
++  ignoreMipmapLimit: 0
++  grayScaleToAlpha: 0
++  generateCubemap: 6
++  cubemapConvolution: 0
++  seamlessCubemap: 0
++  textureFormat: 1
++  maxTextureSize: 2048
++  textureSettings:
++    serializedVersion: 2
++    filterMode: 1
++    aniso: 1
++    mipBias: 0
++    wrapU: 1
++    wrapV: 1
++    wrapW: 1
++  nPOTScale: 0
++  lightmap: 0
++  compressionQuality: 50
++  spriteMode: 2
++  spriteExtrude: 1
++  spriteMeshType: 1
++  alignment: 0
++  spritePivot: {x: 0.5, y: 0.5}
++  spritePixelsToUnits: 100
++  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
++  spriteGenerateFallbackPhysicsShape: 1
++  alphaUsage: 1
++  alphaIsTransparency: 1
++  spriteTessellationDetail: -1
++  textureType: 8
++  textureShape: 1
++  singleChannelComponent: 0
++  flipbookRows: 1
++  flipbookColumns: 1
++  maxTextureSizeSet: 0
++  compressionQualitySet: 0
++  textureFormatSet: 0
++  ignorePngGamma: 0
++  applyGammaDecoding: 0
++  swizzle: 50462976
++  cookieLightType: 0
++  platformSettings:
++  - serializedVersion: 4
++    buildTarget: DefaultTexturePlatform
++    maxTextureSize: 2048
++    resizeAlgorithm: 0
++    textureFormat: -1
++    textureCompression: 1
++    compressionQuality: 50
++    crunchedCompression: 0
++    allowsAlphaSplitting: 0
++    overridden: 0
++    ignorePlatformSupport: 0
++    androidETC2FallbackOverride: 0
++    forceMaximumCompressionQuality_BC6H_BC7: 0
++  - serializedVersion: 4
++    buildTarget: Standalone
++    maxTextureSize: 2048
++    resizeAlgorithm: 0
++    textureFormat: -1
++    textureCompression: 1
++    compressionQuality: 50
++    crunchedCompression: 0
++    allowsAlphaSplitting: 0
++    overridden: 0
++    ignorePlatformSupport: 0
++    androidETC2FallbackOverride: 0
++    forceMaximumCompressionQuality_BC6H_BC7: 0
++  spriteSheet:
++    serializedVersion: 2
++    sprites:
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Idle_0
++      rect:
++        serializedVersion: 2
++        x: 33
++        y: 0
++        width: 36
++        height: 47
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 5c3d59ee7c2c9a890800000000000000
++      internalID: -7446206344923327547
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Idle_1
++      rect:
++        serializedVersion: 2
++        x: 129
++        y: 0
++        width: 36
++        height: 47
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: dbf27fd8bde21d6c0800000000000000
++      internalID: -4120460663552790595
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Idle_2
++      rect:
++        serializedVersion: 2
++        x: 225
++        y: 0
++        width: 36
++        height: 46
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 0ae714e31a8d5cd40800000000000000
++      internalID: 5604123498378264224
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Idle_3
++      rect:
++        serializedVersion: 2
++        x: 321
++        y: 0
++        width: 36
++        height: 45
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 291a54279ef99f3c0800000000000000
++      internalID: -4325250142119288430
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Idle_4
++      rect:
++        serializedVersion: 2
++        x: 417
++        y: 0
++        width: 36
++        height: 45
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: aedde1db6b0e53a00800000000000000
++      internalID: 735741189606530538
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Idle_5
++      rect:
++        serializedVersion: 2
++        x: 513
++        y: 0
++        width: 36
++        height: 46
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 7e0d40c2b2eca6310800000000000000
++      internalID: 1399157319069389031
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Idle_6
++      rect:
++        serializedVersion: 2
++        x: 609
++        y: 0
++        width: 36
++        height: 47
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: c4acf3205fc5c9480800000000000000
++      internalID: -8891129356961723828
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Idle_7
++      rect:
++        serializedVersion: 2
++        x: 705
++        y: 0
++        width: 36
++        height: 47
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: f2308eeb581fc8090800000000000000
++      internalID: -8030778478772616401
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    outline: []
++    customData: 
++    physicsShape: []
++    bones: []
++    spriteID: 
++    internalID: 0
++    vertices: []
++    indices: 
++    edges: []
++    weights: []
++    secondaryTextures: []
++    spriteCustomMetadata:
++      entries: []
++    nameFileIdTable:
++      Skeleton_01_Yellow_Idle_0: -7446206344923327547
++      Skeleton_01_Yellow_Idle_1: -4120460663552790595
++      Skeleton_01_Yellow_Idle_2: 5604123498378264224
++      Skeleton_01_Yellow_Idle_3: -4325250142119288430
++      Skeleton_01_Yellow_Idle_4: 735741189606530538
++      Skeleton_01_Yellow_Idle_5: 1399157319069389031
++      Skeleton_01_Yellow_Idle_6: -8891129356961723828
++      Skeleton_01_Yellow_Idle_7: -8030778478772616401
++  mipmapLimitGroupName: 
++  pSDRemoveMatte: 0
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Walk.png b/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Walk.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..a317da2cc78e5aa32373ecb2446d66d64c8e4726
+GIT binary patch
+literal 3805
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Walk.png.meta b/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Walk.png.meta
+new file mode 100644
+index 00000000..bae5705f
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Walk.png.meta
+@@ -0,0 +1,377 @@
++fileFormatVersion: 2
++guid: 6e0b21432f05fb34abfb949386fe7353
++TextureImporter:
++  internalIDToNameTable:
++  - first:
++      213: 2396755747686247043
++    second: Skeleton_01_Yellow_Walk_0
++  - first:
++      213: -8314651336548344412
++    second: Skeleton_01_Yellow_Walk_1
++  - first:
++      213: -5292331084168620755
++    second: Skeleton_01_Yellow_Walk_2
++  - first:
++      213: -3126693925460866593
++    second: Skeleton_01_Yellow_Walk_3
++  - first:
++      213: 1816591175994060654
++    second: Skeleton_01_Yellow_Walk_4
++  - first:
++      213: -4362106042154398585
++    second: Skeleton_01_Yellow_Walk_5
++  - first:
++      213: -3690519136656304431
++    second: Skeleton_01_Yellow_Walk_6
++  - first:
++      213: -2411220975314026429
++    second: Skeleton_01_Yellow_Walk_7
++  - first:
++      213: -621276919100137684
++    second: Skeleton_01_Yellow_Walk_8
++  - first:
++      213: 6630009710106920399
++    second: Skeleton_01_Yellow_Walk_9
++  externalObjects: {}
++  serializedVersion: 13
++  mipmaps:
++    mipMapMode: 0
++    enableMipMap: 0
++    sRGBTexture: 1
++    linearTexture: 0
++    fadeOut: 0
++    borderMipMap: 0
++    mipMapsPreserveCoverage: 0
++    alphaTestReferenceValue: 0.5
++    mipMapFadeDistanceStart: 1
++    mipMapFadeDistanceEnd: 3
++  bumpmap:
++    convertToNormalMap: 0
++    externalNormalMap: 0
++    heightScale: 0.25
++    normalMapFilter: 0
++    flipGreenChannel: 0
++  isReadable: 0
++  streamingMipmaps: 0
++  streamingMipmapsPriority: 0
++  vTOnly: 0
++  ignoreMipmapLimit: 0
++  grayScaleToAlpha: 0
++  generateCubemap: 6
++  cubemapConvolution: 0
++  seamlessCubemap: 0
++  textureFormat: 1
++  maxTextureSize: 2048
++  textureSettings:
++    serializedVersion: 2
++    filterMode: 1
++    aniso: 1
++    mipBias: 0
++    wrapU: 1
++    wrapV: 1
++    wrapW: 1
++  nPOTScale: 0
++  lightmap: 0
++  compressionQuality: 50
++  spriteMode: 2
++  spriteExtrude: 1
++  spriteMeshType: 1
++  alignment: 0
++  spritePivot: {x: 0.5, y: 0.5}
++  spritePixelsToUnits: 100
++  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
++  spriteGenerateFallbackPhysicsShape: 1
++  alphaUsage: 1
++  alphaIsTransparency: 1
++  spriteTessellationDetail: -1
++  textureType: 8
++  textureShape: 1
++  singleChannelComponent: 0
++  flipbookRows: 1
++  flipbookColumns: 1
++  maxTextureSizeSet: 0
++  compressionQualitySet: 0
++  textureFormatSet: 0
++  ignorePngGamma: 0
++  applyGammaDecoding: 0
++  swizzle: 50462976
++  cookieLightType: 0
++  platformSettings:
++  - serializedVersion: 4
++    buildTarget: DefaultTexturePlatform
++    maxTextureSize: 2048
++    resizeAlgorithm: 0
++    textureFormat: -1
++    textureCompression: 1
++    compressionQuality: 50
++    crunchedCompression: 0
++    allowsAlphaSplitting: 0
++    overridden: 0
++    ignorePlatformSupport: 0
++    androidETC2FallbackOverride: 0
++    forceMaximumCompressionQuality_BC6H_BC7: 0
++  - serializedVersion: 4
++    buildTarget: Standalone
++    maxTextureSize: 2048
++    resizeAlgorithm: 0
++    textureFormat: -1
++    textureCompression: 1
++    compressionQuality: 50
++    crunchedCompression: 0
++    allowsAlphaSplitting: 0
++    overridden: 0
++    ignorePlatformSupport: 0
++    androidETC2FallbackOverride: 0
++    forceMaximumCompressionQuality_BC6H_BC7: 0
++  spriteSheet:
++    serializedVersion: 2
++    sprites:
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Walk_0
++      rect:
++        serializedVersion: 2
++        x: 35
++        y: 0
++        width: 33
++        height: 46
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 38ae63a67acf24120800000000000000
++      internalID: 2396755747686247043
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Walk_1
++      rect:
++        serializedVersion: 2
++        x: 130
++        y: 0
++        width: 34
++        height: 47
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 4ad1fcd89ac6c9c80800000000000000
++      internalID: -8314651336548344412
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Walk_2
++      rect:
++        serializedVersion: 2
++        x: 226
++        y: 0
++        width: 35
++        height: 48
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: d251f5e3becdd86b0800000000000000
++      internalID: -5292331084168620755
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Walk_3
++      rect:
++        serializedVersion: 2
++        x: 321
++        y: 0
++        width: 37
++        height: 49
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: fd98883d070cb94d0800000000000000
++      internalID: -3126693925460866593
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Walk_4
++      rect:
++        serializedVersion: 2
++        x: 416
++        y: 0
++        width: 38
++        height: 47
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: e6f2c33cc04d53910800000000000000
++      internalID: 1816591175994060654
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Walk_5
++      rect:
++        serializedVersion: 2
++        x: 510
++        y: 0
++        width: 41
++        height: 46
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 78c4dc48aafa673c0800000000000000
++      internalID: -4362106042154398585
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Walk_6
++      rect:
++        serializedVersion: 2
++        x: 608
++        y: 0
++        width: 38
++        height: 47
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 1d6d1def564a8ccc0800000000000000
++      internalID: -3690519136656304431
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Walk_7
++      rect:
++        serializedVersion: 2
++        x: 705
++        y: 0
++        width: 37
++        height: 48
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 340cf635c4f998ed0800000000000000
++      internalID: -2411220975314026429
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Walk_8
++      rect:
++        serializedVersion: 2
++        x: 802
++        y: 0
++        width: 35
++        height: 49
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: c2f13e90fe7c067f0800000000000000
++      internalID: -621276919100137684
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: Skeleton_01_Yellow_Walk_9
++      rect:
++        serializedVersion: 2
++        x: 898
++        y: 0
++        width: 34
++        height: 47
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: fc5405c34b6820c50800000000000000
++      internalID: 6630009710106920399
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    outline: []
++    customData: 
++    physicsShape: []
++    bones: []
++    spriteID: 
++    internalID: 0
++    vertices: []
++    indices: 
++    edges: []
++    weights: []
++    secondaryTextures: []
++    spriteCustomMetadata:
++      entries: []
++    nameFileIdTable:
++      Skeleton_01_Yellow_Walk_0: 2396755747686247043
++      Skeleton_01_Yellow_Walk_1: -8314651336548344412
++      Skeleton_01_Yellow_Walk_2: -5292331084168620755
++      Skeleton_01_Yellow_Walk_3: -3126693925460866593
++      Skeleton_01_Yellow_Walk_4: 1816591175994060654
++      Skeleton_01_Yellow_Walk_5: -4362106042154398585
++      Skeleton_01_Yellow_Walk_6: -3690519136656304431
++      Skeleton_01_Yellow_Walk_7: -2411220975314026429
++      Skeleton_01_Yellow_Walk_8: -621276919100137684
++      Skeleton_01_Yellow_Walk_9: 6630009710106920399
++  mipmapLimitGroupName: 
++  pSDRemoveMatte: 0
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Walk_0.controller b/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Walk_0.controller
+new file mode 100644
+index 00000000..369ee6b6
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Walk_0.controller
+@@ -0,0 +1,72 @@
++%YAML 1.1
++%TAG !u! tag:unity3d.com,2011:
++--- !u!1102 &-5325928572835504325
++AnimatorState:
++  serializedVersion: 6
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: skeleton_walk
++  m_Speed: 1
++  m_CycleOffset: 0
++  m_Transitions: []
++  m_StateMachineBehaviours: []
++  m_Position: {x: 50, y: 50, z: 0}
++  m_IKOnFeet: 0
++  m_WriteDefaultValues: 1
++  m_Mirror: 0
++  m_SpeedParameterActive: 0
++  m_MirrorParameterActive: 0
++  m_CycleOffsetParameterActive: 0
++  m_TimeParameterActive: 0
++  m_Motion: {fileID: 7400000, guid: ffd64a5f78fc1854bb360a97a49cbd9c, type: 2}
++  m_Tag: 
++  m_SpeedParameter: 
++  m_MirrorParameter: 
++  m_CycleOffsetParameter: 
++  m_TimeParameter: 
++--- !u!91 &9100000
++AnimatorController:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: Skeleton_01_Yellow_Walk_0
++  serializedVersion: 5
++  m_AnimatorParameters: []
++  m_AnimatorLayers:
++  - serializedVersion: 5
++    m_Name: Base Layer
++    m_StateMachine: {fileID: 3849481148768323814}
++    m_Mask: {fileID: 0}
++    m_Motions: []
++    m_Behaviours: []
++    m_BlendingMode: 0
++    m_SyncedLayerIndex: -1
++    m_DefaultWeight: 0
++    m_IKPass: 0
++    m_SyncedLayerAffectsTiming: 0
++    m_Controller: {fileID: 9100000}
++--- !u!1107 &3849481148768323814
++AnimatorStateMachine:
++  serializedVersion: 6
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: Base Layer
++  m_ChildStates:
++  - serializedVersion: 1
++    m_State: {fileID: -5325928572835504325}
++    m_Position: {x: 200, y: 0, z: 0}
++  m_ChildStateMachines: []
++  m_AnyStateTransitions: []
++  m_EntryTransitions: []
++  m_StateMachineTransitions: {}
++  m_StateMachineBehaviours: []
++  m_AnyStatePosition: {x: 50, y: 20, z: 0}
++  m_EntryPosition: {x: 50, y: 120, z: 0}
++  m_ExitPosition: {x: 800, y: 120, z: 0}
++  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
++  m_DefaultState: {fileID: -5325928572835504325}
+diff --git a/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Walk_0.controller.meta b/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Walk_0.controller.meta
+new file mode 100644
+index 00000000..fc018108
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/Skeleton_01_Yellow_Walk_0.controller.meta
+@@ -0,0 +1,8 @@
++fileFormatVersion: 2
++guid: 034323a17f51fc842ac053c115f69daf
++NativeFormatImporter:
++  externalObjects: {}
++  mainObjectFileID: 9100000
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/Skeleton/skeleton.controller b/lvlDizayn/Assets/Skeleton/skeleton.controller
+new file mode 100644
+index 00000000..78b3d3c4
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/skeleton.controller
+@@ -0,0 +1,275 @@
++%YAML 1.1
++%TAG !u! tag:unity3d.com,2011:
++--- !u!1101 &-4466935822108389722
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 1
++    m_ConditionEvent: IsAttacking
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: 6670232919018391210}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.7
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1101 &-3303574238659857838
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 2
++    m_ConditionEvent: IsRunning
++    m_EventTreshold: 0
++  - m_ConditionMode: 2
++    m_ConditionEvent: IsAttacking
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: 8758990504120159621}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.7
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!91 &9100000
++AnimatorController:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: skeleton
++  serializedVersion: 5
++  m_AnimatorParameters:
++  - m_Name: IsRunning
++    m_Type: 4
++    m_DefaultFloat: 0
++    m_DefaultInt: 0
++    m_DefaultBool: 0
++    m_Controller: {fileID: 9100000}
++  - m_Name: IsAttacking
++    m_Type: 4
++    m_DefaultFloat: 0
++    m_DefaultInt: 0
++    m_DefaultBool: 0
++    m_Controller: {fileID: 9100000}
++  m_AnimatorLayers:
++  - serializedVersion: 5
++    m_Name: Base Layer
++    m_StateMachine: {fileID: 7443521871749697695}
++    m_Mask: {fileID: 0}
++    m_Motions: []
++    m_Behaviours: []
++    m_BlendingMode: 0
++    m_SyncedLayerIndex: -1
++    m_DefaultWeight: 0
++    m_IKPass: 0
++    m_SyncedLayerAffectsTiming: 0
++    m_Controller: {fileID: 9100000}
++--- !u!1101 &57463953776624050
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 1
++    m_ConditionEvent: IsRunning
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: 391644666609673529}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.625
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1102 &391644666609673529
++AnimatorState:
++  serializedVersion: 6
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: skeleton_walk
++  m_Speed: 1
++  m_CycleOffset: 0
++  m_Transitions:
++  - {fileID: -3303574238659857838}
++  - {fileID: -4466935822108389722}
++  m_StateMachineBehaviours: []
++  m_Position: {x: 50, y: 50, z: 0}
++  m_IKOnFeet: 0
++  m_WriteDefaultValues: 1
++  m_Mirror: 0
++  m_SpeedParameterActive: 0
++  m_MirrorParameterActive: 0
++  m_CycleOffsetParameterActive: 0
++  m_TimeParameterActive: 0
++  m_Motion: {fileID: 7400000, guid: ffd64a5f78fc1854bb360a97a49cbd9c, type: 2}
++  m_Tag: 
++  m_SpeedParameter: 
++  m_MirrorParameter: 
++  m_CycleOffsetParameter: 
++  m_TimeParameter: 
++--- !u!1101 &1082607688193604634
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 2
++    m_ConditionEvent: IsAttacking
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: 8758990504120159621}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.6666666
++  m_HasExitTime: 1
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1102 &6670232919018391210
++AnimatorState:
++  serializedVersion: 6
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: skeleton_attack
++  m_Speed: 1
++  m_CycleOffset: 0
++  m_Transitions:
++  - {fileID: 1082607688193604634}
++  m_StateMachineBehaviours: []
++  m_Position: {x: 50, y: 50, z: 0}
++  m_IKOnFeet: 0
++  m_WriteDefaultValues: 1
++  m_Mirror: 0
++  m_SpeedParameterActive: 0
++  m_MirrorParameterActive: 0
++  m_CycleOffsetParameterActive: 0
++  m_TimeParameterActive: 0
++  m_Motion: {fileID: 7400000, guid: f8342c8d379f45640ba77a8095b2f654, type: 2}
++  m_Tag: 
++  m_SpeedParameter: 
++  m_MirrorParameter: 
++  m_CycleOffsetParameter: 
++  m_TimeParameter: 
++--- !u!1101 &6775999298487171591
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 1
++    m_ConditionEvent: IsAttacking
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: 6670232919018391210}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.625
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1107 &7443521871749697695
++AnimatorStateMachine:
++  serializedVersion: 6
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: Base Layer
++  m_ChildStates:
++  - serializedVersion: 1
++    m_State: {fileID: 8758990504120159621}
++    m_Position: {x: 80, y: 320, z: 0}
++  - serializedVersion: 1
++    m_State: {fileID: 391644666609673529}
++    m_Position: {x: 470, y: 310, z: 0}
++  - serializedVersion: 1
++    m_State: {fileID: 6670232919018391210}
++    m_Position: {x: 440, y: 80, z: 0}
++  m_ChildStateMachines: []
++  m_AnyStateTransitions: []
++  m_EntryTransitions: []
++  m_StateMachineTransitions: {}
++  m_StateMachineBehaviours: []
++  m_AnyStatePosition: {x: 50, y: 20, z: 0}
++  m_EntryPosition: {x: 50, y: 120, z: 0}
++  m_ExitPosition: {x: 800, y: 120, z: 0}
++  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
++  m_DefaultState: {fileID: 8758990504120159621}
++--- !u!1102 &8758990504120159621
++AnimatorState:
++  serializedVersion: 6
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: skeleton_idle
++  m_Speed: 1
++  m_CycleOffset: 0
++  m_Transitions:
++  - {fileID: 57463953776624050}
++  - {fileID: 6775999298487171591}
++  m_StateMachineBehaviours: []
++  m_Position: {x: 50, y: 50, z: 0}
++  m_IKOnFeet: 0
++  m_WriteDefaultValues: 1
++  m_Mirror: 0
++  m_SpeedParameterActive: 0
++  m_MirrorParameterActive: 0
++  m_CycleOffsetParameterActive: 0
++  m_TimeParameterActive: 0
++  m_Motion: {fileID: 7400000, guid: 84db01bbd0d192b42b441f063e279bea, type: 2}
++  m_Tag: 
++  m_SpeedParameter: 
++  m_MirrorParameter: 
++  m_CycleOffsetParameter: 
++  m_TimeParameter: 
+diff --git a/lvlDizayn/Assets/Skeleton/skeleton.controller.meta b/lvlDizayn/Assets/Skeleton/skeleton.controller.meta
+new file mode 100644
+index 00000000..c80d2944
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/skeleton.controller.meta
+@@ -0,0 +1,8 @@
++fileFormatVersion: 2
++guid: 665191dea347dd341b2f8039306ec89f
++NativeFormatImporter:
++  externalObjects: {}
++  mainObjectFileID: 9100000
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/Skeleton/skeleton.cs b/lvlDizayn/Assets/Skeleton/skeleton.cs
+new file mode 100644
+index 00000000..29e1616f
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/skeleton.cs
+@@ -0,0 +1,137 @@
++using UnityEngine;
++
++public class EnemyAI : MonoBehaviour
++{
++    [Header("Hedef ve Hız")]
++    public Transform target;          // Takip edilecek hedef (Player)
++    public float moveSpeed = 3f;      // Hareket hızı
++    [Tooltip("Sprite'ın varsayılan olarak baktığı yön. Sağa bakıyorsa 1, Sola bakıyorsa -1.")]
++    public float defaultFacingDirection = -1f; 
++
++    [Header("Menzil Ayarları")]
++    public float followRange = 8f;    // Oyuncuyu takip etmeye başlayacağı menzil (X ekseninde)
++    public float attackRange = 1.5f;  // Vurmaya başlayacağı menzil
++    
++    [Header("Saldırı Hızı Ayarları")]
++    public float attackCooldown = 2f; // Saniyede kaç defa vurabileceği (2 saniyede bir vurur)
++    private float timeSinceLastAttack; // Son saldırıdan bu yana geçen süre
++
++    [Header("Bileşenler")]
++    private Animator anim;
++    private Rigidbody2D rb;
++    private Vector3 initialScale;     // Küçülme sorununu çözmek için varsayılan ölçek
++
++    void Start()
++    {
++        // Gerekli bileşenleri al
++        anim = GetComponent<Animator>();
++        rb = GetComponent<Rigidbody2D>();
++
++        // Varsayılan ölçeği kaydet (Küçülme sorununu çözer)
++        initialScale = transform.localScale; 
++        timeSinceLastAttack = attackCooldown; // Oyuna başlar başlamaz vurabilmesi için
++
++        // Hedefi (Player'ı) otomatik bul (Eğer Player objesinin Tag'i "Player" ise)
++        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
++        if (playerObj != null)
++        {
++            target = playerObj.transform;
++        }
++    }
++
++    void Update()
++    {
++        if (target == null) return;
++        
++        // Saldırı soğuma süresini güncelle
++        timeSinceLastAttack += Time.deltaTime;
++
++        float distanceToTarget = Mathf.Abs(target.position.x - transform.position.x);
++
++        if (distanceToTarget <= followRange)
++        {
++            if (distanceToTarget > attackRange)
++            {
++                FollowTarget();
++            }
++            else
++            {
++                // Saldırı menzilinde dur ve saldırı mekaniğini başlat
++                TryAttack();
++            }
++        }
++        else
++        {
++            Idle();
++        }
++    }
++
++    void FollowTarget()
++    {
++        float direction = Mathf.Sign(target.position.x - transform.position.x);
++        
++        // Hareketi gerçekleştir
++        rb.linearVelocity = new Vector2(direction * moveSpeed, rb.linearVelocity.y); 
++
++        // Animasyonu Çalıştır
++        anim.SetBool("IsRunning", true); 
++        anim.SetBool("IsAttacking", false);
++        
++        // Yön Çevirme (initialScale ve defaultFacingDirection kullanarak)
++        float finalFlip = defaultFacingDirection * direction;
++        
++        // Yönü ters çevirme sorununu çözmek için * -finalFlip kullanıldı.
++        float targetScaleX_Reversed = initialScale.x * -finalFlip;
++        
++        transform.localScale = new Vector3(targetScaleX_Reversed, initialScale.y, initialScale.z);
++    }
++
++   void TryAttack()
++{
++    // Saldırı menzilinde iken her zaman:
++    
++    // 1. Durma ve Yön Çevirme (Cooldown'dayken de hedefe baksın)
++    rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
++    
++    float direction = Mathf.Sign(target.position.x - transform.position.x);
++    float finalFlip = defaultFacingDirection * direction;
++    float targetScaleX_Reversed = initialScale.x * -finalFlip;
++    transform.localScale = new Vector3(targetScaleX_Reversed, initialScale.y, initialScale.z);
++    
++    // Animatörde şu anda Attack animasyonu oynuyor mu?
++    // NOT: isAttacking yerine bu metodu kullanmak daha kesindir:
++    bool isCurrentlyAttacking = anim.GetCurrentAnimatorStateInfo(0).IsName("skeleton_attack"); 
++    // "YourAttackStateName" yerine Attack animasyonunuzun adını yazmalısınız.
++    
++    // Eğer şu anda saldırı animasyonu oynuyorsa, hiçbir şey yapma (Animasyonun bitmesini bekle)
++    // Ve cooldown henüz dolmadıysa:
++    if (isCurrentlyAttacking || timeSinceLastAttack < attackCooldown)
++    {
++        // Saldırı animasyonu bitene veya cooldown dolana kadar sadece Idle'ı göster
++        anim.SetBool("IsAttacking", false);
++        anim.SetBool("IsRunning", false);
++        return; // Fonksiyondan çık
++    }
++    
++    // Eğer buraya ulaşıldıysa: Cooldown dolmuştur ve animasyon bitmiştir.
++    
++    Attack(); // Saldırıyı Tetikle
++    timeSinceLastAttack = 0f; // Zamanlayıcıyı sıfırla
++}
++    void Attack()
++    {
++        // Saldırı Animasyonunu Başlatma
++        anim.SetBool("IsAttacking", true);
++        anim.SetBool("IsRunning", false);
++    }
++
++    void Idle()
++    {
++        // Tamamen dur
++        rb.linearVelocity = Vector2.zero; 
++        
++        // Idle Animasyonunu Çalıştır
++        anim.SetBool("IsRunning", false);
++        anim.SetBool("IsAttacking", false);
++    }
++}
+\ No newline at end of file
+diff --git a/lvlDizayn/Assets/Skeleton/skeleton.cs.meta b/lvlDizayn/Assets/Skeleton/skeleton.cs.meta
+new file mode 100644
+index 00000000..da146341
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/skeleton.cs.meta
+@@ -0,0 +1,2 @@
++fileFormatVersion: 2
++guid: e0e708eea9380054098c44e6423902f3
+\ No newline at end of file
+diff --git a/lvlDizayn/Assets/Skeleton/skeleton.prefab b/lvlDizayn/Assets/Skeleton/skeleton.prefab
+new file mode 100644
+index 00000000..4d2793eb
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/skeleton.prefab
+@@ -0,0 +1,221 @@
++%YAML 1.1
++%TAG !u! tag:unity3d.com,2011:
++--- !u!1 &7645934514694362147
++GameObject:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  serializedVersion: 6
++  m_Component:
++  - component: {fileID: 1738771990231088208}
++  - component: {fileID: 1420697657277360676}
++  - component: {fileID: 7589648087035073599}
++  - component: {fileID: 2074891416947333495}
++  - component: {fileID: 7621950987379867169}
++  - component: {fileID: 3543330197331019868}
++  m_Layer: 0
++  m_Name: skeleton
++  m_TagString: Untagged
++  m_Icon: {fileID: 0}
++  m_NavMeshLayer: 0
++  m_StaticEditorFlags: 0
++  m_IsActive: 1
++--- !u!4 &1738771990231088208
++Transform:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 7645934514694362147}
++  serializedVersion: 2
++  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
++  m_LocalPosition: {x: 8.9347, y: 9.1457, z: 0}
++  m_LocalScale: {x: 6.7982526, y: 5.3212285, z: 1}
++  m_ConstrainProportionsScale: 0
++  m_Children: []
++  m_Father: {fileID: 0}
++  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++--- !u!212 &1420697657277360676
++SpriteRenderer:
++  serializedVersion: 2
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 7645934514694362147}
++  m_Enabled: 1
++  m_CastShadows: 0
++  m_ReceiveShadows: 0
++  m_DynamicOccludee: 1
++  m_StaticShadowCaster: 0
++  m_MotionVectors: 1
++  m_LightProbeUsage: 1
++  m_ReflectionProbeUsage: 1
++  m_RayTracingMode: 0
++  m_RayTraceProcedural: 0
++  m_RayTracingAccelStructBuildFlagsOverride: 0
++  m_RayTracingAccelStructBuildFlags: 1
++  m_SmallMeshCulling: 1
++  m_ForceMeshLod: -1
++  m_MeshLodSelectionBias: 0
++  m_RenderingLayerMask: 1
++  m_RendererPriority: 0
++  m_Materials:
++  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
++  m_StaticBatchInfo:
++    firstSubMesh: 0
++    subMeshCount: 0
++  m_StaticBatchRoot: {fileID: 0}
++  m_ProbeAnchor: {fileID: 0}
++  m_LightProbeVolumeOverride: {fileID: 0}
++  m_ScaleInLightmap: 1
++  m_ReceiveGI: 1
++  m_PreserveUVs: 0
++  m_IgnoreNormalsForChartDetection: 0
++  m_ImportantGI: 0
++  m_StitchLightmapSeams: 1
++  m_SelectedEditorRenderState: 0
++  m_MinimumChartSize: 4
++  m_AutoUVMaxDistance: 0.5
++  m_AutoUVMaxAngle: 89
++  m_LightmapParameters: {fileID: 0}
++  m_GlobalIlluminationMeshLod: 0
++  m_SortingLayerID: -562498725
++  m_SortingLayer: 6
++  m_SortingOrder: 0
++  m_MaskInteraction: 0
++  m_Sprite: {fileID: 2396755747686247043, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++  m_Color: {r: 1, g: 1, b: 1, a: 1}
++  m_FlipX: 0
++  m_FlipY: 0
++  m_DrawMode: 0
++  m_Size: {x: 0.33, y: 0.46}
++  m_AdaptiveModeThreshold: 0.5
++  m_SpriteTileMode: 0
++  m_WasSpriteAssigned: 1
++  m_SpriteSortPoint: 0
++--- !u!60 &7589648087035073599
++PolygonCollider2D:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 7645934514694362147}
++  m_Enabled: 1
++  serializedVersion: 3
++  m_Density: 1
++  m_Material: {fileID: 0}
++  m_IncludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_ExcludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_LayerOverridePriority: 0
++  m_ForceSendLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_ForceReceiveLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_ContactCaptureLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_CallbackLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_IsTrigger: 0
++  m_UsedByEffector: 0
++  m_CompositeOperation: 0
++  m_CompositeOrder: 0
++  m_Offset: {x: 0, y: 0}
++  m_SpriteTilingProperty:
++    border: {x: 0, y: 0, z: 0, w: 0}
++    pivot: {x: 0.5, y: 0.5}
++    oldSize: {x: 0.33, y: 0.46}
++    newSize: {x: 0.33, y: 0.46}
++    adaptiveTilingThreshold: 0.5
++    drawMode: 0
++    adaptiveTiling: 0
++  m_AutoTiling: 1
++  m_Points:
++    m_Paths:
++    - - {x: 0.16499999, y: 0.17999999}
++      - {x: 0.145, y: 0.19}
++      - {x: 0.114999995, y: 0.17}
++      - {x: 0.024999999, y: 0.049999997}
++      - {x: 0.015, y: 0.19999999}
++      - {x: -0.015, y: 0.22999999}
++      - {x: -0.16499999, y: 0.22999999}
++      - {x: -0.16499999, y: -0.22999999}
++      - {x: 0.044999998, y: -0.22999999}
++      - {x: 0.035, y: -0.14}
++      - {x: 0.105, y: -0.07}
++      - {x: 0.16499999, y: 0.099999994}
++  m_UseDelaunayMesh: 1
++--- !u!50 &2074891416947333495
++Rigidbody2D:
++  serializedVersion: 5
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 7645934514694362147}
++  m_BodyType: 0
++  m_Simulated: 1
++  m_UseFullKinematicContacts: 0
++  m_UseAutoMass: 0
++  m_Mass: 1
++  m_LinearDamping: 0
++  m_AngularDamping: 0.05
++  m_GravityScale: 1
++  m_Material: {fileID: 0}
++  m_IncludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_ExcludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_Interpolate: 0
++  m_SleepingMode: 1
++  m_CollisionDetection: 0
++  m_Constraints: 4
++--- !u!95 &7621950987379867169
++Animator:
++  serializedVersion: 7
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 7645934514694362147}
++  m_Enabled: 1
++  m_Avatar: {fileID: 0}
++  m_Controller: {fileID: 9100000, guid: 665191dea347dd341b2f8039306ec89f, type: 2}
++  m_CullingMode: 0
++  m_UpdateMode: 0
++  m_ApplyRootMotion: 0
++  m_LinearVelocityBlending: 0
++  m_StabilizeFeet: 0
++  m_AnimatePhysics: 0
++  m_WarningMessage: 
++  m_HasTransformHierarchy: 1
++  m_AllowConstantClipSamplingOptimization: 1
++  m_KeepAnimatorStateOnDisable: 0
++  m_WriteDefaultValuesOnDisable: 0
++--- !u!114 &3543330197331019868
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 7645934514694362147}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: e0e708eea9380054098c44e6423902f3, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
++  target: {fileID: 0}
++  moveSpeed: 3
++  followRange: 8
++  attackRange: 1.5
+diff --git a/lvlDizayn/Assets/Skeleton/skeleton.prefab.meta b/lvlDizayn/Assets/Skeleton/skeleton.prefab.meta
+new file mode 100644
+index 00000000..29dcac6e
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/skeleton.prefab.meta
+@@ -0,0 +1,7 @@
++fileFormatVersion: 2
++guid: d4d6708f5d17baf4689574e9d7a39c2d
++PrefabImporter:
++  externalObjects: {}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/Skeleton/skeleton_attack.anim b/lvlDizayn/Assets/Skeleton/skeleton_attack.anim
+new file mode 100644
+index 00000000..11b2c5de
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/skeleton_attack.anim
+@@ -0,0 +1,96 @@
++%YAML 1.1
++%TAG !u! tag:unity3d.com,2011:
++--- !u!74 &7400000
++AnimationClip:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: skeleton_attack
++  serializedVersion: 7
++  m_Legacy: 0
++  m_Compressed: 0
++  m_UseHighQualityCurve: 1
++  m_RotationCurves: []
++  m_CompressedRotationCurves: []
++  m_EulerCurves: []
++  m_PositionCurves: []
++  m_ScaleCurves: []
++  m_FloatCurves: []
++  m_PPtrCurves:
++  - serializedVersion: 2
++    curve:
++    - time: 0
++      value: {fileID: -1737854667774678262, guid: 0ffa3263f56f7904091f89ba5e67bef8, type: 3}
++    - time: 0.083333336
++      value: {fileID: -5887723169146763472, guid: 0ffa3263f56f7904091f89ba5e67bef8, type: 3}
++    - time: 0.16666667
++      value: {fileID: -2055235798058913912, guid: 0ffa3263f56f7904091f89ba5e67bef8, type: 3}
++    - time: 0.25
++      value: {fileID: -8399435507721736076, guid: 0ffa3263f56f7904091f89ba5e67bef8, type: 3}
++    - time: 0.33333334
++      value: {fileID: -8012122512862766572, guid: 0ffa3263f56f7904091f89ba5e67bef8, type: 3}
++    - time: 0.41666666
++      value: {fileID: 4367358470940848435, guid: 0ffa3263f56f7904091f89ba5e67bef8, type: 3}
++    - time: 0.5
++      value: {fileID: -2139968651841817830, guid: 0ffa3263f56f7904091f89ba5e67bef8, type: 3}
++    - time: 0.5833333
++      value: {fileID: 2489568902883181048, guid: 0ffa3263f56f7904091f89ba5e67bef8, type: 3}
++    - time: 0.6666667
++      value: {fileID: -3187945644198705245, guid: 0ffa3263f56f7904091f89ba5e67bef8, type: 3}
++    attribute: m_Sprite
++    path: 
++    classID: 212
++    script: {fileID: 0}
++    flags: 2
++  m_SampleRate: 12
++  m_WrapMode: 0
++  m_Bounds:
++    m_Center: {x: 0, y: 0, z: 0}
++    m_Extent: {x: 0, y: 0, z: 0}
++  m_ClipBindingConstant:
++    genericBindings:
++    - serializedVersion: 2
++      path: 0
++      attribute: 0
++      script: {fileID: 0}
++      typeID: 212
++      customType: 23
++      isPPtrCurve: 1
++      isIntCurve: 0
++      isSerializeReferenceCurve: 0
++    pptrCurveMapping:
++    - {fileID: -1737854667774678262, guid: 0ffa3263f56f7904091f89ba5e67bef8, type: 3}
++    - {fileID: -5887723169146763472, guid: 0ffa3263f56f7904091f89ba5e67bef8, type: 3}
++    - {fileID: -2055235798058913912, guid: 0ffa3263f56f7904091f89ba5e67bef8, type: 3}
++    - {fileID: -8399435507721736076, guid: 0ffa3263f56f7904091f89ba5e67bef8, type: 3}
++    - {fileID: -8012122512862766572, guid: 0ffa3263f56f7904091f89ba5e67bef8, type: 3}
++    - {fileID: 4367358470940848435, guid: 0ffa3263f56f7904091f89ba5e67bef8, type: 3}
++    - {fileID: -2139968651841817830, guid: 0ffa3263f56f7904091f89ba5e67bef8, type: 3}
++    - {fileID: 2489568902883181048, guid: 0ffa3263f56f7904091f89ba5e67bef8, type: 3}
++    - {fileID: -3187945644198705245, guid: 0ffa3263f56f7904091f89ba5e67bef8, type: 3}
++  m_AnimationClipSettings:
++    serializedVersion: 2
++    m_AdditiveReferencePoseClip: {fileID: 0}
++    m_AdditiveReferencePoseTime: 0
++    m_StartTime: 0
++    m_StopTime: 0.75
++    m_OrientationOffsetY: 0
++    m_Level: 0
++    m_CycleOffset: 0
++    m_HasAdditiveReferencePose: 0
++    m_LoopTime: 1
++    m_LoopBlend: 0
++    m_LoopBlendOrientation: 0
++    m_LoopBlendPositionY: 0
++    m_LoopBlendPositionXZ: 0
++    m_KeepOriginalOrientation: 0
++    m_KeepOriginalPositionY: 1
++    m_KeepOriginalPositionXZ: 0
++    m_HeightFromFeet: 0
++    m_Mirror: 0
++  m_EditorCurves: []
++  m_EulerEditorCurves: []
++  m_HasGenericRootTransform: 0
++  m_HasMotionFloatCurves: 0
++  m_Events: []
+diff --git a/lvlDizayn/Assets/Skeleton/skeleton_attack.anim.meta b/lvlDizayn/Assets/Skeleton/skeleton_attack.anim.meta
+new file mode 100644
+index 00000000..c7b41f09
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/skeleton_attack.anim.meta
+@@ -0,0 +1,8 @@
++fileFormatVersion: 2
++guid: f8342c8d379f45640ba77a8095b2f654
++NativeFormatImporter:
++  externalObjects: {}
++  mainObjectFileID: 7400000
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/Skeleton/skeleton_idle.anim b/lvlDizayn/Assets/Skeleton/skeleton_idle.anim
+new file mode 100644
+index 00000000..cbd0ab18
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/skeleton_idle.anim
+@@ -0,0 +1,93 @@
++%YAML 1.1
++%TAG !u! tag:unity3d.com,2011:
++--- !u!74 &7400000
++AnimationClip:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: skeleton_idle
++  serializedVersion: 7
++  m_Legacy: 0
++  m_Compressed: 0
++  m_UseHighQualityCurve: 1
++  m_RotationCurves: []
++  m_CompressedRotationCurves: []
++  m_EulerCurves: []
++  m_PositionCurves: []
++  m_ScaleCurves: []
++  m_FloatCurves: []
++  m_PPtrCurves:
++  - serializedVersion: 2
++    curve:
++    - time: 0
++      value: {fileID: -7446206344923327547, guid: c22cfe2f54d0de34089e6ba4471c629c, type: 3}
++    - time: 0.083333336
++      value: {fileID: -4120460663552790595, guid: c22cfe2f54d0de34089e6ba4471c629c, type: 3}
++    - time: 0.16666667
++      value: {fileID: 5604123498378264224, guid: c22cfe2f54d0de34089e6ba4471c629c, type: 3}
++    - time: 0.25
++      value: {fileID: -4325250142119288430, guid: c22cfe2f54d0de34089e6ba4471c629c, type: 3}
++    - time: 0.33333334
++      value: {fileID: 735741189606530538, guid: c22cfe2f54d0de34089e6ba4471c629c, type: 3}
++    - time: 0.41666666
++      value: {fileID: 1399157319069389031, guid: c22cfe2f54d0de34089e6ba4471c629c, type: 3}
++    - time: 0.5
++      value: {fileID: -8891129356961723828, guid: c22cfe2f54d0de34089e6ba4471c629c, type: 3}
++    - time: 0.5833333
++      value: {fileID: -8030778478772616401, guid: c22cfe2f54d0de34089e6ba4471c629c, type: 3}
++    attribute: m_Sprite
++    path: 
++    classID: 212
++    script: {fileID: 0}
++    flags: 2
++  m_SampleRate: 12
++  m_WrapMode: 0
++  m_Bounds:
++    m_Center: {x: 0, y: 0, z: 0}
++    m_Extent: {x: 0, y: 0, z: 0}
++  m_ClipBindingConstant:
++    genericBindings:
++    - serializedVersion: 2
++      path: 0
++      attribute: 0
++      script: {fileID: 0}
++      typeID: 212
++      customType: 23
++      isPPtrCurve: 1
++      isIntCurve: 0
++      isSerializeReferenceCurve: 0
++    pptrCurveMapping:
++    - {fileID: -7446206344923327547, guid: c22cfe2f54d0de34089e6ba4471c629c, type: 3}
++    - {fileID: -4120460663552790595, guid: c22cfe2f54d0de34089e6ba4471c629c, type: 3}
++    - {fileID: 5604123498378264224, guid: c22cfe2f54d0de34089e6ba4471c629c, type: 3}
++    - {fileID: -4325250142119288430, guid: c22cfe2f54d0de34089e6ba4471c629c, type: 3}
++    - {fileID: 735741189606530538, guid: c22cfe2f54d0de34089e6ba4471c629c, type: 3}
++    - {fileID: 1399157319069389031, guid: c22cfe2f54d0de34089e6ba4471c629c, type: 3}
++    - {fileID: -8891129356961723828, guid: c22cfe2f54d0de34089e6ba4471c629c, type: 3}
++    - {fileID: -8030778478772616401, guid: c22cfe2f54d0de34089e6ba4471c629c, type: 3}
++  m_AnimationClipSettings:
++    serializedVersion: 2
++    m_AdditiveReferencePoseClip: {fileID: 0}
++    m_AdditiveReferencePoseTime: 0
++    m_StartTime: 0
++    m_StopTime: 0.6666666
++    m_OrientationOffsetY: 0
++    m_Level: 0
++    m_CycleOffset: 0
++    m_HasAdditiveReferencePose: 0
++    m_LoopTime: 1
++    m_LoopBlend: 0
++    m_LoopBlendOrientation: 0
++    m_LoopBlendPositionY: 0
++    m_LoopBlendPositionXZ: 0
++    m_KeepOriginalOrientation: 0
++    m_KeepOriginalPositionY: 1
++    m_KeepOriginalPositionXZ: 0
++    m_HeightFromFeet: 0
++    m_Mirror: 0
++  m_EditorCurves: []
++  m_EulerEditorCurves: []
++  m_HasGenericRootTransform: 0
++  m_HasMotionFloatCurves: 0
++  m_Events: []
+diff --git a/lvlDizayn/Assets/Skeleton/skeleton_idle.anim.meta b/lvlDizayn/Assets/Skeleton/skeleton_idle.anim.meta
+new file mode 100644
+index 00000000..ed22c484
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/skeleton_idle.anim.meta
+@@ -0,0 +1,8 @@
++fileFormatVersion: 2
++guid: 84db01bbd0d192b42b441f063e279bea
++NativeFormatImporter:
++  externalObjects: {}
++  mainObjectFileID: 7400000
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/Skeleton/skeleton_walk.anim b/lvlDizayn/Assets/Skeleton/skeleton_walk.anim
+new file mode 100644
+index 00000000..57879152
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/skeleton_walk.anim
+@@ -0,0 +1,99 @@
++%YAML 1.1
++%TAG !u! tag:unity3d.com,2011:
++--- !u!74 &7400000
++AnimationClip:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: skeleton_walk
++  serializedVersion: 7
++  m_Legacy: 0
++  m_Compressed: 0
++  m_UseHighQualityCurve: 1
++  m_RotationCurves: []
++  m_CompressedRotationCurves: []
++  m_EulerCurves: []
++  m_PositionCurves: []
++  m_ScaleCurves: []
++  m_FloatCurves: []
++  m_PPtrCurves:
++  - serializedVersion: 2
++    curve:
++    - time: 0
++      value: {fileID: 2396755747686247043, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    - time: 0.083333336
++      value: {fileID: -8314651336548344412, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    - time: 0.16666667
++      value: {fileID: -5292331084168620755, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    - time: 0.25
++      value: {fileID: -3126693925460866593, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    - time: 0.33333334
++      value: {fileID: 1816591175994060654, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    - time: 0.41666666
++      value: {fileID: -4362106042154398585, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    - time: 0.5
++      value: {fileID: -3690519136656304431, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    - time: 0.5833333
++      value: {fileID: -2411220975314026429, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    - time: 0.6666667
++      value: {fileID: -621276919100137684, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    - time: 0.75
++      value: {fileID: 6630009710106920399, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    attribute: m_Sprite
++    path: 
++    classID: 212
++    script: {fileID: 0}
++    flags: 2
++  m_SampleRate: 12
++  m_WrapMode: 0
++  m_Bounds:
++    m_Center: {x: 0, y: 0, z: 0}
++    m_Extent: {x: 0, y: 0, z: 0}
++  m_ClipBindingConstant:
++    genericBindings:
++    - serializedVersion: 2
++      path: 0
++      attribute: 0
++      script: {fileID: 0}
++      typeID: 212
++      customType: 23
++      isPPtrCurve: 1
++      isIntCurve: 0
++      isSerializeReferenceCurve: 0
++    pptrCurveMapping:
++    - {fileID: 2396755747686247043, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    - {fileID: -8314651336548344412, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    - {fileID: -5292331084168620755, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    - {fileID: -3126693925460866593, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    - {fileID: 1816591175994060654, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    - {fileID: -4362106042154398585, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    - {fileID: -3690519136656304431, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    - {fileID: -2411220975314026429, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    - {fileID: -621276919100137684, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++    - {fileID: 6630009710106920399, guid: 6e0b21432f05fb34abfb949386fe7353, type: 3}
++  m_AnimationClipSettings:
++    serializedVersion: 2
++    m_AdditiveReferencePoseClip: {fileID: 0}
++    m_AdditiveReferencePoseTime: 0
++    m_StartTime: 0
++    m_StopTime: 0.8333333
++    m_OrientationOffsetY: 0
++    m_Level: 0
++    m_CycleOffset: 0
++    m_HasAdditiveReferencePose: 0
++    m_LoopTime: 1
++    m_LoopBlend: 0
++    m_LoopBlendOrientation: 0
++    m_LoopBlendPositionY: 0
++    m_LoopBlendPositionXZ: 0
++    m_KeepOriginalOrientation: 0
++    m_KeepOriginalPositionY: 1
++    m_KeepOriginalPositionXZ: 0
++    m_HeightFromFeet: 0
++    m_Mirror: 0
++  m_EditorCurves: []
++  m_EulerEditorCurves: []
++  m_HasGenericRootTransform: 0
++  m_HasMotionFloatCurves: 0
++  m_Events: []
+diff --git a/lvlDizayn/Assets/Skeleton/skeleton_walk.anim.meta b/lvlDizayn/Assets/Skeleton/skeleton_walk.anim.meta
+new file mode 100644
+index 00000000..b2d3306c
+--- /dev/null
++++ b/lvlDizayn/Assets/Skeleton/skeleton_walk.anim.meta
+@@ -0,0 +1,8 @@
++fileFormatVersion: 2
++guid: ffd64a5f78fc1854bb360a97a49cbd9c
++NativeFormatImporter:
++  externalObjects: {}
++  mainObjectFileID: 7400000
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/wizard1.png b/lvlDizayn/Assets/wizard1.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..f6c7ddc4a8574a2054063caaf20c1c2f5046a421
+GIT binary patch
+literal 3109
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/lvlDizayn/Assets/wizard1.png.meta b/lvlDizayn/Assets/wizard1.png.meta
+new file mode 100644
+index 00000000..61e9a67a
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard1.png.meta
+@@ -0,0 +1,169 @@
++fileFormatVersion: 2
++guid: 8b899fefec58a6e4b84be10704e218ac
++TextureImporter:
++  internalIDToNameTable:
++  - first:
++      213: -1186923832406462826
++    second: wizard1_0
++  - first:
++      213: 3185421551434921051
++    second: wizard1_1
++  externalObjects: {}
++  serializedVersion: 13
++  mipmaps:
++    mipMapMode: 0
++    enableMipMap: 0
++    sRGBTexture: 1
++    linearTexture: 0
++    fadeOut: 0
++    borderMipMap: 0
++    mipMapsPreserveCoverage: 0
++    alphaTestReferenceValue: 0.5
++    mipMapFadeDistanceStart: 1
++    mipMapFadeDistanceEnd: 3
++  bumpmap:
++    convertToNormalMap: 0
++    externalNormalMap: 0
++    heightScale: 0.25
++    normalMapFilter: 0
++    flipGreenChannel: 0
++  isReadable: 0
++  streamingMipmaps: 0
++  streamingMipmapsPriority: 0
++  vTOnly: 0
++  ignoreMipmapLimit: 0
++  grayScaleToAlpha: 0
++  generateCubemap: 6
++  cubemapConvolution: 0
++  seamlessCubemap: 0
++  textureFormat: 1
++  maxTextureSize: 2048
++  textureSettings:
++    serializedVersion: 2
++    filterMode: 1
++    aniso: 1
++    mipBias: 0
++    wrapU: 1
++    wrapV: 1
++    wrapW: 1
++  nPOTScale: 0
++  lightmap: 0
++  compressionQuality: 50
++  spriteMode: 2
++  spriteExtrude: 1
++  spriteMeshType: 1
++  alignment: 0
++  spritePivot: {x: 0.5, y: 0.5}
++  spritePixelsToUnits: 100
++  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
++  spriteGenerateFallbackPhysicsShape: 1
++  alphaUsage: 1
++  alphaIsTransparency: 1
++  spriteTessellationDetail: -1
++  textureType: 8
++  textureShape: 1
++  singleChannelComponent: 0
++  flipbookRows: 1
++  flipbookColumns: 1
++  maxTextureSizeSet: 0
++  compressionQualitySet: 0
++  textureFormatSet: 0
++  ignorePngGamma: 0
++  applyGammaDecoding: 0
++  swizzle: 50462976
++  cookieLightType: 0
++  platformSettings:
++  - serializedVersion: 4
++    buildTarget: DefaultTexturePlatform
++    maxTextureSize: 2048
++    resizeAlgorithm: 0
++    textureFormat: -1
++    textureCompression: 1
++    compressionQuality: 50
++    crunchedCompression: 0
++    allowsAlphaSplitting: 0
++    overridden: 0
++    ignorePlatformSupport: 0
++    androidETC2FallbackOverride: 0
++    forceMaximumCompressionQuality_BC6H_BC7: 0
++  - serializedVersion: 4
++    buildTarget: Standalone
++    maxTextureSize: 2048
++    resizeAlgorithm: 0
++    textureFormat: -1
++    textureCompression: 1
++    compressionQuality: 50
++    crunchedCompression: 0
++    allowsAlphaSplitting: 0
++    overridden: 0
++    ignorePlatformSupport: 0
++    androidETC2FallbackOverride: 0
++    forceMaximumCompressionQuality_BC6H_BC7: 0
++  spriteSheet:
++    serializedVersion: 2
++    sprites:
++    - serializedVersion: 2
++      name: wizard1_0
++      rect:
++        serializedVersion: 2
++        x: 7
++        y: 12
++        width: 80
++        height: 110
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 69ea7f12013378fe0800000000000000
++      internalID: -1186923832406462826
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: wizard1_1
++      rect:
++        serializedVersion: 2
++        x: 19
++        y: 2
++        width: 68
++        height: 11
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: b54f6212604e43c20800000000000000
++      internalID: 3185421551434921051
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    outline: []
++    customData: 
++    physicsShape: []
++    bones: []
++    spriteID: 
++    internalID: 0
++    vertices: []
++    indices: 
++    edges: []
++    weights: []
++    secondaryTextures: []
++    spriteCustomMetadata:
++      entries: []
++    nameFileIdTable:
++      wizard1_0: -1186923832406462826
++      wizard1_1: 3185421551434921051
++  mipmapLimitGroupName: 
++  pSDRemoveMatte: 0
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/wizard_animation.meta b/lvlDizayn/Assets/wizard_animation.meta
+new file mode 100644
+index 00000000..7b0cc0cc
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation.meta
+@@ -0,0 +1,8 @@
++fileFormatVersion: 2
++guid: e99241f432c4cd043a2e7356ee441500
++folderAsset: yes
++DefaultImporter:
++  externalObjects: {}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/wizard_animation/FireBall.cs b/lvlDizayn/Assets/wizard_animation/FireBall.cs
+new file mode 100644
+index 00000000..80ba7311
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation/FireBall.cs
+@@ -0,0 +1,23 @@
++using UnityEngine;
++
++public class MermiKodu : MonoBehaviour
++{
++    void Start()
++    {
++        Destroy(gameObject, 3f); // 3 saniye sonra yok ol
++    }
++
++    void OnTriggerEnter2D(Collider2D other)
++    {
++        if (other.CompareTag("Player")) // Oyuncuya çarparsa
++        {
++            Debug.Log("Vurdum!"); 
++            // Buraya hasar verme kodu gelecek
++            Destroy(gameObject); // Mermiyi yok et
++        }
++        else if (other.CompareTag("ground")) // Bir engele çarparsa
++        {
++            Destroy(gameObject); // Mermiyi yok et
++        }
++    }
++}
+\ No newline at end of file
+diff --git a/lvlDizayn/Assets/wizard_animation/FireBall.cs.meta b/lvlDizayn/Assets/wizard_animation/FireBall.cs.meta
+new file mode 100644
+index 00000000..c53cdf57
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation/FireBall.cs.meta
+@@ -0,0 +1,2 @@
++fileFormatVersion: 2
++guid: 5be8328301514224f9a7bb29a112ff67
+\ No newline at end of file
+diff --git a/lvlDizayn/Assets/wizard_animation/Wizard_Idle.anim b/lvlDizayn/Assets/wizard_animation/Wizard_Idle.anim
+new file mode 100644
+index 00000000..84ad1139
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation/Wizard_Idle.anim
+@@ -0,0 +1,81 @@
++%YAML 1.1
++%TAG !u! tag:unity3d.com,2011:
++--- !u!74 &7400000
++AnimationClip:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: Wizard_Idle
++  serializedVersion: 7
++  m_Legacy: 0
++  m_Compressed: 0
++  m_UseHighQualityCurve: 1
++  m_RotationCurves: []
++  m_CompressedRotationCurves: []
++  m_EulerCurves: []
++  m_PositionCurves: []
++  m_ScaleCurves: []
++  m_FloatCurves: []
++  m_PPtrCurves:
++  - serializedVersion: 2
++    curve:
++    - time: 0
++      value: {fileID: -5659857078425435237, guid: 01637ed36e5e2c5459a794847d14b78a, type: 3}
++    - time: 0.16666667
++      value: {fileID: 4859937266021203065, guid: 01637ed36e5e2c5459a794847d14b78a, type: 3}
++    - time: 0.25
++      value: {fileID: -2681298471421372455, guid: 01637ed36e5e2c5459a794847d14b78a, type: 3}
++    - time: 0.41666666
++      value: {fileID: 5173965642145835372, guid: 01637ed36e5e2c5459a794847d14b78a, type: 3}
++    attribute: m_Sprite
++    path: 
++    classID: 212
++    script: {fileID: 0}
++    flags: 2
++  m_SampleRate: 12
++  m_WrapMode: 0
++  m_Bounds:
++    m_Center: {x: 0, y: 0, z: 0}
++    m_Extent: {x: 0, y: 0, z: 0}
++  m_ClipBindingConstant:
++    genericBindings:
++    - serializedVersion: 2
++      path: 0
++      attribute: 0
++      script: {fileID: 0}
++      typeID: 212
++      customType: 23
++      isPPtrCurve: 1
++      isIntCurve: 0
++      isSerializeReferenceCurve: 0
++    pptrCurveMapping:
++    - {fileID: -5659857078425435237, guid: 01637ed36e5e2c5459a794847d14b78a, type: 3}
++    - {fileID: 4859937266021203065, guid: 01637ed36e5e2c5459a794847d14b78a, type: 3}
++    - {fileID: -2681298471421372455, guid: 01637ed36e5e2c5459a794847d14b78a, type: 3}
++    - {fileID: 5173965642145835372, guid: 01637ed36e5e2c5459a794847d14b78a, type: 3}
++  m_AnimationClipSettings:
++    serializedVersion: 2
++    m_AdditiveReferencePoseClip: {fileID: 0}
++    m_AdditiveReferencePoseTime: 0
++    m_StartTime: 0
++    m_StopTime: 0.5
++    m_OrientationOffsetY: 0
++    m_Level: 0
++    m_CycleOffset: 0
++    m_HasAdditiveReferencePose: 0
++    m_LoopTime: 1
++    m_LoopBlend: 0
++    m_LoopBlendOrientation: 0
++    m_LoopBlendPositionY: 0
++    m_LoopBlendPositionXZ: 0
++    m_KeepOriginalOrientation: 0
++    m_KeepOriginalPositionY: 1
++    m_KeepOriginalPositionXZ: 0
++    m_HeightFromFeet: 0
++    m_Mirror: 0
++  m_EditorCurves: []
++  m_EulerEditorCurves: []
++  m_HasGenericRootTransform: 0
++  m_HasMotionFloatCurves: 0
++  m_Events: []
+diff --git a/lvlDizayn/Assets/wizard_animation/Wizard_Idle.anim.meta b/lvlDizayn/Assets/wizard_animation/Wizard_Idle.anim.meta
+new file mode 100644
+index 00000000..ac28b6c9
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation/Wizard_Idle.anim.meta
+@@ -0,0 +1,8 @@
++fileFormatVersion: 2
++guid: 1edf9d598238499459312e4433efda23
++NativeFormatImporter:
++  externalObjects: {}
++  mainObjectFileID: 7400000
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/wizard_animation/Wizard_Saldir.anim b/lvlDizayn/Assets/wizard_animation/Wizard_Saldir.anim
+new file mode 100644
+index 00000000..15e71a46
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation/Wizard_Saldir.anim
+@@ -0,0 +1,75 @@
++%YAML 1.1
++%TAG !u! tag:unity3d.com,2011:
++--- !u!74 &7400000
++AnimationClip:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: Wizard_Saldir
++  serializedVersion: 7
++  m_Legacy: 0
++  m_Compressed: 0
++  m_UseHighQualityCurve: 1
++  m_RotationCurves: []
++  m_CompressedRotationCurves: []
++  m_EulerCurves: []
++  m_PositionCurves: []
++  m_ScaleCurves: []
++  m_FloatCurves: []
++  m_PPtrCurves:
++  - serializedVersion: 2
++    curve:
++    - time: 0
++      value: {fileID: 2514665966814633804, guid: 01637ed36e5e2c5459a794847d14b78a, type: 3}
++    - time: 0.25
++      value: {fileID: 1868131965465141167, guid: 01637ed36e5e2c5459a794847d14b78a, type: 3}
++    attribute: m_Sprite
++    path: 
++    classID: 212
++    script: {fileID: 0}
++    flags: 2
++  m_SampleRate: 12
++  m_WrapMode: 0
++  m_Bounds:
++    m_Center: {x: 0, y: 0, z: 0}
++    m_Extent: {x: 0, y: 0, z: 0}
++  m_ClipBindingConstant:
++    genericBindings:
++    - serializedVersion: 2
++      path: 0
++      attribute: 0
++      script: {fileID: 0}
++      typeID: 212
++      customType: 23
++      isPPtrCurve: 1
++      isIntCurve: 0
++      isSerializeReferenceCurve: 0
++    pptrCurveMapping:
++    - {fileID: 2514665966814633804, guid: 01637ed36e5e2c5459a794847d14b78a, type: 3}
++    - {fileID: 1868131965465141167, guid: 01637ed36e5e2c5459a794847d14b78a, type: 3}
++  m_AnimationClipSettings:
++    serializedVersion: 2
++    m_AdditiveReferencePoseClip: {fileID: 0}
++    m_AdditiveReferencePoseTime: 0
++    m_StartTime: 0
++    m_StopTime: 0.33333334
++    m_OrientationOffsetY: 0
++    m_Level: 0
++    m_CycleOffset: 0
++    m_HasAdditiveReferencePose: 0
++    m_LoopTime: 1
++    m_LoopBlend: 0
++    m_LoopBlendOrientation: 0
++    m_LoopBlendPositionY: 0
++    m_LoopBlendPositionXZ: 0
++    m_KeepOriginalOrientation: 0
++    m_KeepOriginalPositionY: 1
++    m_KeepOriginalPositionXZ: 0
++    m_HeightFromFeet: 0
++    m_Mirror: 0
++  m_EditorCurves: []
++  m_EulerEditorCurves: []
++  m_HasGenericRootTransform: 0
++  m_HasMotionFloatCurves: 0
++  m_Events: []
+diff --git a/lvlDizayn/Assets/wizard_animation/Wizard_Saldir.anim.meta b/lvlDizayn/Assets/wizard_animation/Wizard_Saldir.anim.meta
+new file mode 100644
+index 00000000..b1e78ae5
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation/Wizard_Saldir.anim.meta
+@@ -0,0 +1,8 @@
++fileFormatVersion: 2
++guid: 545ab82386aa8ad4580c3143207bd125
++NativeFormatImporter:
++  externalObjects: {}
++  mainObjectFileID: 7400000
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/wizard_animation/frame1.png b/lvlDizayn/Assets/wizard_animation/frame1.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..ced92cf6950cc6387f57709f625941aab62d751a
+GIT binary patch
+literal 126
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`jKx9jP7LeL$-D$|EIeHtLo9le
+z6C_wgnB8K8{_7k4Y1h7Vd@bMdXYuv_4;yYuRLNFL;Sl!pTinVR!Kj(&Fgrp5XiV>N
+Wr;NwOr`UmJFnGH9xvX<aXaWGum?R|t
+
+literal 0
+HcmV?d00001
+
+diff --git a/lvlDizayn/Assets/wizard_animation/frame1.png.meta b/lvlDizayn/Assets/wizard_animation/frame1.png.meta
+new file mode 100644
+index 00000000..1e5df95b
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation/frame1.png.meta
+@@ -0,0 +1,143 @@
++fileFormatVersion: 2
++guid: bc0821d3b8be8524c87eda885b7fe4d6
++TextureImporter:
++  internalIDToNameTable:
++  - first:
++      213: 4093529123795720158
++    second: frame1_0
++  externalObjects: {}
++  serializedVersion: 13
++  mipmaps:
++    mipMapMode: 0
++    enableMipMap: 0
++    sRGBTexture: 1
++    linearTexture: 0
++    fadeOut: 0
++    borderMipMap: 0
++    mipMapsPreserveCoverage: 0
++    alphaTestReferenceValue: 0.5
++    mipMapFadeDistanceStart: 1
++    mipMapFadeDistanceEnd: 3
++  bumpmap:
++    convertToNormalMap: 0
++    externalNormalMap: 0
++    heightScale: 0.25
++    normalMapFilter: 0
++    flipGreenChannel: 0
++  isReadable: 0
++  streamingMipmaps: 0
++  streamingMipmapsPriority: 0
++  vTOnly: 0
++  ignoreMipmapLimit: 0
++  grayScaleToAlpha: 0
++  generateCubemap: 6
++  cubemapConvolution: 0
++  seamlessCubemap: 0
++  textureFormat: 1
++  maxTextureSize: 2048
++  textureSettings:
++    serializedVersion: 2
++    filterMode: 1
++    aniso: 1
++    mipBias: 0
++    wrapU: 1
++    wrapV: 1
++    wrapW: 1
++  nPOTScale: 0
++  lightmap: 0
++  compressionQuality: 50
++  spriteMode: 2
++  spriteExtrude: 1
++  spriteMeshType: 1
++  alignment: 0
++  spritePivot: {x: 0.5, y: 0.5}
++  spritePixelsToUnits: 100
++  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
++  spriteGenerateFallbackPhysicsShape: 1
++  alphaUsage: 1
++  alphaIsTransparency: 1
++  spriteTessellationDetail: -1
++  textureType: 8
++  textureShape: 1
++  singleChannelComponent: 0
++  flipbookRows: 1
++  flipbookColumns: 1
++  maxTextureSizeSet: 0
++  compressionQualitySet: 0
++  textureFormatSet: 0
++  ignorePngGamma: 0
++  applyGammaDecoding: 0
++  swizzle: 50462976
++  cookieLightType: 0
++  platformSettings:
++  - serializedVersion: 4
++    buildTarget: DefaultTexturePlatform
++    maxTextureSize: 2048
++    resizeAlgorithm: 0
++    textureFormat: -1
++    textureCompression: 1
++    compressionQuality: 50
++    crunchedCompression: 0
++    allowsAlphaSplitting: 0
++    overridden: 0
++    ignorePlatformSupport: 0
++    androidETC2FallbackOverride: 0
++    forceMaximumCompressionQuality_BC6H_BC7: 0
++  - serializedVersion: 4
++    buildTarget: Standalone
++    maxTextureSize: 2048
++    resizeAlgorithm: 0
++    textureFormat: -1
++    textureCompression: 1
++    compressionQuality: 50
++    crunchedCompression: 0
++    allowsAlphaSplitting: 0
++    overridden: 0
++    ignorePlatformSupport: 0
++    androidETC2FallbackOverride: 0
++    forceMaximumCompressionQuality_BC6H_BC7: 0
++  spriteSheet:
++    serializedVersion: 2
++    sprites:
++    - serializedVersion: 2
++      name: frame1_0
++      rect:
++        serializedVersion: 2
++        x: 3
++        y: 3
++        width: 9
++        height: 9
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: ed75f85bc032fc830800000000000000
++      internalID: 4093529123795720158
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    outline: []
++    customData: 
++    physicsShape: []
++    bones: []
++    spriteID: 
++    internalID: 0
++    vertices: []
++    indices: 
++    edges: []
++    weights: []
++    secondaryTextures: []
++    spriteCustomMetadata:
++      entries: []
++    nameFileIdTable:
++      frame1_0: 4093529123795720158
++  mipmapLimitGroupName: 
++  pSDRemoveMatte: 0
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/wizard_animation/frame2.png b/lvlDizayn/Assets/wizard_animation/frame2.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..f8a7e19235122d3135f8c1683155f152e8964e2e
+GIT binary patch
+literal 144
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`jKx9jP7LeL$-D$|ygXeTLo9le
+z6C_wgnB8K8{zqT=cUbi5okJ`6mOuM1E-4^!(x6H2$Nfd$<{$hnw(Qi|tcch{E|V^A
+rVCdpKz@@>(oZ|eT%cHkdkd5K{P0gkg&hwpsrZRZC`njxgN@xNA64NoM
+
+literal 0
+HcmV?d00001
+
+diff --git a/lvlDizayn/Assets/wizard_animation/frame2.png.meta b/lvlDizayn/Assets/wizard_animation/frame2.png.meta
+new file mode 100644
+index 00000000..d54a2a61
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation/frame2.png.meta
+@@ -0,0 +1,143 @@
++fileFormatVersion: 2
++guid: 2c568bdf33ac8244196ae1959099a323
++TextureImporter:
++  internalIDToNameTable:
++  - first:
++      213: -3218644999118768396
++    second: frame2_0
++  externalObjects: {}
++  serializedVersion: 13
++  mipmaps:
++    mipMapMode: 0
++    enableMipMap: 0
++    sRGBTexture: 1
++    linearTexture: 0
++    fadeOut: 0
++    borderMipMap: 0
++    mipMapsPreserveCoverage: 0
++    alphaTestReferenceValue: 0.5
++    mipMapFadeDistanceStart: 1
++    mipMapFadeDistanceEnd: 3
++  bumpmap:
++    convertToNormalMap: 0
++    externalNormalMap: 0
++    heightScale: 0.25
++    normalMapFilter: 0
++    flipGreenChannel: 0
++  isReadable: 0
++  streamingMipmaps: 0
++  streamingMipmapsPriority: 0
++  vTOnly: 0
++  ignoreMipmapLimit: 0
++  grayScaleToAlpha: 0
++  generateCubemap: 6
++  cubemapConvolution: 0
++  seamlessCubemap: 0
++  textureFormat: 1
++  maxTextureSize: 2048
++  textureSettings:
++    serializedVersion: 2
++    filterMode: 1
++    aniso: 1
++    mipBias: 0
++    wrapU: 1
++    wrapV: 1
++    wrapW: 1
++  nPOTScale: 0
++  lightmap: 0
++  compressionQuality: 50
++  spriteMode: 2
++  spriteExtrude: 1
++  spriteMeshType: 1
++  alignment: 0
++  spritePivot: {x: 0.5, y: 0.5}
++  spritePixelsToUnits: 100
++  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
++  spriteGenerateFallbackPhysicsShape: 1
++  alphaUsage: 1
++  alphaIsTransparency: 1
++  spriteTessellationDetail: -1
++  textureType: 8
++  textureShape: 1
++  singleChannelComponent: 0
++  flipbookRows: 1
++  flipbookColumns: 1
++  maxTextureSizeSet: 0
++  compressionQualitySet: 0
++  textureFormatSet: 0
++  ignorePngGamma: 0
++  applyGammaDecoding: 0
++  swizzle: 50462976
++  cookieLightType: 0
++  platformSettings:
++  - serializedVersion: 4
++    buildTarget: DefaultTexturePlatform
++    maxTextureSize: 2048
++    resizeAlgorithm: 0
++    textureFormat: -1
++    textureCompression: 1
++    compressionQuality: 50
++    crunchedCompression: 0
++    allowsAlphaSplitting: 0
++    overridden: 0
++    ignorePlatformSupport: 0
++    androidETC2FallbackOverride: 0
++    forceMaximumCompressionQuality_BC6H_BC7: 0
++  - serializedVersion: 4
++    buildTarget: Standalone
++    maxTextureSize: 2048
++    resizeAlgorithm: 0
++    textureFormat: -1
++    textureCompression: 1
++    compressionQuality: 50
++    crunchedCompression: 0
++    allowsAlphaSplitting: 0
++    overridden: 0
++    ignorePlatformSupport: 0
++    androidETC2FallbackOverride: 0
++    forceMaximumCompressionQuality_BC6H_BC7: 0
++  spriteSheet:
++    serializedVersion: 2
++    sprites:
++    - serializedVersion: 2
++      name: frame2_0
++      rect:
++        serializedVersion: 2
++        x: 3
++        y: 3
++        width: 9
++        height: 9
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 4f630792d631553d0800000000000000
++      internalID: -3218644999118768396
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    outline: []
++    customData: 
++    physicsShape: []
++    bones: []
++    spriteID: 
++    internalID: 0
++    vertices: []
++    indices: 
++    edges: []
++    weights: []
++    secondaryTextures: []
++    spriteCustomMetadata:
++      entries: []
++    nameFileIdTable:
++      frame2_0: -3218644999118768396
++  mipmapLimitGroupName: 
++  pSDRemoveMatte: 0
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/wizard_animation/frame2_0.prefab b/lvlDizayn/Assets/wizard_animation/frame2_0.prefab
+new file mode 100644
+index 00000000..446dfa36
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation/frame2_0.prefab
+@@ -0,0 +1,171 @@
++%YAML 1.1
++%TAG !u! tag:unity3d.com,2011:
++--- !u!1 &1768928223667717553
++GameObject:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  serializedVersion: 6
++  m_Component:
++  - component: {fileID: 3282566698586683426}
++  - component: {fileID: 4560163854338040712}
++  - component: {fileID: 188767781470831381}
++  - component: {fileID: 8614664977208472637}
++  - component: {fileID: 4950926686825831001}
++  m_Layer: 0
++  m_Name: frame2_0
++  m_TagString: Untagged
++  m_Icon: {fileID: 0}
++  m_NavMeshLayer: 0
++  m_StaticEditorFlags: 0
++  m_IsActive: 1
++--- !u!4 &3282566698586683426
++Transform:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1768928223667717553}
++  serializedVersion: 2
++  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
++  m_LocalPosition: {x: -7.572, y: -0.7058, z: 0}
++  m_LocalScale: {x: 8.965126, y: 8.858647, z: 0}
++  m_ConstrainProportionsScale: 0
++  m_Children: []
++  m_Father: {fileID: 0}
++  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++--- !u!212 &4560163854338040712
++SpriteRenderer:
++  serializedVersion: 2
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1768928223667717553}
++  m_Enabled: 1
++  m_CastShadows: 0
++  m_ReceiveShadows: 0
++  m_DynamicOccludee: 1
++  m_StaticShadowCaster: 0
++  m_MotionVectors: 1
++  m_LightProbeUsage: 1
++  m_ReflectionProbeUsage: 1
++  m_RayTracingMode: 0
++  m_RayTraceProcedural: 0
++  m_RayTracingAccelStructBuildFlagsOverride: 0
++  m_RayTracingAccelStructBuildFlags: 1
++  m_SmallMeshCulling: 1
++  m_ForceMeshLod: -1
++  m_MeshLodSelectionBias: 0
++  m_RenderingLayerMask: 1
++  m_RendererPriority: 0
++  m_Materials:
++  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
++  m_StaticBatchInfo:
++    firstSubMesh: 0
++    subMeshCount: 0
++  m_StaticBatchRoot: {fileID: 0}
++  m_ProbeAnchor: {fileID: 0}
++  m_LightProbeVolumeOverride: {fileID: 0}
++  m_ScaleInLightmap: 1
++  m_ReceiveGI: 1
++  m_PreserveUVs: 0
++  m_IgnoreNormalsForChartDetection: 0
++  m_ImportantGI: 0
++  m_StitchLightmapSeams: 1
++  m_SelectedEditorRenderState: 0
++  m_MinimumChartSize: 4
++  m_AutoUVMaxDistance: 0.5
++  m_AutoUVMaxAngle: 89
++  m_LightmapParameters: {fileID: 0}
++  m_GlobalIlluminationMeshLod: 0
++  m_SortingLayerID: -562498725
++  m_SortingLayer: 6
++  m_SortingOrder: 0
++  m_MaskInteraction: 0
++  m_Sprite: {fileID: -3218644999118768396, guid: 2c568bdf33ac8244196ae1959099a323, type: 3}
++  m_Color: {r: 1, g: 1, b: 1, a: 1}
++  m_FlipX: 0
++  m_FlipY: 0
++  m_DrawMode: 0
++  m_Size: {x: 0.09, y: 0.09}
++  m_AdaptiveModeThreshold: 0.5
++  m_SpriteTileMode: 0
++  m_WasSpriteAssigned: 1
++  m_SpriteSortPoint: 0
++--- !u!58 &188767781470831381
++CircleCollider2D:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1768928223667717553}
++  m_Enabled: 1
++  serializedVersion: 3
++  m_Density: 1
++  m_Material: {fileID: 0}
++  m_IncludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_ExcludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_LayerOverridePriority: 0
++  m_ForceSendLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_ForceReceiveLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_ContactCaptureLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_CallbackLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_IsTrigger: 1
++  m_UsedByEffector: 0
++  m_CompositeOperation: 0
++  m_CompositeOrder: 0
++  m_Offset: {x: 0, y: 0}
++  m_Radius: 0.045
++--- !u!50 &8614664977208472637
++Rigidbody2D:
++  serializedVersion: 5
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1768928223667717553}
++  m_BodyType: 0
++  m_Simulated: 1
++  m_UseFullKinematicContacts: 0
++  m_UseAutoMass: 0
++  m_Mass: 1
++  m_LinearDamping: 0
++  m_AngularDamping: 0.05
++  m_GravityScale: 1
++  m_Material: {fileID: 0}
++  m_IncludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_ExcludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_Interpolate: 0
++  m_SleepingMode: 1
++  m_CollisionDetection: 0
++  m_Constraints: 6
++--- !u!114 &4950926686825831001
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1768928223667717553}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: 5be8328301514224f9a7bb29a112ff67, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: Assembly-CSharp::MermiKodu
+diff --git a/lvlDizayn/Assets/wizard_animation/frame2_0.prefab.meta b/lvlDizayn/Assets/wizard_animation/frame2_0.prefab.meta
+new file mode 100644
+index 00000000..e695d984
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation/frame2_0.prefab.meta
+@@ -0,0 +1,7 @@
++fileFormatVersion: 2
++guid: 9d2532d5389c64b40a2db636d3d8d293
++PrefabImporter:
++  externalObjects: {}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/wizard_animation/preview.gif b/lvlDizayn/Assets/wizard_animation/preview.gif
+new file mode 100644
+index 0000000000000000000000000000000000000000..ca7d007d858ca23d5c0549efd0101bf8e545c688
+GIT binary patch
+literal 151
+zcmZ?wbh9u|6krfwC}&_${Lk&@8WQa67~pE8XTZ$J02KPk!pa4tb$}SCNPwXcNdLdc
+z@ayk?AcIM&rGMq=xBQVa3_7Ie?A?(&&okzEqp0Z8S6reXt(=%zThxHM32C(k0Bz?h
+AiU0rr
+
+literal 0
+HcmV?d00001
+
+diff --git a/lvlDizayn/Assets/wizard_animation/preview.gif.meta b/lvlDizayn/Assets/wizard_animation/preview.gif.meta
+new file mode 100644
+index 00000000..0ec62106
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation/preview.gif.meta
+@@ -0,0 +1,143 @@
++fileFormatVersion: 2
++guid: 2dc793e601f96ae4c98fbbf646ae857e
++TextureImporter:
++  internalIDToNameTable:
++  - first:
++      213: -7730486409907412771
++    second: preview_0
++  externalObjects: {}
++  serializedVersion: 13
++  mipmaps:
++    mipMapMode: 0
++    enableMipMap: 0
++    sRGBTexture: 1
++    linearTexture: 0
++    fadeOut: 0
++    borderMipMap: 0
++    mipMapsPreserveCoverage: 0
++    alphaTestReferenceValue: 0.5
++    mipMapFadeDistanceStart: 1
++    mipMapFadeDistanceEnd: 3
++  bumpmap:
++    convertToNormalMap: 0
++    externalNormalMap: 0
++    heightScale: 0.25
++    normalMapFilter: 0
++    flipGreenChannel: 0
++  isReadable: 0
++  streamingMipmaps: 0
++  streamingMipmapsPriority: 0
++  vTOnly: 0
++  ignoreMipmapLimit: 0
++  grayScaleToAlpha: 0
++  generateCubemap: 6
++  cubemapConvolution: 0
++  seamlessCubemap: 0
++  textureFormat: 1
++  maxTextureSize: 2048
++  textureSettings:
++    serializedVersion: 2
++    filterMode: 1
++    aniso: 1
++    mipBias: 0
++    wrapU: 1
++    wrapV: 1
++    wrapW: 1
++  nPOTScale: 0
++  lightmap: 0
++  compressionQuality: 50
++  spriteMode: 2
++  spriteExtrude: 1
++  spriteMeshType: 1
++  alignment: 0
++  spritePivot: {x: 0.5, y: 0.5}
++  spritePixelsToUnits: 100
++  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
++  spriteGenerateFallbackPhysicsShape: 1
++  alphaUsage: 1
++  alphaIsTransparency: 1
++  spriteTessellationDetail: -1
++  textureType: 8
++  textureShape: 1
++  singleChannelComponent: 0
++  flipbookRows: 1
++  flipbookColumns: 1
++  maxTextureSizeSet: 0
++  compressionQualitySet: 0
++  textureFormatSet: 0
++  ignorePngGamma: 0
++  applyGammaDecoding: 0
++  swizzle: 50462976
++  cookieLightType: 0
++  platformSettings:
++  - serializedVersion: 4
++    buildTarget: DefaultTexturePlatform
++    maxTextureSize: 2048
++    resizeAlgorithm: 0
++    textureFormat: -1
++    textureCompression: 1
++    compressionQuality: 50
++    crunchedCompression: 0
++    allowsAlphaSplitting: 0
++    overridden: 0
++    ignorePlatformSupport: 0
++    androidETC2FallbackOverride: 0
++    forceMaximumCompressionQuality_BC6H_BC7: 0
++  - serializedVersion: 4
++    buildTarget: Standalone
++    maxTextureSize: 2048
++    resizeAlgorithm: 0
++    textureFormat: -1
++    textureCompression: 1
++    compressionQuality: 50
++    crunchedCompression: 0
++    allowsAlphaSplitting: 0
++    overridden: 0
++    ignorePlatformSupport: 0
++    androidETC2FallbackOverride: 0
++    forceMaximumCompressionQuality_BC6H_BC7: 0
++  spriteSheet:
++    serializedVersion: 2
++    sprites:
++    - serializedVersion: 2
++      name: preview_0
++      rect:
++        serializedVersion: 2
++        x: 3
++        y: 3
++        width: 9
++        height: 9
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: dd0eb7c619bc7b490800000000000000
++      internalID: -7730486409907412771
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    outline: []
++    customData: 
++    physicsShape: []
++    bones: []
++    spriteID: 
++    internalID: 0
++    vertices: []
++    indices: 
++    edges: []
++    weights: []
++    secondaryTextures: []
++    spriteCustomMetadata:
++      entries: []
++    nameFileIdTable:
++      preview_0: -7730486409907412771
++  mipmapLimitGroupName: 
++  pSDRemoveMatte: 0
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/wizard_animation/wizard-sheet.png b/lvlDizayn/Assets/wizard_animation/wizard-sheet.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..578814c2bf97cb0e65679a9e8b29dbf4e5fa6041
+GIT binary patch
+literal 10828
+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
+Y3U|_HT$$4$!b3^4H1yO<Ro{I4FH@Gj^Z)<=
+
+literal 0
+HcmV?d00001
+
+diff --git a/lvlDizayn/Assets/wizard_animation/wizard-sheet.png.meta b/lvlDizayn/Assets/wizard_animation/wizard-sheet.png.meta
+new file mode 100644
+index 00000000..f8933ca6
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation/wizard-sheet.png.meta
+@@ -0,0 +1,299 @@
++fileFormatVersion: 2
++guid: 01637ed36e5e2c5459a794847d14b78a
++TextureImporter:
++  internalIDToNameTable:
++  - first:
++      213: -5659857078425435237
++    second: wizard-sheet_0
++  - first:
++      213: 4859937266021203065
++    second: wizard-sheet_1
++  - first:
++      213: -2681298471421372455
++    second: wizard-sheet_2
++  - first:
++      213: 5173965642145835372
++    second: wizard-sheet_3
++  - first:
++      213: 2514665966814633804
++    second: wizard-sheet_4
++  - first:
++      213: 1868131965465141167
++    second: wizard-sheet_5
++  - first:
++      213: -6570664249261484171
++    second: wizard-sheet_6
++  - first:
++      213: 2425669050252448342
++    second: wizard-sheet_7
++  - first:
++      213: 8803768130107368562
++    second: wizard-sheet_8
++  - first:
++      213: -1224901801422275572
++    second: wizard-sheet_9
++  - first:
++      213: -1847160272267116510
++    second: wizard-sheet_10
++  - first:
++      213: -1478961928841538304
++    second: wizard-sheet_11
++  externalObjects: {}
++  serializedVersion: 13
++  mipmaps:
++    mipMapMode: 0
++    enableMipMap: 0
++    sRGBTexture: 1
++    linearTexture: 0
++    fadeOut: 0
++    borderMipMap: 0
++    mipMapsPreserveCoverage: 0
++    alphaTestReferenceValue: 0.5
++    mipMapFadeDistanceStart: 1
++    mipMapFadeDistanceEnd: 3
++  bumpmap:
++    convertToNormalMap: 0
++    externalNormalMap: 0
++    heightScale: 0.25
++    normalMapFilter: 0
++    flipGreenChannel: 0
++  isReadable: 0
++  streamingMipmaps: 0
++  streamingMipmapsPriority: 0
++  vTOnly: 0
++  ignoreMipmapLimit: 0
++  grayScaleToAlpha: 0
++  generateCubemap: 6
++  cubemapConvolution: 0
++  seamlessCubemap: 0
++  textureFormat: 1
++  maxTextureSize: 2048
++  textureSettings:
++    serializedVersion: 2
++    filterMode: 1
++    aniso: 1
++    mipBias: 0
++    wrapU: 1
++    wrapV: 1
++    wrapW: 1
++  nPOTScale: 0
++  lightmap: 0
++  compressionQuality: 50
++  spriteMode: 2
++  spriteExtrude: 1
++  spriteMeshType: 1
++  alignment: 0
++  spritePivot: {x: 0.5, y: 0.5}
++  spritePixelsToUnits: 100
++  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
++  spriteGenerateFallbackPhysicsShape: 1
++  alphaUsage: 1
++  alphaIsTransparency: 1
++  spriteTessellationDetail: -1
++  textureType: 8
++  textureShape: 1
++  singleChannelComponent: 0
++  flipbookRows: 1
++  flipbookColumns: 1
++  maxTextureSizeSet: 0
++  compressionQualitySet: 0
++  textureFormatSet: 0
++  ignorePngGamma: 0
++  applyGammaDecoding: 0
++  swizzle: 50462976
++  cookieLightType: 0
++  platformSettings:
++  - serializedVersion: 4
++    buildTarget: DefaultTexturePlatform
++    maxTextureSize: 2048
++    resizeAlgorithm: 0
++    textureFormat: -1
++    textureCompression: 1
++    compressionQuality: 50
++    crunchedCompression: 0
++    allowsAlphaSplitting: 0
++    overridden: 0
++    ignorePlatformSupport: 0
++    androidETC2FallbackOverride: 0
++    forceMaximumCompressionQuality_BC6H_BC7: 0
++  - serializedVersion: 4
++    buildTarget: Standalone
++    maxTextureSize: 2048
++    resizeAlgorithm: 0
++    textureFormat: -1
++    textureCompression: 1
++    compressionQuality: 50
++    crunchedCompression: 0
++    allowsAlphaSplitting: 0
++    overridden: 0
++    ignorePlatformSupport: 0
++    androidETC2FallbackOverride: 0
++    forceMaximumCompressionQuality_BC6H_BC7: 0
++  spriteSheet:
++    serializedVersion: 2
++    sprites:
++    - serializedVersion: 2
++      name: wizard-sheet_0
++      rect:
++        serializedVersion: 2
++        x: 5
++        y: 13
++        width: 86
++        height: 113
++      alignment: 0
++      pivot: {x: 0.5, y: 0.5}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: b93c8f079f52471b0800000000000000
++      internalID: -5659857078425435237
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: wizard-sheet_1
++      rect:
++        serializedVersion: 2
++        x: 100
++        y: 14
++        width: 90
++        height: 108
++      alignment: 0
++      pivot: {x: 0.5, y: 0.5}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 97c70e3c137f17340800000000000000
++      internalID: 4859937266021203065
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: wizard-sheet_2
++      rect:
++        serializedVersion: 2
++        x: 191
++        y: 15
++        width: 93
++        height: 107
++      alignment: 0
++      pivot: {x: 0.5, y: 0.5}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 9d791221f3d1acad0800000000000000
++      internalID: -2681298471421372455
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: wizard-sheet_3
++      rect:
++        serializedVersion: 2
++        x: 288
++        y: 13
++        width: 88
++        height: 109
++      alignment: 0
++      pivot: {x: 0.5, y: 0.5}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: c69ad24b65e9dc740800000000000000
++      internalID: 5173965642145835372
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: wizard-sheet_4
++      rect:
++        serializedVersion: 2
++        x: 389
++        y: 14
++        width: 79
++        height: 108
++      alignment: 0
++      pivot: {x: 0.5, y: 0.5}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: c4f10c0af53e5e220800000000000000
++      internalID: 2514665966814633804
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: wizard-sheet_5
++      rect:
++        serializedVersion: 2
++        x: 489
++        y: 14
++        width: 71
++        height: 111
++      alignment: 0
++      pivot: {x: 0.5, y: 0.5}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: faf1a13ff10fce910800000000000000
++      internalID: 1868131965465141167
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    outline: []
++    customData: 
++    physicsShape: []
++    bones: []
++    spriteID: 27d721057bc0e4242ab55869611e1bb2
++    internalID: 0
++    vertices: []
++    indices: 
++    edges: []
++    weights: []
++    secondaryTextures: []
++    spriteCustomMetadata:
++      entries:
++      - key: SpriteEditor.SliceSettings
++        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
++    nameFileIdTable:
++      wizard-sheet_0: -5659857078425435237
++      wizard-sheet_1: 4859937266021203065
++      wizard-sheet_10: -1847160272267116510
++      wizard-sheet_11: -1478961928841538304
++      wizard-sheet_2: -2681298471421372455
++      wizard-sheet_3: 5173965642145835372
++      wizard-sheet_4: 2514665966814633804
++      wizard-sheet_5: 1868131965465141167
++      wizard-sheet_6: -6570664249261484171
++      wizard-sheet_7: 2425669050252448342
++      wizard-sheet_8: 8803768130107368562
++      wizard-sheet_9: -1224901801422275572
++  mipmapLimitGroupName: 
++  pSDRemoveMatte: 0
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/wizard_animation/wizard.cs b/lvlDizayn/Assets/wizard_animation/wizard.cs
+new file mode 100644
+index 00000000..75c28619
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation/wizard.cs
+@@ -0,0 +1,87 @@
++using UnityEngine;
++
++public class DusmanKodu : MonoBehaviour
++{
++    public Transform player;       // Oyuncu (Sürükle bırak yapmana gerek yok, kod bulacak)
++    public GameObject mermiPrefab; // Fırlatılacak nesne (Prefab'i buraya sürükle)
++    public float menzil = 7f;      // Kaç metreden görsün
++    public float atisHizi = 2f;  // Saniyede kaç atış
++
++    private float zamanSayaci = 0;
++    private Animator anim;
++
++    void Start()
++    {
++        // Oyuncuyu otomatik bul (Oyuncunun Tag'i "Player" olmalı!)
++        if (GameObject.FindGameObjectWithTag("Player") != null)
++            player = GameObject.FindGameObjectWithTag("Player").transform;
++            
++        anim = GetComponent<Animator>();
++    }
++
++    void Update()
++    {
++        if (player == null) return;
++
++        // Mesafe ölç
++        float mesafe = Vector2.Distance(transform.position, player.position);
++
++        if (mesafe <= menzil) // Menzildeyse
++        {
++            // --- DÜZELTİLEN KISIM BAŞLANGICI ---
++            
++            // Mevcut boyutun pozitif halini al (Örn: -3 ise 3 yap, 3 ise 3 kalsın)
++            float ilkBoyutX = Mathf.Abs(transform.localScale.x);
++            float boyutY = transform.localScale.y; // Yüksekliği bozma
++            float boyutZ = transform.localScale.z; // Derinliği bozma
++
++            // Yüzünü oyuncuya dön
++            if (player.position.x > transform.position.x)
++            {
++                // Oyuncu sağdaysa, X pozitif olsun (Sağa bak)
++                transform.localScale = new Vector3(-ilkBoyutX, boyutY, boyutZ);
++            }
++            else
++            {
++                // Oyuncu soldaysa, X negatif olsun (Sola bak)
++                transform.localScale = new Vector3(ilkBoyutX, boyutY, boyutZ);
++            }
++            
++            // --- DÜZELTİLEN KISIM BİTİŞİ ---
++
++            // Atış zamanı geldiyse
++            if (Time.time > zamanSayaci)
++            {
++                Saldir();
++                zamanSayaci = Time.time + atisHizi;
++            }
++        }
++    }
++
++   void Saldir()
++    {
++        // Animasyonu çalıştır
++        anim.SetTrigger("Saldir");
++        
++        // Mermiyi oluştur (Tam düşmanın olduğu yerde)
++        GameObject yeniMermi = Instantiate(mermiPrefab, transform.position, Quaternion.identity);
++        
++        // --- DÜZELTME BAŞLANGICI: SADECE YATAY YÖN (X EKSENİ) HAREKETİ ---
++        
++        // Oyuncunun X pozisyonu ile düşmanın X pozisyonu arasındaki farkı bul
++        float yonX = player.position.x - transform.position.x;
++        
++        // Yönün sadece yatay bileşenini (sağ veya sol) normalleştir.
++        // Eğer yonX pozitifse (oyuncu sağdaysa), yon = 1
++        // Eğer yonX negatifse (oyuncu soldaysa), yon = -1
++        Vector2 yon = new Vector2(Mathf.Sign(yonX), 0).normalized; 
++        
++        // Rigidbody'ye yatay hızı ver (5f hızı kullanıldı)
++        // Burada linearVelocity yerine velocity (veya AddForce) kullanmak daha doğru olacaktır, 
++        // ancak mevcut yapıyı korumak için bunu kullanalım.
++        yeniMermi.GetComponent<Rigidbody2D>().linearVelocity = yon * 10f;
++        
++        // NOT: Mermiyi fırlattıktan sonra merminin kendi kodunda (Bullet.cs)
++        // herhangi bir transform.Translate() kodu olmadığından emin olun.
++    }
++}
+\ No newline at end of file
+diff --git a/lvlDizayn/Assets/wizard_animation/wizard.cs.meta b/lvlDizayn/Assets/wizard_animation/wizard.cs.meta
+new file mode 100644
+index 00000000..723abfe9
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation/wizard.cs.meta
+@@ -0,0 +1,2 @@
++fileFormatVersion: 2
++guid: b14f300e94e9b864395272a2396642cc
+\ No newline at end of file
+diff --git a/lvlDizayn/Assets/wizard_animation/wizard1_0.prefab b/lvlDizayn/Assets/wizard_animation/wizard1_0.prefab
+new file mode 100644
+index 00000000..cd6c45fd
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation/wizard1_0.prefab
+@@ -0,0 +1,240 @@
++%YAML 1.1
++%TAG !u! tag:unity3d.com,2011:
++--- !u!1 &4121310127443701054
++GameObject:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  serializedVersion: 6
++  m_Component:
++  - component: {fileID: 6094116864188855194}
++  - component: {fileID: 5375659171164934264}
++  - component: {fileID: 2575979282260229388}
++  - component: {fileID: 3328731133725414659}
++  - component: {fileID: 4700085790918089006}
++  - component: {fileID: 1726404970746518912}
++  m_Layer: 0
++  m_Name: wizard1_0
++  m_TagString: Untagged
++  m_Icon: {fileID: 0}
++  m_NavMeshLayer: 0
++  m_StaticEditorFlags: 0
++  m_IsActive: 1
++--- !u!4 &6094116864188855194
++Transform:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 4121310127443701054}
++  serializedVersion: 2
++  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
++  m_LocalPosition: {x: 21.55, y: 14.4, z: 0}
++  m_LocalScale: {x: 2.9746, y: 2.255104, z: 1}
++  m_ConstrainProportionsScale: 0
++  m_Children: []
++  m_Father: {fileID: 0}
++  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++--- !u!212 &5375659171164934264
++SpriteRenderer:
++  serializedVersion: 2
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 4121310127443701054}
++  m_Enabled: 1
++  m_CastShadows: 0
++  m_ReceiveShadows: 0
++  m_DynamicOccludee: 1
++  m_StaticShadowCaster: 0
++  m_MotionVectors: 1
++  m_LightProbeUsage: 1
++  m_ReflectionProbeUsage: 1
++  m_RayTracingMode: 0
++  m_RayTraceProcedural: 0
++  m_RayTracingAccelStructBuildFlagsOverride: 0
++  m_RayTracingAccelStructBuildFlags: 1
++  m_SmallMeshCulling: 1
++  m_ForceMeshLod: -1
++  m_MeshLodSelectionBias: 0
++  m_RenderingLayerMask: 1
++  m_RendererPriority: 0
++  m_Materials:
++  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
++  m_StaticBatchInfo:
++    firstSubMesh: 0
++    subMeshCount: 0
++  m_StaticBatchRoot: {fileID: 0}
++  m_ProbeAnchor: {fileID: 0}
++  m_LightProbeVolumeOverride: {fileID: 0}
++  m_ScaleInLightmap: 1
++  m_ReceiveGI: 1
++  m_PreserveUVs: 0
++  m_IgnoreNormalsForChartDetection: 0
++  m_ImportantGI: 0
++  m_StitchLightmapSeams: 1
++  m_SelectedEditorRenderState: 0
++  m_MinimumChartSize: 4
++  m_AutoUVMaxDistance: 0.5
++  m_AutoUVMaxAngle: 89
++  m_LightmapParameters: {fileID: 0}
++  m_GlobalIlluminationMeshLod: 0
++  m_SortingLayerID: -562498725
++  m_SortingLayer: 6
++  m_SortingOrder: 0
++  m_MaskInteraction: 0
++  m_Sprite: {fileID: -1186923832406462826, guid: 8b899fefec58a6e4b84be10704e218ac, type: 3}
++  m_Color: {r: 1, g: 1, b: 1, a: 1}
++  m_FlipX: 0
++  m_FlipY: 0
++  m_DrawMode: 0
++  m_Size: {x: 0.8, y: 1.1}
++  m_AdaptiveModeThreshold: 0.5
++  m_SpriteTileMode: 0
++  m_WasSpriteAssigned: 1
++  m_SpriteSortPoint: 0
++--- !u!50 &2575979282260229388
++Rigidbody2D:
++  serializedVersion: 5
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 4121310127443701054}
++  m_BodyType: 0
++  m_Simulated: 1
++  m_UseFullKinematicContacts: 0
++  m_UseAutoMass: 0
++  m_Mass: 1
++  m_LinearDamping: 0
++  m_AngularDamping: 0.05
++  m_GravityScale: 1
++  m_Material: {fileID: 0}
++  m_IncludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_ExcludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_Interpolate: 0
++  m_SleepingMode: 1
++  m_CollisionDetection: 0
++  m_Constraints: 5
++--- !u!95 &3328731133725414659
++Animator:
++  serializedVersion: 7
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 4121310127443701054}
++  m_Enabled: 1
++  m_Avatar: {fileID: 0}
++  m_Controller: {fileID: 9100000, guid: 0210acaba429c9f43900451c91835f17, type: 2}
++  m_CullingMode: 0
++  m_UpdateMode: 0
++  m_ApplyRootMotion: 0
++  m_LinearVelocityBlending: 0
++  m_StabilizeFeet: 0
++  m_AnimatePhysics: 0
++  m_WarningMessage: 
++  m_HasTransformHierarchy: 1
++  m_AllowConstantClipSamplingOptimization: 1
++  m_KeepAnimatorStateOnDisable: 0
++  m_WriteDefaultValuesOnDisable: 0
++--- !u!114 &4700085790918089006
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 4121310127443701054}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: b14f300e94e9b864395272a2396642cc, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: Assembly-CSharp::DusmanKodu
++  player: {fileID: 0}
++  mermiPrefab: {fileID: 1768928223667717553, guid: 9d2532d5389c64b40a2db636d3d8d293, type: 3}
++  menzil: 7
++  atisHizi: 3
++--- !u!60 &1726404970746518912
++PolygonCollider2D:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 4121310127443701054}
++  m_Enabled: 1
++  serializedVersion: 3
++  m_Density: 1
++  m_Material: {fileID: 6200000, guid: 2f2f0172b395cdd4f8043b8bf47e1127, type: 2}
++  m_IncludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_ExcludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_LayerOverridePriority: 0
++  m_ForceSendLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_ForceReceiveLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_ContactCaptureLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_CallbackLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_IsTrigger: 0
++  m_UsedByEffector: 0
++  m_CompositeOperation: 0
++  m_CompositeOrder: 0
++  m_Offset: {x: 0, y: 0}
++  m_SpriteTilingProperty:
++    border: {x: 0, y: 0, z: 0, w: 0}
++    pivot: {x: 0.5, y: 0.5}
++    oldSize: {x: 0.8, y: 1.1}
++    newSize: {x: 0.8, y: 1.1}
++    adaptiveTilingThreshold: 0.5
++    drawMode: 0
++    adaptiveTiling: 0
++  m_AutoTiling: 0
++  m_Points:
++    m_Paths:
++    - - {x: 0.39, y: -0.37}
++      - {x: 0.38, y: -0.35}
++      - {x: 0.38, y: -0.28}
++      - {x: 0.39999998, y: -0.12}
++      - {x: 0.22, y: -0.04}
++      - {x: 0.14999999, y: -0.04}
++      - {x: 0.25, y: -0.03}
++      - {x: 0.29, y: 0.01}
++      - {x: 0.34, y: 0.11}
++      - {x: 0.39999998, y: 0.13}
++      - {x: 0.39999998, y: 0.32}
++      - {x: 0.37, y: 0.35999998}
++      - {x: 0.19999999, y: 0.47}
++      - {x: 0.07, y: 0.55}
++      - {x: -0.02, y: 0.55}
++      - {x: -0.08, y: 0.45}
++      - {x: -0.11, y: 0.29999998}
++      - {x: -0.14, y: 0.24}
++      - {x: -0.25, y: 0.25}
++      - {x: -0.29999998, y: 0.21}
++      - {x: -0.39999998, y: 0.07}
++      - {x: -0.39999998, y: -0.03}
++      - {x: -0.35, y: -0.099999994}
++      - {x: -0.26, y: -0.16}
++      - {x: -0.22999999, y: -0.38}
++      - {x: -0.17999999, y: -0.48999998}
++      - {x: -0.089999996, y: -0.55}
++      - {x: -0.04, y: -0.55}
++      - {x: -0.03, y: -0.5}
++      - {x: 0.14, y: -0.52}
++      - {x: 0.26999998, y: -0.45999998}
++  m_UseDelaunayMesh: 1
+diff --git a/lvlDizayn/Assets/wizard_animation/wizard1_0.prefab.meta b/lvlDizayn/Assets/wizard_animation/wizard1_0.prefab.meta
+new file mode 100644
+index 00000000..db384675
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation/wizard1_0.prefab.meta
+@@ -0,0 +1,7 @@
++fileFormatVersion: 2
++guid: 8c09a9aea947f2241967d63942bf8a3c
++PrefabImporter:
++  externalObjects: {}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/Assets/wizard_animation/wizard_controller.controller b/lvlDizayn/Assets/wizard_animation/wizard_controller.controller
+new file mode 100644
+index 00000000..8eb3c157
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation/wizard_controller.controller
+@@ -0,0 +1,156 @@
++%YAML 1.1
++%TAG !u! tag:unity3d.com,2011:
++--- !u!1107 &-8269258123289241848
++AnimatorStateMachine:
++  serializedVersion: 6
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: Base Layer
++  m_ChildStates:
++  - serializedVersion: 1
++    m_State: {fileID: 6833166351865391376}
++    m_Position: {x: 70, y: 280, z: 0}
++  - serializedVersion: 1
++    m_State: {fileID: -2805451679731699917}
++    m_Position: {x: 460, y: 280, z: 0}
++  m_ChildStateMachines: []
++  m_AnyStateTransitions: []
++  m_EntryTransitions: []
++  m_StateMachineTransitions: {}
++  m_StateMachineBehaviours: []
++  m_AnyStatePosition: {x: 50, y: 20, z: 0}
++  m_EntryPosition: {x: 50, y: 120, z: 0}
++  m_ExitPosition: {x: 800, y: 120, z: 0}
++  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
++  m_DefaultState: {fileID: 6833166351865391376}
++--- !u!1101 &-7172381265311281158
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions: []
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: 6833166351865391376}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.25
++  m_HasExitTime: 1
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1101 &-5139618719030787809
++AnimatorStateTransition:
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: 
++  m_Conditions:
++  - m_ConditionMode: 1
++    m_ConditionEvent: Saldir
++    m_EventTreshold: 0
++  m_DstStateMachine: {fileID: 0}
++  m_DstState: {fileID: -2805451679731699917}
++  m_Solo: 0
++  m_Mute: 0
++  m_IsExit: 0
++  serializedVersion: 3
++  m_TransitionDuration: 0.25
++  m_TransitionOffset: 0
++  m_ExitTime: 0.5
++  m_HasExitTime: 0
++  m_HasFixedDuration: 1
++  m_InterruptionSource: 0
++  m_OrderedInterruption: 1
++  m_CanTransitionToSelf: 1
++--- !u!1102 &-2805451679731699917
++AnimatorState:
++  serializedVersion: 6
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: Wizard_Saldir
++  m_Speed: 1
++  m_CycleOffset: 0
++  m_Transitions:
++  - {fileID: -7172381265311281158}
++  m_StateMachineBehaviours: []
++  m_Position: {x: 50, y: 50, z: 0}
++  m_IKOnFeet: 0
++  m_WriteDefaultValues: 1
++  m_Mirror: 0
++  m_SpeedParameterActive: 0
++  m_MirrorParameterActive: 0
++  m_CycleOffsetParameterActive: 0
++  m_TimeParameterActive: 0
++  m_Motion: {fileID: 7400000, guid: 545ab82386aa8ad4580c3143207bd125, type: 2}
++  m_Tag: 
++  m_SpeedParameter: 
++  m_MirrorParameter: 
++  m_CycleOffsetParameter: 
++  m_TimeParameter: 
++--- !u!91 &9100000
++AnimatorController:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: wizard_controller
++  serializedVersion: 5
++  m_AnimatorParameters:
++  - m_Name: Saldir
++    m_Type: 9
++    m_DefaultFloat: 0
++    m_DefaultInt: 0
++    m_DefaultBool: 0
++    m_Controller: {fileID: 9100000}
++  m_AnimatorLayers:
++  - serializedVersion: 5
++    m_Name: Base Layer
++    m_StateMachine: {fileID: -8269258123289241848}
++    m_Mask: {fileID: 0}
++    m_Motions: []
++    m_Behaviours: []
++    m_BlendingMode: 0
++    m_SyncedLayerIndex: -1
++    m_DefaultWeight: 0
++    m_IKPass: 0
++    m_SyncedLayerAffectsTiming: 0
++    m_Controller: {fileID: 9100000}
++--- !u!1102 &6833166351865391376
++AnimatorState:
++  serializedVersion: 6
++  m_ObjectHideFlags: 1
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_Name: Wizard_Idle
++  m_Speed: 1
++  m_CycleOffset: 0
++  m_Transitions:
++  - {fileID: -5139618719030787809}
++  m_StateMachineBehaviours: []
++  m_Position: {x: 50, y: 50, z: 0}
++  m_IKOnFeet: 0
++  m_WriteDefaultValues: 1
++  m_Mirror: 0
++  m_SpeedParameterActive: 0
++  m_MirrorParameterActive: 0
++  m_CycleOffsetParameterActive: 0
++  m_TimeParameterActive: 0
++  m_Motion: {fileID: 7400000, guid: 1edf9d598238499459312e4433efda23, type: 2}
++  m_Tag: 
++  m_SpeedParameter: 
++  m_MirrorParameter: 
++  m_CycleOffsetParameter: 
++  m_TimeParameter: 
+diff --git a/lvlDizayn/Assets/wizard_animation/wizard_controller.controller.meta b/lvlDizayn/Assets/wizard_animation/wizard_controller.controller.meta
+new file mode 100644
+index 00000000..8ec848fe
+--- /dev/null
++++ b/lvlDizayn/Assets/wizard_animation/wizard_controller.controller.meta
+@@ -0,0 +1,8 @@
++fileFormatVersion: 2
++guid: 0210acaba429c9f43900451c91835f17
++NativeFormatImporter:
++  externalObjects: {}
++  mainObjectFileID: 9100000
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/lvlDizayn/ProjectSettings/Physics2DSettings.asset b/lvlDizayn/ProjectSettings/Physics2DSettings.asset
+index 6cfcddaa..36d6e861 100644
+--- a/lvlDizayn/ProjectSettings/Physics2DSettings.asset
++++ b/lvlDizayn/ProjectSettings/Physics2DSettings.asset
+@@ -3,12 +3,12 @@
+ --- !u!19 &1
+ Physics2DSettings:
+   m_ObjectHideFlags: 0
+-  serializedVersion: 5
++  serializedVersion: 11
+   m_Gravity: {x: 0, y: -9.81}
+   m_DefaultMaterial: {fileID: 0}
+   m_VelocityIterations: 8
+   m_PositionIterations: 3
+-  m_VelocityThreshold: 1
++  m_BounceThreshold: 1
+   m_MaxLinearCorrection: 0.2
+   m_MaxAngularCorrection: 8
+   m_MaxTranslationSpeed: 100
+@@ -19,6 +19,7 @@ Physics2DSettings:
+   m_LinearSleepTolerance: 0.01
+   m_AngularSleepTolerance: 2
+   m_DefaultContactOffset: 0.01
++  m_ContactThreshold: 0
+   m_JobOptions:
+     serializedVersion: 2
+     useMultithreading: 0
+@@ -39,18 +40,18 @@ Physics2DSettings:
+     m_IslandSolverBodiesPerJob: 50
+     m_IslandSolverContactsPerJob: 50
+   m_SimulationMode: 0
++  m_SimulationLayers:
++    serializedVersion: 2
++    m_Bits: 4294967295
++  m_MaxSubStepCount: 4
++  m_MinSubStepFPS: 30
++  m_UseSubStepping: 0
++  m_UseSubStepContacts: 0
+   m_QueriesHitTriggers: 1
+   m_QueriesStartInColliders: 1
+   m_CallbacksOnDisable: 1
+   m_ReuseCollisionCallbacks: 1
+   m_AutoSyncTransforms: 0
+-  m_AlwaysShowColliders: 0
+-  m_ShowColliderSleep: 1
+-  m_ShowColliderContacts: 0
+-  m_ShowColliderAABB: 0
+-  m_ContactArrowScale: 0.2
+-  m_ColliderAwakeColor: {r: 0.5686275, g: 0.95686275, b: 0.54509807, a: 0.7529412}
+-  m_ColliderAsleepColor: {r: 0.5686275, g: 0.95686275, b: 0.54509807, a: 0.36078432}
+-  m_ColliderContactColor: {r: 1, g: 0, b: 1, a: 0.6862745}
+-  m_ColliderAABBColor: {r: 1, g: 1, b: 0, a: 0.2509804}
+-  m_LayerCollisionMatrix: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
++  m_GizmoOptions: 10
++  m_LayerCollisionMatrix: ffffffffffffffffffffffffffffffffffffffffffffffff7fffffffbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
++  m_PhysicsLowLevelSettings: {fileID: 0}
+diff --git a/lvlDizayn/ProjectSettings/TagManager.asset b/lvlDizayn/ProjectSettings/TagManager.asset
+index f735f064..e6072be9 100644
+--- a/lvlDizayn/ProjectSettings/TagManager.asset
++++ b/lvlDizayn/ProjectSettings/TagManager.asset
+@@ -3,7 +3,8 @@
+ --- !u!78 &1
+ TagManager:
+   serializedVersion: 3
+-  tags: []
++  tags:
++  - ground
+   layers:
+   - Default
+   - TransparentFX
+@@ -11,8 +12,8 @@ TagManager:
+   - layer_ground
+   - Water
+   - UI
+-  - 
+-  - 
++  - enemy_layer
++  - player_layer
+   - 
+   - 
+   - 
+-- 
+2.51.0.windows.2
+

@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
 
             // En baştan başlat (Sahne 1)
             // Not: İlerlemeyi (Unlocklar, itemler) korumak istiyorsan onları silme, sadece sahneyi yükle.
-            SceneManager.LoadScene("LWL1"); 
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 

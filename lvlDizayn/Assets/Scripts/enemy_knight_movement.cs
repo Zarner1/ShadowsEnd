@@ -104,6 +104,8 @@ public class enemy_knight_movement : MonoBehaviour
 
         if (_collider != null) _collider.enabled = false;
         if (_animator != null) _animator.SetBool("isDead", true);
+        Manager.Instance.EnemyDied();
+        Destroy(gameObject, 1.2f);
     }
 
     private void AIChase()

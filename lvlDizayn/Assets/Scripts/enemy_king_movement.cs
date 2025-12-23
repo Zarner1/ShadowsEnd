@@ -246,6 +246,14 @@ void FlipTowardsPlayer()
             attackPoint.localPosition = new Vector3(-distanceFromCenter, attackPoint.localPosition.y, attackPoint.localPosition.z);
         }
     }
+    IEnumerator DeathRoutine()
+    {
+    yield return new WaitForSeconds(3f);
+
+    Manager.Instance.EnemyDied();
+
+    Destroy(gameObject);
+    }
 
     public void TriggerDeath()
     {
@@ -266,6 +274,7 @@ void FlipTowardsPlayer()
         anim.SetBool("isTeleporting", false);
         
         this.enabled = false;
+        StartCoroutine(DeathRoutine());
     }
 
     void OnDrawGizmosSelected()
